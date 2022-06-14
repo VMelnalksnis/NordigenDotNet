@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="6.0.0"/>
+	</ItemGroup>
+
+</Project>

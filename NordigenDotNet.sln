@@ -18,7 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F9FD8772
 		tests\.editorconfig = tests\.editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.Tests", "tests\VMelnalksnis.NordigenDotNet.Tests\VMelnalksnis.NordigenDotNet.Tests.csproj", "{6D01A25A-127B-4004-9C87-D0AA326E1DC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.Tests.Integration", "tests\VMelnalksnis.NordigenDotNet.Tests.Integration\VMelnalksnis.NordigenDotNet.Tests.Integration.csproj", "{98E15B27-7113-48B8-AA35-F65E4273B310}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection", "VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj", "{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection.Tests", "tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests.csproj", "{10F5857A-33BE-483A-A96C-1903DFFDEFC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,12 +34,21 @@ Global
 		{C70F5B40-0A36-45CB-921B-09EA1F9A63AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C70F5B40-0A36-45CB-921B-09EA1F9A63AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C70F5B40-0A36-45CB-921B-09EA1F9A63AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D01A25A-127B-4004-9C87-D0AA326E1DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D01A25A-127B-4004-9C87-D0AA326E1DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D01A25A-127B-4004-9C87-D0AA326E1DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D01A25A-127B-4004-9C87-D0AA326E1DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E15B27-7113-48B8-AA35-F65E4273B310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E15B27-7113-48B8-AA35-F65E4273B310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E15B27-7113-48B8-AA35-F65E4273B310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E15B27-7113-48B8-AA35-F65E4273B310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6D01A25A-127B-4004-9C87-D0AA326E1DC2} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
+		{98E15B27-7113-48B8-AA35-F65E4273B310} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
+		{10F5857A-33BE-483A-A96C-1903DFFDEFC3} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
 	EndGlobalSection
 EndGlobal
