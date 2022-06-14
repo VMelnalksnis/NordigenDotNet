@@ -65,5 +65,5 @@ jobs:
             ${{ steps.download.outputs.download-path }}/**/*.nupkg
 
       - name: NuGet Push
-        run: dotnet nuget push "*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
         working-directory: ${{ steps.download.outputs.download-path }}
