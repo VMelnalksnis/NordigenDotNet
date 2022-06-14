@@ -26,6 +26,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection.Tests", "tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests.csproj", "{10F5857A-33BE-483A-A96C-1903DFFDEFC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{CA8D9082-D6CE-4568-8D61-862001E8241A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F733A567-775B-4DD8-B900-005894E062B5}"
 	ProjectSection(SolutionItems) = preProject
