@@ -24,6 +24,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection.Tests", "tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests.csproj", "{10F5857A-33BE-483A-A96C-1903DFFDEFC3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{CA8D9082-D6CE-4568-8D61-862001E8241A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F733A567-775B-4DD8-B900-005894E062B5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\test.yml = .github\workflows\test.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +57,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{98E15B27-7113-48B8-AA35-F65E4273B310} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
 		{10F5857A-33BE-483A-A96C-1903DFFDEFC3} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
+		{CA8D9082-D6CE-4568-8D61-862001E8241A} = {56CE37B2-286D-49AA-BCF4-E9AB51E7CC48}
+		{F733A567-775B-4DD8-B900-005894E062B5} = {CA8D9082-D6CE-4568-8D61-862001E8241A}
 	EndGlobalSection
 EndGlobal
