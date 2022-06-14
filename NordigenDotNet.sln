@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F9FD8772
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.Tests.Integration", "tests\VMelnalksnis.NordigenDotNet.Tests.Integration\VMelnalksnis.NordigenDotNet.Tests.Integration.csproj", "{98E15B27-7113-48B8-AA35-F65E4273B310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection", "VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj", "{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection", "source\VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj", "{281D65CD-C591-45C3-A0F1-E700CCCC4ECA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.DependencyInjection.Tests", "tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests\VMelnalksnis.NordigenDotNet.DependencyInjection.Tests.csproj", "{10F5857A-33BE-483A-A96C-1903DFFDEFC3}"
 EndProject

@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
+		<ProjectReference Include="..\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
 	</ItemGroup>
 
 	<ItemGroup>

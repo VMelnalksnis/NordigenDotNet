@@ -6,7 +6,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
-		<ProjectReference Include="..\..\VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj"/>
+		<ProjectReference Include="..\..\source\VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj"/>
 	</ItemGroup>
 
 	<ItemGroup>
