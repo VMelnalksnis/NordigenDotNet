@@ -10,9 +10,8 @@ jobs:
     strategy:
       matrix:
         project:
-          - Gnomeshade.Interfaces.Desktop
-          - Gnomeshade.Interfaces.WebApi
-          - Gnomeshade.Interfaces.Desktop
+          - VMelnalksnis.NordigenDotNet
+          - VMelnalksnis.NordigenDotNet.DependencyInjection
     
     runs-on: ubuntu-latest
     env:
