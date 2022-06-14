@@ -1,14 +1,15 @@
 #!/bin/bash
 version=$(cat version)
 publish_dir="./source/$1/bin/Release"
-package_name="$1.$version.nupkg"
+full_version="$version.$2"
+package_name="$1.$full_version.nupkg"
 
 dotnet pack \
 	./source/"$1"/"$1".csproj \
 	--configuration Release \
-	-p:AssemblyVersion="$version"."$2" \
-	-p:AssemblyFileVersion="$version"."$2" \
-	-p:PackageVersion="$version"."$2" \
+	-p:AssemblyVersion="full_version" \
+	-p:AssemblyFileVersion="full_version" \
+	-p:PackageVersion="full_version" \
 	-p:InformationalVersion="$version""$3" \
 	/warnAsError \
 	/nologo
