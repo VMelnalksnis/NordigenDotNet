@@ -4,12 +4,13 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/VMelnalksnis/Gnomeshade</RepositoryUrl>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/VMelnalksnis/NordigenDotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 
 		<Copyright>Valters Melnalksnis</Copyright>
-		<Product>Gnomeshade</Product>
+		<Authors>Valters Melnalksnis</Authors>
+		<NeutralLanguage>en-US</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>

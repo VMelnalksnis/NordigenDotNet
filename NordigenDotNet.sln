@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		stylecop.json = stylecop.json
 		.editorconfig = .editorconfig
+		version = version
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet", "source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj", "{C70F5B40-0A36-45CB-921B-09EA1F9A63AD}"
@@ -29,6 +30,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F733A567-775B-4DD8-B900-005894E062B5}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\test.yml = .github\workflows\test.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
 Global

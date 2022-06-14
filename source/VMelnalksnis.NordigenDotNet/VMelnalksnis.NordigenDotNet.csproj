@@ -2,6 +2,14 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+
+		<Product>VMelnalksnis.NordigenDotNet</Product>
+		<ProductId>VMelnalksnis.NordigenDotNet</ProductId>
+		<Description>.NET API client for Nordigen</Description>
+		<PackageTags>nordigen</PackageTags>
+		<IsPackable>true</IsPackable>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<ItemGroup>
