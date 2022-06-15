@@ -6,14 +6,20 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 
 namespace VMelnalksnis.NordigenDotNet.Tokens;
 
 internal sealed class TokenClient
 {
+	private static readonly TokenSerializationContext _context = new(new(JsonSerializerDefaults.Web));
+	private static readonly JsonTypeInfo<AccessToken> _accessTokenInfo = (JsonTypeInfo<AccessToken>)_context.GetTypeInfo(typeof(AccessToken));
+	private static readonly JsonTypeInfo<Token> _tokenInfo = (JsonTypeInfo<Token>)_context.GetTypeInfo(typeof(Token));
+	private static readonly JsonTypeInfo<TokenCreation> _tokenCreationInfo = (JsonTypeInfo<TokenCreation>)_context.GetTypeInfo(typeof(TokenCreation));
+	private static readonly JsonTypeInfo<TokenRefresh> _tokenRefreshInfo = (JsonTypeInfo<TokenRefresh>)_context.GetTypeInfo(typeof(TokenRefresh));
+
 	private readonly HttpClient _httpClient;
-	private readonly JsonSerializerOptions _serializerOptions = new(JsonSerializerDefaults.Web);
 
 	internal TokenClient(HttpClient httpClient)
 	{
@@ -23,7 +29,7 @@ internal sealed class TokenClient
 	internal async Task<Token> New(TokenCreation tokenCreation)
 	{
 		var tokenResponse = await _httpClient
-			.PostAsJsonAsync(Routes.Tokens.New, tokenCreation, _serializerOptions)
+			.PostAsJsonAsync(Routes.Tokens.New, tokenCreation, _tokenCreationInfo)
 			.ConfigureAwait(false);
 
 		if (tokenResponse.StatusCode is not HttpStatusCode.OK)
@@ -32,28 +38,23 @@ internal sealed class TokenClient
 			throw new HttpRequestException(content);
 		}
 
-		var token = await tokenResponse.Content
-			.ReadFromJsonAsync<Token>(_serializerOptions)
-			.ConfigureAwait(false);
-
+		var token = await tokenResponse.Content.ReadFromJsonAsync(_tokenInfo).ConfigureAwait(false);
 		return token!;
 	}
 
 	internal async Task<AccessToken> Refresh(TokenRefresh tokenRefresh)
 	{
 		var tokenResponse = await _httpClient
-			.PostAsJsonAsync(Routes.Tokens.Refresh, tokenRefresh, _serializerOptions)
+			.PostAsJsonAsync(Routes.Tokens.Refresh, tokenRefresh, _tokenRefreshInfo)
 			.ConfigureAwait(false);
 
 		if (tokenResponse.StatusCode is not HttpStatusCode.OK)
 		{
 			var content = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-			throw new HttpRequestException(content);
+			throw new HttpRequestException(content, null, tokenResponse.StatusCode);
 		}
 
-		var accessToken = await tokenResponse.Content
-			.ReadFromJsonAsync<AccessToken>(_serializerOptions)
-			.ConfigureAwait(false);
+		var accessToken = await tokenResponse.Content.ReadFromJsonAsync(_accessTokenInfo).ConfigureAwait(false);
 
 		return accessToken!;
 	}

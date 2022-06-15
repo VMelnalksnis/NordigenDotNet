@@ -6,8 +6,18 @@ using System.Text.Json.Serialization;
 
 namespace VMelnalksnis.NordigenDotNet.Tokens;
 
-internal record Token(
-	string Access,
-	int AccessExpires,
-	string Refresh,
-	[property: JsonPropertyName("refresh_expires")] int RefreshExpires) : AccessToken(Access, AccessExpires);
+internal class Token : AccessToken
+{
+	[JsonConstructor]
+	public Token(string access, int accessExpires, string refresh, int refreshExpires)
+		: base(access, accessExpires)
+	{
+		Refresh = refresh;
+		RefreshExpires = refreshExpires;
+	}
+
+	public string Refresh { get; }
+
+	[JsonPropertyName("refresh_expires")]
+	public int RefreshExpires { get; }
+}
