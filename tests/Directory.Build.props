@@ -3,6 +3,8 @@
 
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
+		<IsTrimmable>false</IsTrimmable>
+		<EnableTrimAnalyzer>false</EnableTrimAnalyzer>
 	</PropertyGroup>
 
 	<ItemGroup>
