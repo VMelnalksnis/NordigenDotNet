@@ -27,8 +27,6 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - run: chmod +x deployment/publish.sh
-
       - name: Publish project
         id: publish
         run: >
