@@ -60,10 +60,10 @@ public static class ServiceCollectionExtensions
 			.AddTransient<IAgreementClient, AgreementClient>()
 			.AddTransient<IInstitutionClient, InstitutionClient>()
 			.AddTransient<IRequisitionClient, RequisitionClient>()
-			.AddTransient(provider => provider.GetRequiredService<IOptionsSnapshot<NordigenOptions>>().Value)
+			.AddTransient(provider => provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue)
 			.AddHttpClient<NordigenHttpClient>((provider, client) =>
 			{
-				client.BaseAddress = provider.GetRequiredService<IOptionsSnapshot<NordigenOptions>>().Value.BaseAddress;
+				client.BaseAddress = provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue.BaseAddress;
 
 				var assembly = typeof(INordigenClient).Assembly.GetName();
 
