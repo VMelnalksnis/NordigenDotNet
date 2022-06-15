@@ -3,6 +3,7 @@
 // See LICENSE file in the project root for full license information.
 
 using VMelnalksnis.NordigenDotNet.Accounts;
+using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.Institutions;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
@@ -13,6 +14,9 @@ public interface INordigenClient
 {
 	/// <summary>Gets the accounts API client.</summary>
 	IAccountClient Accounts { get; }
+
+	/// <summary>Gets the agreements API client.</summary>
+	IAgreementClient Agreements { get; }
 
 	/// <summary>Gets the institutions API client.</summary>
 	IInstitutionClient Institutions { get; }

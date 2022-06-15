@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Accounts;
+using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.Institutions;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
@@ -54,6 +55,7 @@ public static class ServiceCollectionExtensions
 		return serviceCollection
 			.AddTransient<INordigenClient, NordigenClient>()
 			.AddTransient<IAccountClient, AccountClient>()
+			.AddTransient<IAgreementClient, AgreementClient>()
 			.AddTransient<IInstitutionClient, InstitutionClient>()
 			.AddTransient<IRequisitionClient, RequisitionClient>()
 			.AddTransient(provider => provider.GetRequiredService<IOptionsSnapshot<NordigenOptions>>().Value)

@@ -8,6 +8,15 @@ namespace VMelnalksnis.NordigenDotNet;
 
 internal static class Routes
 {
+	internal static class Agreements
+	{
+		internal const string Uri = "api/v2/agreements/enduser/";
+
+		internal static string IdUri(Guid id) => $"{Uri}{id:N}/";
+
+		internal static string AcceptUri(Guid id) => $"{IdUri(id)}accept/";
+	}
+
 	internal static class Accounts
 	{
 		private const string _uri = "api/v2/accounts/";

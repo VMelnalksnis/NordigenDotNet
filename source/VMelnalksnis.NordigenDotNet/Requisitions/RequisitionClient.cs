@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,35 +22,10 @@ public sealed class RequisitionClient : IRequisitionClient
 	}
 
 	/// <inheritdoc />
-	public async IAsyncEnumerable<Requisition> Get(
-		int pageSize = 100,
-		[EnumeratorCancellation] CancellationToken cancellationToken = default)
+	public IAsyncEnumerable<Requisition> Get(int pageSize = 100, CancellationToken cancellationToken = default)
 	{
-		var next = $"{Routes.Requisitions.Uri}?limit={pageSize}&offset=0";
-		do
-		{
-			if (cancellationToken.IsCancellationRequested)
-			{
-				yield break;
-			}
-
-			var paginatedResponse = await _nordigenHttpClient
-				.GetAsJson<PaginatedList<Requisition>>(next, cancellationToken)
-				.ConfigureAwait(false);
-
-			if (paginatedResponse?.Results is null)
-			{
-				yield break;
-			}
-
-			foreach (var requisition in paginatedResponse.Results)
-			{
-				yield return requisition;
-			}
-
-			next = paginatedResponse.Next?.PathAndQuery;
-		}
-		while (next is not null);
+		var requestUri = $"{Routes.Requisitions.Uri}?limit={pageSize}&offset=0";
+		return _nordigenHttpClient.GetAsJsonPaginated<Requisition>(requestUri, cancellationToken);
 	}
 
 	/// <inheritdoc />

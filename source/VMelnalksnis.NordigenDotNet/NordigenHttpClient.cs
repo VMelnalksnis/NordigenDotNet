@@ -2,8 +2,10 @@
 // Licensed under the Apache License 2.0.
 // See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -47,21 +49,76 @@ public sealed class NordigenHttpClient
 	internal async Task<TResult?> GetAsJson<TResult>(string requestUri, CancellationToken cancellationToken)
 	{
 		var client = await GetClient().ConfigureAwait(false);
-		return await client.GetFromJsonAsync<TResult>(requestUri, _serializerOptions, cancellationToken)
-			.ConfigureAwait(false);
+		return await client.GetFromJsonAsync<TResult>(requestUri, _serializerOptions, cancellationToken).ConfigureAwait(false);
+	}
+
+	internal async IAsyncEnumerable<TResult> GetAsJsonPaginated<TResult>(
+		string requestUri,
+		[EnumeratorCancellation] CancellationToken cancellationToken)
+		where TResult : class
+	{
+		var next = requestUri;
+		do
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				yield break;
+			}
+
+			var paginatedList = await GetAsJson<PaginatedList<TResult>>(next, cancellationToken).ConfigureAwait(false);
+
+			if (paginatedList?.Results is null)
+			{
+				yield break;
+			}
+
+			foreach (var requisition in paginatedList.Results)
+			{
+				yield return requisition;
+			}
+
+			next = paginatedList.Next?.PathAndQuery;
+		}
+		while (next is not null);
 	}
 
 	internal async Task<TResult?> PostAsJson<TRequest, TResult>(string requestUri, TRequest request)
 	{
 		var client = await GetClient().ConfigureAwait(false);
 		var response = await client.PostAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
-		return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
+		if (response.IsSuccessStatusCode)
+		{
+			return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
+		}
+
+		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+		throw new HttpRequestException(content, null, response.StatusCode);
+	}
+
+	internal async Task<TResult?> PutAsJson<TRequest, TResult>(string requestUri, TRequest request)
+	{
+		var client = await GetClient().ConfigureAwait(false);
+		var response = await client.PutAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
+		if (response.IsSuccessStatusCode)
+		{
+			return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
+		}
+
+		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+		throw new HttpRequestException(content, null, response.StatusCode);
 	}
 
 	internal async Task Delete(string requestUri)
 	{
 		var client = await GetClient().ConfigureAwait(false);
-		await client.DeleteAsync(requestUri).ConfigureAwait(false);
+		var response = await client.DeleteAsync(requestUri).ConfigureAwait(false);
+		if (response.IsSuccessStatusCode)
+		{
+			return;
+		}
+
+		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+		throw new HttpRequestException(content, null, response.StatusCode);
 	}
 
 	private async Task<HttpClient> GetClient()
