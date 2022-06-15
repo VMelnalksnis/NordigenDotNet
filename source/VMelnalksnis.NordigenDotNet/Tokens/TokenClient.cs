@@ -2,7 +2,6 @@
 // Licensed under the Apache License 2.0.
 // See LICENSE file in the project root for full license information.
 
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -32,12 +31,7 @@ internal sealed class TokenClient
 			.PostAsJsonAsync(Routes.Tokens.New, tokenCreation, _tokenCreationInfo)
 			.ConfigureAwait(false);
 
-		if (tokenResponse.StatusCode is not HttpStatusCode.OK)
-		{
-			var content = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-			throw new HttpRequestException(content);
-		}
-
+		await tokenResponse.ThrowIfNotSuccessful().ConfigureAwait(false);
 		var token = await tokenResponse.Content.ReadFromJsonAsync(_tokenInfo).ConfigureAwait(false);
 		return token!;
 	}
@@ -48,12 +42,7 @@ internal sealed class TokenClient
 			.PostAsJsonAsync(Routes.Tokens.Refresh, tokenRefresh, _tokenRefreshInfo)
 			.ConfigureAwait(false);
 
-		if (tokenResponse.StatusCode is not HttpStatusCode.OK)
-		{
-			var content = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-			throw new HttpRequestException(content, null, tokenResponse.StatusCode);
-		}
-
+		await tokenResponse.ThrowIfNotSuccessful().ConfigureAwait(false);
 		var accessToken = await tokenResponse.Content.ReadFromJsonAsync(_accessTokenInfo).ConfigureAwait(false);
 
 		return accessToken!;

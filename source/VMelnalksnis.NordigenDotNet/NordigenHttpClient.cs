@@ -86,39 +86,23 @@ public sealed class NordigenHttpClient
 	{
 		var client = await GetClient().ConfigureAwait(false);
 		var response = await client.PostAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
-		if (response.IsSuccessStatusCode)
-		{
-			return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
-		}
-
-		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-		throw new HttpRequestException(content, null, response.StatusCode);
+		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
+		return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
 	}
 
 	internal async Task<TResult?> PutAsJson<TRequest, TResult>(string requestUri, TRequest request)
 	{
 		var client = await GetClient().ConfigureAwait(false);
 		var response = await client.PutAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
-		if (response.IsSuccessStatusCode)
-		{
-			return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
-		}
-
-		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-		throw new HttpRequestException(content, null, response.StatusCode);
+		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
+		return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
 	}
 
 	internal async Task Delete(string requestUri)
 	{
 		var client = await GetClient().ConfigureAwait(false);
 		var response = await client.DeleteAsync(requestUri).ConfigureAwait(false);
-		if (response.IsSuccessStatusCode)
-		{
-			return;
-		}
-
-		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-		throw new HttpRequestException(content, null, response.StatusCode);
+		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
 	}
 
 	private async Task<HttpClient> GetClient()
