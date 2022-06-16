@@ -24,4 +24,7 @@ public sealed record NordigenOptions
 	/// <summary>Gets the secret key used to create new access tokens.</summary>
 	[Required]
 	public string SecretKey { get; init; } = null!;
+
+	/// <summary>Gets the factor by which to divide the expiration time for access and refresh tokens.</summary>
+	public double ExpirationFactor { get; init; } = 2d;
 }

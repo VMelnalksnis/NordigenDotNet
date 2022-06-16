@@ -30,13 +30,16 @@ public static class ServiceCollectionExtensions
 	/// <summary>Adds all required services for <see cref="INordigenClient"/>.</summary>
 	/// <param name="serviceCollection">The service collection in which to register the services.</param>
 	/// <param name="configuration">The configuration to which to bind options models.</param>
+	/// <param name="clock">Clock for accessing the current time.</param>
 	/// <param name="dateTimeZoneProvider">Time zone provider for date and time serialization.</param>
 	/// <returns>The <see cref="IHttpClientBuilder"/> for the <see cref="HttpClient"/> used by <see cref="INordigenClient"/>.</returns>
 	public static IHttpClientBuilder AddNordigenDotNet(
 		this IServiceCollection serviceCollection,
 		IConfiguration configuration,
+		IClock clock,
 		IDateTimeZoneProvider dateTimeZoneProvider)
 	{
+		serviceCollection.TryAddSingleton(clock);
 		serviceCollection.TryAddSingleton(dateTimeZoneProvider);
 		return serviceCollection.AddNordigenDotNet(configuration);
 	}
@@ -58,6 +61,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddHttpClient<TokenDelegatingHandler>(ConfigureNordigenClient);
 
 		return serviceCollection
+			.AddSingleton<NordigenTokenCache>()
 			.AddTransient<INordigenClient, NordigenClient>()
 			.AddTransient<IAccountClient, AccountClient>()
 			.AddTransient<IAgreementClient, AgreementClient>()

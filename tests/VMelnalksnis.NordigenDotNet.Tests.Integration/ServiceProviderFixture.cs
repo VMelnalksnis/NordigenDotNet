@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using NodaTime;
+using NodaTime.Testing;
 
 using VMelnalksnis.NordigenDotNet.DependencyInjection;
 
@@ -22,16 +23,20 @@ public sealed class ServiceProviderFixture
 
 	public ServiceProviderFixture()
 	{
+		Clock = new(SystemClock.Instance.GetCurrentInstant());
+
 		var configuration = new ConfigurationBuilder()
 			.AddEnvironmentVariables()
 			.AddUserSecrets<ServiceProviderFixture>()
 			.Build();
 
 		var serviceCollection = new ServiceCollection();
-		serviceCollection.AddNordigenDotNet(configuration, DateTimeZoneProviders.Tzdb);
+		serviceCollection.AddNordigenDotNet(configuration, Clock, DateTimeZoneProviders.Tzdb);
 
 		_serviceProvider = serviceCollection.BuildServiceProvider();
 	}
+
+	public FakeClock Clock { get; }
 
 	public INordigenClient NordigenClient => _serviceProvider.GetRequiredService<INordigenClient>();
 }
