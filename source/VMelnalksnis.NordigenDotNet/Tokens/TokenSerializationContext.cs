@@ -3,6 +3,7 @@
 // See LICENSE file in the project root for full license information.
 
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace VMelnalksnis.NordigenDotNet.Tokens;
 
@@ -13,4 +14,5 @@ namespace VMelnalksnis.NordigenDotNet.Tokens;
 [JsonSerializable(typeof(TokenRefresh))]
 internal partial class TokenSerializationContext : JsonSerializerContext
 {
+	internal JsonTypeInfo<T> GetTypeInfo<T>() => (JsonTypeInfo<T>)GetTypeInfo(typeof(T));
 }

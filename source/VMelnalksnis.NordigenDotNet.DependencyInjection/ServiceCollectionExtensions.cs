@@ -19,6 +19,7 @@ using VMelnalksnis.NordigenDotNet.Accounts;
 using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.Institutions;
 using VMelnalksnis.NordigenDotNet.Requisitions;
+using VMelnalksnis.NordigenDotNet.Tokens;
 
 namespace VMelnalksnis.NordigenDotNet.DependencyInjection;
 
@@ -54,6 +55,8 @@ public static class ServiceCollectionExtensions
 			.Bind(configuration.GetSection(NordigenOptions.SectionName))
 			.ValidateDataAnnotations();
 
+		serviceCollection.AddHttpClient<TokenDelegatingHandler>(ConfigureNordigenClient);
+
 		return serviceCollection
 			.AddTransient<INordigenClient, NordigenClient>()
 			.AddTransient<IAccountClient, AccountClient>()
@@ -61,19 +64,22 @@ public static class ServiceCollectionExtensions
 			.AddTransient<IInstitutionClient, InstitutionClient>()
 			.AddTransient<IRequisitionClient, RequisitionClient>()
 			.AddTransient(provider => provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue)
-			.AddHttpClient<NordigenHttpClient>((provider, client) =>
-			{
-				client.BaseAddress = provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue.BaseAddress;
+			.AddHttpClient<NordigenHttpClient>(ConfigureNordigenClient)
+			.AddHttpMessageHandler<TokenDelegatingHandler>();
+	}
 
-				var assembly = typeof(INordigenClient).Assembly.GetName();
+	private static void ConfigureNordigenClient(IServiceProvider provider, HttpClient client)
+	{
+		client.BaseAddress = provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue.BaseAddress;
 
-				var assemblyName = assembly.Name ??
-					throw new InvalidOperationException($"Assembly {assembly.FullName} name is not specified");
+		var assembly = typeof(INordigenClient).Assembly.GetName();
 
-				var assemblyVersion = assembly.Version ??
-					throw new InvalidOperationException($"Assembly {assembly.FullName} version is not specified");
+		var assemblyName = assembly.Name ??
+			throw new InvalidOperationException($"Assembly {assembly.FullName} name is not specified");
 
-				client.DefaultRequestHeaders.UserAgent.Add(new(assemblyName, assemblyVersion.ToString()));
-			});
+		var assemblyVersion = assembly.Version ??
+			throw new InvalidOperationException($"Assembly {assembly.FullName} version is not specified");
+
+		client.DefaultRequestHeaders.UserAgent.Add(new(assemblyName, assemblyVersion.ToString()));
 	}
 }
