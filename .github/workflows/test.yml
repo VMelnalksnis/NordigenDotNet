@@ -1,6 +1,8 @@
 name: Run tests
 
 on:
+  schedule:
+    - cron: "0 0 * * 1-5"
   push:
     branches: [ master ]
   pull_request:
@@ -49,6 +51,7 @@ jobs:
           solution: NordigenDotNet.sln
 
       - name: Gather Code Coverage
+        if: github.event.schedule == null
         uses: codecov/codecov-action@v3.1.0
         with:
           fail_ci_if_error: true
