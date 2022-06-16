@@ -11,11 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using NodaTime;
 
-using VMelnalksnis.NordigenDotNet.Accounts;
-using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.DependencyInjection;
-using VMelnalksnis.NordigenDotNet.Institutions;
-using VMelnalksnis.NordigenDotNet.Requisitions;
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration;
 
@@ -37,11 +33,5 @@ public sealed class ServiceProviderFixture
 		_serviceProvider = serviceCollection.BuildServiceProvider();
 	}
 
-	public IAccountClient AccountClient => _serviceProvider.GetRequiredService<IAccountClient>();
-
-	public IAgreementClient AgreementClient => _serviceProvider.GetRequiredService<IAgreementClient>();
-
-	public IInstitutionClient InstitutionClient => _serviceProvider.GetRequiredService<IInstitutionClient>();
-
-	public IRequisitionClient RequisitionClient => _serviceProvider.GetRequiredService<IRequisitionClient>();
+	public INordigenClient NordigenClient => _serviceProvider.GetRequiredService<INordigenClient>();
 }

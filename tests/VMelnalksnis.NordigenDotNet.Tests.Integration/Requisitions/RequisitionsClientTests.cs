@@ -7,40 +7,64 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using NodaTime;
+
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Requisitions;
 
 public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixture>
 {
-	private readonly IRequisitionClient _requisitionClient;
+	private readonly INordigenClient _nordigenClient;
 
 	public RequisitionsClientTests(ServiceProviderFixture serviceProviderFixture)
 	{
-		_requisitionClient = serviceProviderFixture.RequisitionClient;
+		_nordigenClient = serviceProviderFixture.NordigenClient;
 	}
 
 	[Fact]
 	public async Task Get()
 	{
-		var requisitions = await _requisitionClient.Get().ToListAsync();
+		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
 		var expectedRequisition = requisitions.Should().ContainSingle().Subject;
 
-		var requisition = await _requisitionClient.Get(expectedRequisition.Id);
+		var requisition = await _nordigenClient.Requisitions.Get(expectedRequisition.Id);
 		requisition.Should().BeEquivalentTo(expectedRequisition);
 	}
 
 	[Fact]
-	public async Task Post()
+	public async Task CreateAndDelete()
 	{
-		var creation = new RequisitionCreation(new("https://gnomeshade.org/"), "CITADELE_PARXLV22");
+		var creation = new RequisitionCreation(new("https://github.com/VMelnalksnis/NordigenDotNet"), "CITADELE_PARXLV22");
+		var requisition = await _nordigenClient.Requisitions.Post(creation);
+		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
 
-		var requisition = await _requisitionClient.Post(creation);
+		using (new AssertionScope())
+		{
+			requisition.Created.Should().BeGreaterThan(SystemClock.Instance.GetCurrentInstant() - Duration.FromSeconds(5));
+			requisition.Redirect.Should().Be(creation.Redirect);
+			requisition.Status.Should().Be(RequisitionStatus.Cr);
+			requisition.InstitutionId.Should().BeEquivalentTo(creation.InstitutionId);
+			requisition.Reference.Should().NotBeNullOrWhiteSpace("Nordigen sets it to a random GUID if not specified");
+			requisition.Accounts.Should().BeEmpty("accounts are not returned before user authorizes it");
+			requisition.Link.AbsoluteUri.Should().Contain("nordigen");
+			requisition.AccountSelection.Should().BeFalse();
+			requisition.RedirectImmediate.Should().BeFalse();
+			requisition.Agreement.Should().BeNull();
+			requisition.UserLanguage.Should().BeNull();
+			requisition.Ssn.Should().BeNull();
+		}
 
-		await _requisitionClient.Delete(requisition.Id);
+		requisitions
+			.Should()
+			.ContainSingle(r => r.Id == requisition.Id)
+			.Which.Should()
+			.BeEquivalentTo(requisition);
+
+		await _nordigenClient.Requisitions.Delete(requisition.Id);
 
 		(await FluentActions
-				.Awaiting(() => _requisitionClient.Get(requisition.Id))
+				.Awaiting(() => _nordigenClient.Requisitions.Get(requisition.Id))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
 			.Which.StatusCode

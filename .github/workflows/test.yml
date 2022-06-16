@@ -32,7 +32,6 @@ jobs:
       - name: Run Tests
         run: >
           dotnet test
-          --filter FullyQualifiedName!~Integration 
           -p:CollectCoverage=true
           -p:CoverletOutput=TestResults/
           -p:CoverletOutputFormat=opencover
@@ -40,6 +39,10 @@ jobs:
           -m:1
           --configuration Release
           --no-build
+        env:
+          Nordigen__BaseAddress: https://ob.nordigen.com/
+          Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
+          Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
 
       - name: ReSharper annotations
         uses: VMelnalksnis/resharper-inspect-action@v0.2.2

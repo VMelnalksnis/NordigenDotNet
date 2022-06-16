@@ -7,17 +7,19 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using NodaTime;
+
 using VMelnalksnis.NordigenDotNet.Agreements;
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Agreements;
 
 public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 {
-	private readonly IAgreementClient _agreementClient;
+	private readonly INordigenClient _nordigenClient;
 
 	public AgreementClientTests(ServiceProviderFixture serviceProviderFixture)
 	{
-		_agreementClient = serviceProviderFixture.AgreementClient;
+		_nordigenClient = serviceProviderFixture.NordigenClient;
 	}
 
 	[Fact]
@@ -25,8 +27,20 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 	{
 		var creation = new EndUserAgreementCreation("CITADELE_PARXLV22");
 
-		var createdAgreement = await _agreementClient.Post(creation);
-		var agreements = await _agreementClient.Get().ToListAsync();
+		var createdAgreement = await _nordigenClient.Agreements.Post(creation);
+		(await _nordigenClient.Agreements.Get(createdAgreement.Id)).Should().BeEquivalentTo(createdAgreement);
+
+		using (new AssertionScope())
+		{
+			createdAgreement.Created.Should().BeGreaterThan(SystemClock.Instance.GetCurrentInstant() - Duration.FromSeconds(5));
+			createdAgreement.Accepted.Should().BeNull();
+			createdAgreement.MaxHistoricalDays.Should().Be(90);
+			createdAgreement.AccessValidForDays.Should().Be(90);
+			createdAgreement.AccessScope.Should().BeEquivalentTo("balances", "details", "transactions");
+			createdAgreement.InstitutionId.Should().Be(creation.InstitutionId);
+		}
+
+		var agreements = await _nordigenClient.Agreements.Get().ToListAsync();
 
 		agreements
 			.Should()
@@ -36,16 +50,16 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 
 		var acceptance = new EndUserAgreementAcceptance("NordigenDotNet integration test", "127.0.0.1");
 		(await FluentActions
-				.Awaiting(() => _agreementClient.Put(createdAgreement.Id, acceptance))
+				.Awaiting(() => _nordigenClient.Agreements.Put(createdAgreement.Id, acceptance))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
 			.Which.StatusCode.Should()
 			.Be(HttpStatusCode.Forbidden, "test company cannot create agreements");
 
-		await _agreementClient.Delete(createdAgreement.Id);
+		await _nordigenClient.Agreements.Delete(createdAgreement.Id);
 
 		(await FluentActions
-				.Awaiting(() => _agreementClient.Get(createdAgreement.Id))
+				.Awaiting(() => _nordigenClient.Agreements.Get(createdAgreement.Id))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
 			.Which.StatusCode.Should()

@@ -5,33 +5,28 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using VMelnalksnis.NordigenDotNet.Accounts;
-using VMelnalksnis.NordigenDotNet.Requisitions;
-
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Accounts;
 
 public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 {
-	private readonly IAccountClient _accountClient;
-	private readonly IRequisitionClient _requisitionClient;
+	private readonly INordigenClient _nordigenClient;
 
 	public AccountClientTests(ServiceProviderFixture serviceProviderFixture)
 	{
-		_accountClient = serviceProviderFixture.AccountClient;
-		_requisitionClient = serviceProviderFixture.RequisitionClient;
+		_nordigenClient = serviceProviderFixture.NordigenClient;
 	}
 
-	[Fact]
+	[Fact(Skip = "Requires manual setup at least every 90 days")]
 	public async Task Get()
 	{
-		var requisition = await _requisitionClient.Get().SingleAsync();
+		var requisition = await _nordigenClient.Requisitions.Get().SingleAsync();
 
 		foreach (var id in requisition.Accounts)
 		{
-			await _accountClient.Get(id);
-			await _accountClient.GetDetails(id);
-			await _accountClient.GetBalances(id);
-			await _accountClient.GetTransactions(id);
+			await _nordigenClient.Accounts.Get(id);
+			await _nordigenClient.Accounts.GetDetails(id);
+			await _nordigenClient.Accounts.GetBalances(id);
+			await _nordigenClient.Accounts.GetTransactions(id);
 		}
 	}
 }

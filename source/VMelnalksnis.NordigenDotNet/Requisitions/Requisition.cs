@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 using NodaTime;
@@ -19,7 +18,6 @@ namespace VMelnalksnis.NordigenDotNet.Requisitions;
 /// <param name="Redirect">The URI to which the user will be redirected after authorizing access.</param>
 /// <param name="Status">The status of the requisition.</param>
 /// <param name="InstitutionId">The ID of the institution for which this requisition was made for.</param>
-/// <param name="Agreement">The end-user-agreement of this requisition.</param>
 /// <param name="Reference">Client specified reference for this requisition.</param>
 /// <param name="Accounts">Accounts retrieved within the scope of this requisition.</param>
 /// <param name="Link">URI to initiate the authorization with the institution.</param>
@@ -31,13 +29,20 @@ public record Requisition(
 	Uri Redirect,
 	RequisitionStatus Status,
 	[property: JsonPropertyName("institution_id")] string InstitutionId,
-	string Agreement,
 	string Reference,
 	List<Guid> Accounts,
 	Uri Link,
 	[property: JsonPropertyName("account_selection")] bool AccountSelection,
 	[property: JsonPropertyName("redirect_immediate")] bool RedirectImmediate)
 {
+	/// <summary>The raw value of <see cref="Agreement"/>.</summary>
+	[JsonPropertyName("agreement")]
+	public string? AgreementValue { get; init; }
+
+	/// <summary>The end-user-agreement of this requisition.</summary>
+	[JsonIgnore]
+	public Guid? Agreement => string.IsNullOrWhiteSpace(AgreementValue) ? null : Guid.Parse(AgreementValue);
+
 	/// <summary>A two-letter country code (ISO 639-1).</summary>
 	[JsonPropertyName("user_language")]
 	public string? UserLanguage { get; init; }
