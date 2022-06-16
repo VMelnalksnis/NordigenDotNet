@@ -1,6 +1,7 @@
 [![Nuget](https://img.shields.io/nuget/v/VMelnalksnis.NordigenDotNet?label=NordigenDotNet)](https://www.nuget.org/packages/VMelnalksnis.NordigenDotNet/)
 [![Nuget](https://img.shields.io/nuget/v/VMelnalksnis.NordigenDotNet.DependencyInjection?label=NordigenDotNet.DependencyInjection)](https://www.nuget.org/packages/VMelnalksnis.NordigenDotNet.DependencyInjection/)
 [![Codecov](https://img.shields.io/codecov/c/github/VMelnalksnis/NordigenDotNet)](https://app.codecov.io/gh/VMelnalksnis/NordigenDotNet)
+[![Run tests](https://github.com/VMelnalksnis/NordigenDotNet/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/VMelnalksnis/NordigenDotNet/actions/workflows/test.yml)
 
 # NordigenDotNet
 .NET client for the [Nordigen](https://nordigen.com/en/) API.
@@ -30,7 +31,7 @@ For use outside of ASP.NET Core, see the
 // Only registers services from NordigenDotNet
 services.AddNordigenDotNet(Configuration);
 // Also registers the IDateTimeZoneProvider, which is required
-serviceCollection.AddNordigenDotNet(Configuration, DateTimeZoneProviders.Tzdb);
+serviceCollection.AddNordigenDotNet(Configuration, SystemClock.Instance, DateTimeZoneProviders.Tzdb);
 ```
 
 3. (Optional) Configure retries
@@ -38,7 +39,7 @@ serviceCollection.AddNordigenDotNet(Configuration, DateTimeZoneProviders.Tzdb);
 
 ```csharp
 services
-	.AddNordigenDotNet(Configuration, DateTimeZoneProviders.Tzdb)
+	.AddNordigenDotNet(Configuration, SystemClock.Instance, DateTimeZoneProviders.Tzdb)
 	.AddPolicyHandler(...);
 ```
 
