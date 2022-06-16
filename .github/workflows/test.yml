@@ -40,7 +40,6 @@ jobs:
           --configuration Release
           --no-build
         env:
-          Nordigen__BaseAddress: https://ob.nordigen.com/
           Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
 

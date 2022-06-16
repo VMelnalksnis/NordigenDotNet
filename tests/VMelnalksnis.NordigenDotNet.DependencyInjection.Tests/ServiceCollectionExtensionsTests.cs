@@ -20,7 +20,6 @@ public sealed class ServiceCollectionExtensionsTests
 		var configuration = new ConfigurationBuilder()
 			.AddInMemoryCollection(new List<KeyValuePair<string, string>>
 			{
-				new($"{NordigenOptions.SectionName}:{nameof(NordigenOptions.BaseAddress)}", "https://ob.nordigen.com/"),
 				new($"{NordigenOptions.SectionName}:{nameof(NordigenOptions.SecretId)}", $"{Guid.NewGuid():D}"),
 				new($"{NordigenOptions.SectionName}:{nameof(NordigenOptions.SecretKey)}", $"{Guid.NewGuid():N}"),
 			})

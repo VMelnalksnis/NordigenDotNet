@@ -15,7 +15,7 @@ public sealed record NordigenOptions
 
 	/// <summary>Gets the base address of the Nordigen API.</summary>
 	[Required]
-	public Uri BaseAddress { get; init; } = null!;
+	public Uri BaseAddress { get; init; } = new("https://ob.nordigen.com/");
 
 	/// <summary>Gets the secret ID used to create new access tokens.</summary>
 	[Required]
