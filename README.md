@@ -15,11 +15,10 @@ and [IServiceCollection](https://docs.microsoft.com/en-us/dotnet/api/microsoft.e
 For use outside of ASP.NET Core, see the
 [configuration](source/VMelnalksnis.NordigenDotNet.DependencyInjection/ServiceCollectionExtensions.cs).
 
-1. Add configuration
+1. Add configuration (for optional values see [options](source/VMelnalksnis.NordigenDotNet/NordigenOptions.cs))
 
 ```yaml
 "Nordigen": {
-    "BaseAddress": "https://ob.nordigen.com/",
     "SecretId": "",
     "SecretKey": ""
 }
