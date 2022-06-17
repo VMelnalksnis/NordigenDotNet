@@ -19,6 +19,8 @@ public record BookedTransaction(
 
 	public string? CreditorName { get; init; }
 
+	public DebtorAccount? CreditorAccount { get; init; }
+
 	public string? BankTransactionCode { get; init; }
 
 	public string? EntryReference { get; init; }
