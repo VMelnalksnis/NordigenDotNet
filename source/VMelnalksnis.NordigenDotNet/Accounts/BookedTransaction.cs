@@ -15,11 +15,11 @@ public record BookedTransaction(
 {
 	public string? DebtorName { get; init; }
 
-	public DebtorAccount? DebtorAccount { get; init; }
+	public TransactionAccount? DebtorAccount { get; init; }
 
 	public string? CreditorName { get; init; }
 
-	public DebtorAccount? CreditorAccount { get; init; }
+	public TransactionAccount? CreditorAccount { get; init; }
 
 	public string? BankTransactionCode { get; init; }
 

@@ -4,4 +4,4 @@
 
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
-public record DebtorAccount(string Iban);
+public record TransactionAccount(string Iban);
