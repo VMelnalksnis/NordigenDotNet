@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,10 +15,6 @@ namespace VMelnalksnis.NordigenDotNet.Tokens;
 public sealed class TokenDelegatingHandler : DelegatingHandler
 {
 	private static readonly TokenSerializationContext _context = new(new(JsonSerializerDefaults.Web));
-	private static readonly JsonTypeInfo<AccessToken> _accessTokenInfo = _context.GetTypeInfo<AccessToken>();
-	private static readonly JsonTypeInfo<Token> _tokenInfo = _context.GetTypeInfo<Token>();
-	private static readonly JsonTypeInfo<TokenCreation> _tokenCreationInfo = _context.GetTypeInfo<TokenCreation>();
-	private static readonly JsonTypeInfo<TokenRefresh> _tokenRefreshInfo = _context.GetTypeInfo<TokenRefresh>();
 
 	private readonly HttpClient _httpClient;
 	private readonly NordigenOptions _nordigenOptions;
@@ -65,22 +60,22 @@ public sealed class TokenDelegatingHandler : DelegatingHandler
 	{
 		var tokenCreation = new TokenCreation(_nordigenOptions.SecretId, _nordigenOptions.SecretKey);
 		var tokenResponse = await _httpClient
-			.PostAsJsonAsync(Routes.Tokens.New, tokenCreation, _tokenCreationInfo)
+			.PostAsJsonAsync(Routes.Tokens.New, tokenCreation, _context.TokenCreation)
 			.ConfigureAwait(false);
 
 		await tokenResponse.ThrowIfNotSuccessful().ConfigureAwait(false);
-		var token = await tokenResponse.Content.ReadFromJsonAsync(_tokenInfo).ConfigureAwait(false);
+		var token = await tokenResponse.Content.ReadFromJsonAsync(_context.Token).ConfigureAwait(false);
 		_tokenCache.SetToken(token!);
 	}
 
 	private async Task RefreshToken()
 	{
 		var tokenResponse = await _httpClient
-			.PostAsJsonAsync(Routes.Tokens.Refresh, new(_tokenCache.Token!.Refresh), _tokenRefreshInfo)
+			.PostAsJsonAsync(Routes.Tokens.Refresh, new(_tokenCache.Token!.Refresh), _context.TokenRefresh)
 			.ConfigureAwait(false);
 
 		await tokenResponse.ThrowIfNotSuccessful().ConfigureAwait(false);
-		var accessToken = await tokenResponse.Content.ReadFromJsonAsync(_accessTokenInfo).ConfigureAwait(false);
+		var accessToken = await tokenResponse.Content.ReadFromJsonAsync(_context.AccessToken).ConfigureAwait(false);
 
 		_tokenCache.SetAccessToken(accessToken!);
 	}
