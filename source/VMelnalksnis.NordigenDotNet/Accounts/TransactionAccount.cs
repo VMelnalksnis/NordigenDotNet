@@ -4,4 +4,6 @@
 
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
+/// <summary>An account that can be referenced from a <see cref="Transaction"/>.</summary>
+/// <param name="Iban">The IBAN of the account.</param>
 public record TransactionAccount(string Iban);

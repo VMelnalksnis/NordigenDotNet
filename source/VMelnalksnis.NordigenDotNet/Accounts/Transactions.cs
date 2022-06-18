@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
+/// <summary>All transactions of an account.</summary>
+/// <param name="Booked">All transactions that have been booked.</param>
+/// <param name="Pending">All transaction that are still pending.</param>
 public record Transactions(List<BookedTransaction> Booked, List<PendingTransaction> Pending);
 
 internal record TransactionsWrapper(Transactions Transactions);
