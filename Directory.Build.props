@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DebugType>portable</DebugType>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
