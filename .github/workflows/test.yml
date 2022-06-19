@@ -45,11 +45,6 @@ jobs:
           Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
 
-      - name: ReSharper annotations
-        uses: VMelnalksnis/resharper-inspect-action@v0.2.2
-        with:
-          solution: NordigenDotNet.sln
-
       - name: Gather Code Coverage
         if: github.event.schedule == null
         uses: codecov/codecov-action@v3.1.0
