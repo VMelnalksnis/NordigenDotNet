@@ -39,6 +39,12 @@ jobs:
         with:
           name: ${{ steps.publish.outputs.artifact-name }}
           path: ${{ steps.publish.outputs.artifact }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: ${{ steps.publish.outputs.symbols-name }}
+          path: ${{ steps.publish.outputs.symbols }}
   
   create-release:
     name: Create release
