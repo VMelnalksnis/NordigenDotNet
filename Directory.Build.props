@@ -1,6 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 

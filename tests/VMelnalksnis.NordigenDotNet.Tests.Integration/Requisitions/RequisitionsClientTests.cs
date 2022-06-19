@@ -3,7 +3,9 @@
 // See LICENSE file in the project root for full license information.
 
 using System.Linq;
+#if NET6_0_OR_GREATER
 using System.Net;
+#endif
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -63,12 +65,12 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 
 		await _nordigenClient.Requisitions.Delete(requisition.Id);
 
-		(await FluentActions
-				.Awaiting(() => _nordigenClient.Requisitions.Get(requisition.Id))
-				.Should()
-				.ThrowExactlyAsync<HttpRequestException>())
-			.Which.StatusCode
+		var getException = await FluentActions
+			.Awaiting(() => _nordigenClient.Requisitions.Get(requisition.Id))
 			.Should()
-			.Be(HttpStatusCode.NotFound);
+			.ThrowExactlyAsync<HttpRequestException>();
+#if NET6_0_OR_GREATER
+		getException.Which.StatusCode.Should().Be(HttpStatusCode.NotFound);
+#endif
 	}
 }

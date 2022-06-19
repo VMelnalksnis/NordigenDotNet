@@ -3,7 +3,10 @@
 // See LICENSE file in the project root for full license information.
 
 using System.Linq;
+
+#if NET6_0_OR_GREATER
 using System.Net;
+#endif
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -49,20 +52,22 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 			.BeEquivalentTo(createdAgreement);
 
 		var acceptance = new EndUserAgreementAcceptance("NordigenDotNet integration test", "127.0.0.1");
-		(await FluentActions
+		var putException = await FluentActions
 				.Awaiting(() => _nordigenClient.Agreements.Put(createdAgreement.Id, acceptance))
 				.Should()
-				.ThrowExactlyAsync<HttpRequestException>())
-			.Which.StatusCode.Should()
-			.Be(HttpStatusCode.Forbidden, "test company cannot create agreements");
+				.ThrowExactlyAsync<HttpRequestException>();
+#if NET6_0_OR_GREATER
+		putException.Which.StatusCode.Should().Be(HttpStatusCode.Forbidden, "test company cannot create agreements");
+#endif
 
 		await _nordigenClient.Agreements.Delete(createdAgreement.Id);
 
-		(await FluentActions
+		var getException = await FluentActions
 				.Awaiting(() => _nordigenClient.Agreements.Get(createdAgreement.Id))
 				.Should()
-				.ThrowExactlyAsync<HttpRequestException>())
-			.Which.StatusCode.Should()
-			.Be(HttpStatusCode.NotFound);
+				.ThrowExactlyAsync<HttpRequestException>();
+#if NET6_0_OR_GREATER
+		getException.Which.StatusCode.Should().Be(HttpStatusCode.NotFound);
+#endif
 	}
 }
