@@ -23,24 +23,18 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 	}
 
 	[Fact]
-	public async Task Get()
-	{
-		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
-		var expectedRequisition = requisitions.Should().ContainSingle().Subject;
-
-		var requisition = await _nordigenClient.Requisitions.Get(expectedRequisition.Id);
-		requisition.Should().BeEquivalentTo(expectedRequisition);
-	}
-
-	[Fact]
 	public async Task CreateAndDelete()
 	{
 		var creation = new RequisitionCreation(new("https://github.com/VMelnalksnis/NordigenDotNet"), "CITADELE_PARXLV22");
-		var requisition = await _nordigenClient.Requisitions.Post(creation);
+		var createdRequisition = await _nordigenClient.Requisitions.Post(creation);
+		var requisition = await _nordigenClient.Requisitions.Get(createdRequisition.Id);
 		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
+
+		await _nordigenClient.Requisitions.Delete(requisition.Id);
 
 		using (new AssertionScope())
 		{
+			requisition.Should().BeEquivalentTo(createdRequisition);
 			requisition.Created.Should().BeGreaterThan(SystemClock.Instance.GetCurrentInstant() - Duration.FromSeconds(5));
 			requisition.Redirect.Should().Be(creation.Redirect);
 			requisition.Status.Should().Be(RequisitionStatus.Cr);
@@ -60,8 +54,6 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 			.ContainSingle(r => r.Id == requisition.Id)
 			.Which.Should()
 			.BeEquivalentTo(requisition);
-
-		await _nordigenClient.Requisitions.Delete(requisition.Id);
 
 		(await FluentActions
 				.Awaiting(() => _nordigenClient.Requisitions.Get(requisition.Id))
