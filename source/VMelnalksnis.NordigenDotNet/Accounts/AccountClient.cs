@@ -59,11 +59,7 @@ public sealed class AccountClient : IAccountClient
 		Interval? interval = null,
 		CancellationToken cancellationToken = default)
 	{
-		var uri = Routes.Accounts.TransactionsUri(id);
-		if (interval is { } value)
-		{
-			uri += $"?date_from{value.Start:yyyy-MM-dd}&date_to={value.End:yyyy-MM-dd}";
-		}
+		var uri = Routes.Accounts.TransactionsUri(id, interval);
 
 		var transactions = await _nordigenHttpClient
 			.GetAsJson<TransactionsWrapper>(uri, cancellationToken)

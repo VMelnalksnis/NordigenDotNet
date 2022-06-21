@@ -5,6 +5,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using NodaTime;
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Accounts;
 
 public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
@@ -26,7 +28,13 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 			await _nordigenClient.Accounts.Get(id);
 			await _nordigenClient.Accounts.GetDetails(id);
 			await _nordigenClient.Accounts.GetBalances(id);
-			await _nordigenClient.Accounts.GetTransactions(id);
+
+			var dateTo = SystemClock.Instance.GetCurrentInstant();
+			var dateFrom = dateTo - Duration.FromDays(7);
+			var transactions = await _nordigenClient.Accounts.GetTransactions(id, new Interval(dateFrom, dateTo));
+			var allTransactions = await _nordigenClient.Accounts.GetTransactions(id);
+
+			transactions.Booked.Should().BeSubsetOf(allTransactions.Booked);
 		}
 	}
 }

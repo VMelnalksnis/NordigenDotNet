@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.Tests", "tests\VMelnalksnis.NordigenDotNet.Tests\VMelnalksnis.NordigenDotNet.Tests.csproj", "{B01186E2-7A80-4117-BC89-C345B0221ECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,11 +60,16 @@ Global
 		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10F5857A-33BE-483A-A96C-1903DFFDEFC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B01186E2-7A80-4117-BC89-C345B0221ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B01186E2-7A80-4117-BC89-C345B0221ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B01186E2-7A80-4117-BC89-C345B0221ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B01186E2-7A80-4117-BC89-C345B0221ECE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{98E15B27-7113-48B8-AA35-F65E4273B310} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
 		{10F5857A-33BE-483A-A96C-1903DFFDEFC3} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
 		{CA8D9082-D6CE-4568-8D61-862001E8241A} = {56CE37B2-286D-49AA-BCF4-E9AB51E7CC48}
 		{F733A567-775B-4DD8-B900-005894E062B5} = {CA8D9082-D6CE-4568-8D61-862001E8241A}
+		{B01186E2-7A80-4117-BC89-C345B0221ECE} = {F9FD8772-AC85-42BE-B3B0-F03247F72E2A}
 	EndGlobalSection
 EndGlobal
