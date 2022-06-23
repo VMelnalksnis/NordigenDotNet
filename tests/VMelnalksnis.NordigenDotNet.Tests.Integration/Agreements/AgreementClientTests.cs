@@ -11,6 +11,8 @@ using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Agreements;
 
+using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Agreements;
 
 public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
@@ -25,7 +27,7 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 	[Fact]
 	public async Task Get()
 	{
-		var creation = new EndUserAgreementCreation("CITADELE_PARXLV22");
+		var creation = new EndUserAgreementCreation(IntegrationInstitutionId);
 
 		var createdAgreement = await _nordigenClient.Agreements.Post(creation);
 		(await _nordigenClient.Agreements.Get(createdAgreement.Id)).Should().BeEquivalentTo(createdAgreement);

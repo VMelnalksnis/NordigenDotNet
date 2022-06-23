@@ -19,6 +19,8 @@ namespace VMelnalksnis.NordigenDotNet.Tests.Integration;
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public sealed class ServiceProviderFixture
 {
+	internal const string IntegrationInstitutionId = "SANDBOXFINANCE_SFIN0000";
+
 	private readonly IServiceProvider _serviceProvider;
 
 	public ServiceProviderFixture()

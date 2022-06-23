@@ -11,6 +11,8 @@ using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
+using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Requisitions;
 
 public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixture>
@@ -25,7 +27,7 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 	[Fact]
 	public async Task CreateAndDelete()
 	{
-		var creation = new RequisitionCreation(new("https://github.com/VMelnalksnis/NordigenDotNet"), "CITADELE_PARXLV22");
+		var creation = new RequisitionCreation(new("https://github.com/VMelnalksnis/NordigenDotNet"), IntegrationInstitutionId);
 		var createdRequisition = await _nordigenClient.Requisitions.Post(creation);
 		var requisition = await _nordigenClient.Requisitions.Get(createdRequisition.Id);
 		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
