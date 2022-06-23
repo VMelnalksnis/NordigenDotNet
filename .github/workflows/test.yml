@@ -25,22 +25,8 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --configuration Release --no-restore /nologo /clp:NoSummary
-
       - name: Run Tests
-        run: >
-          dotnet test
-          -p:CollectCoverage=true
-          -p:CoverletOutput=TestResults/
-          -p:CoverletOutputFormat=opencover
-          -p:BuildInParallel=false
-          -m:1
-          --configuration Release
-          --no-build
+        run: deployment/test.sh
         env:
           Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}

@@ -67,6 +67,7 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             ${{ steps.download.outputs.download-path }}/**/*.nupkg
+            ${{ steps.download.outputs.download-path }}/**/*.snupkg
 
       - name: NuGet Push
         run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json

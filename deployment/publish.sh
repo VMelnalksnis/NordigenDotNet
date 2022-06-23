@@ -6,13 +6,13 @@ package_name="$1.$version.nupkg"
 symbols_name="$1.$version.snupkg"
 
 dotnet pack \
-	./source/"$1"/"$1".csproj \
-	--configuration Release \
-	-p:AssemblyVersion="$full_version" \
-	-p:AssemblyFileVersion="$full_version" \
-	-p:PackageVersion="$version" \
-	-p:InformationalVersion="$version""$3" \
-	/nologo ||
+./source/"$1"/"$1".csproj \
+--configuration Release \
+-p:AssemblyVersion="$full_version" \
+-p:AssemblyFileVersion="$full_version" \
+-p:PackageVersion="$version" \
+-p:InformationalVersion="$version""$3" \
+/nologo ||
 	exit
 
 echo "::set-output name=artifact-name::$package_name"
