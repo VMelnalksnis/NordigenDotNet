@@ -16,6 +16,8 @@ using VMelnalksnis.NordigenDotNet.DependencyInjection;
 
 using Xunit.Abstractions;
 
+[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
