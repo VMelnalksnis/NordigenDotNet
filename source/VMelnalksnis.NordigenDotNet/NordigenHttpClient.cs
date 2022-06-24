@@ -7,12 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-
-using NodaTime;
-using NodaTime.Serialization.SystemTextJson;
 
 namespace VMelnalksnis.NordigenDotNet;
 
@@ -24,15 +20,11 @@ public sealed class NordigenHttpClient
 
 	/// <summary>Initializes a new instance of the <see cref="NordigenHttpClient"/> class.</summary>
 	/// <param name="httpClient">Http client configured for making requests to the Nordigen API.</param>
-	/// <param name="dateTimeZoneProvider">Time zone provider for date and time serialization.</param>
-	public NordigenHttpClient(HttpClient httpClient, IDateTimeZoneProvider dateTimeZoneProvider)
+	/// <param name="nordigenJsonSerializerOptions">Nordigen specific instance of <see cref="JsonSerializerOptions"/>.</param>
+	public NordigenHttpClient(HttpClient httpClient, NordigenJsonSerializerOptions nordigenJsonSerializerOptions)
 	{
 		_httpClient = httpClient;
-
-		_serializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
-		{
-			Converters = { new JsonStringEnumConverter() },
-		}.ConfigureForNodaTime(dateTimeZoneProvider);
+		_serializerOptions = nordigenJsonSerializerOptions.Options;
 	}
 
 	internal async Task<TResult?> Get<TResult>(string requestUri, CancellationToken cancellationToken)

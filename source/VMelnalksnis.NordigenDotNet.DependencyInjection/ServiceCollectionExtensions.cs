@@ -73,6 +73,7 @@ public static class ServiceCollectionExtensions
 
 		return serviceCollection
 			.AddSingleton<NordigenTokenCache>()
+			.AddSingleton<NordigenJsonSerializerOptions>()
 			.AddTransient<INordigenClient, NordigenClient>()
 			.AddTransient<IAccountClient, AccountClient>()
 			.AddTransient<IAgreementClient, AgreementClient>()
