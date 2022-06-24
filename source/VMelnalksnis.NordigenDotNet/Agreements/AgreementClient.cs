@@ -24,15 +24,14 @@ public sealed class AgreementClient : IAgreementClient
 	/// <inheritdoc />
 	public IAsyncEnumerable<EndUserAgreement> Get(int pageSize = 100, CancellationToken cancellationToken = default)
 	{
-		var requestUri = $"{Routes.Agreements.Uri}?limit={pageSize}&offset=0";
-		return _nordigenHttpClient.GetAsJsonPaginated<EndUserAgreement>(requestUri, cancellationToken);
+		return _nordigenHttpClient.GetPaginated<EndUserAgreement>(Routes.Agreements.PaginatedUri(100), cancellationToken);
 	}
 
 	/// <inheritdoc />
 	public async Task<EndUserAgreement> Get(Guid id, CancellationToken cancellationToken = default)
 	{
 		var agreement = await _nordigenHttpClient
-			.GetAsJson<EndUserAgreement>(Routes.Agreements.IdUri(id), cancellationToken)
+			.Get<EndUserAgreement>(Routes.Agreements.IdUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return agreement!;
@@ -42,7 +41,7 @@ public sealed class AgreementClient : IAgreementClient
 	public async Task<EndUserAgreement> Post(EndUserAgreementCreation agreementCreation)
 	{
 		var agreement = await _nordigenHttpClient
-			.PostAsJson<EndUserAgreementCreation, EndUserAgreement>(Routes.Agreements.Uri, agreementCreation)
+			.Post<EndUserAgreementCreation, EndUserAgreement>(Routes.Agreements.Uri, agreementCreation)
 			.ConfigureAwait(false);
 
 		return agreement!;
@@ -58,7 +57,7 @@ public sealed class AgreementClient : IAgreementClient
 	public async Task<EndUserAgreement> Put(Guid id, EndUserAgreementAcceptance acceptance)
 	{
 		var agreement = await _nordigenHttpClient
-			.PutAsJson<EndUserAgreementAcceptance, EndUserAgreement>(Routes.Agreements.AcceptUri(id), acceptance)
+			.Put<EndUserAgreementAcceptance, EndUserAgreement>(Routes.Agreements.AcceptUri(id), acceptance)
 			.ConfigureAwait(false);
 
 		return agreement!;

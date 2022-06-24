@@ -24,15 +24,14 @@ public sealed class RequisitionClient : IRequisitionClient
 	/// <inheritdoc />
 	public IAsyncEnumerable<Requisition> Get(int pageSize = 100, CancellationToken cancellationToken = default)
 	{
-		var requestUri = $"{Routes.Requisitions.Uri}?limit={pageSize}&offset=0";
-		return _nordigenHttpClient.GetAsJsonPaginated<Requisition>(requestUri, cancellationToken);
+		return _nordigenHttpClient.GetPaginated<Requisition>(Routes.Requisitions.PaginatedUri(pageSize), cancellationToken);
 	}
 
 	/// <inheritdoc />
 	public async Task<Requisition> Get(Guid id, CancellationToken cancellationToken = default)
 	{
 		var requisition = await _nordigenHttpClient
-			.GetAsJson<Requisition>(Routes.Requisitions.IdUri(id), cancellationToken)
+			.Get<Requisition>(Routes.Requisitions.IdUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return requisition!;
@@ -42,7 +41,7 @@ public sealed class RequisitionClient : IRequisitionClient
 	public async Task<Requisition> Post(RequisitionCreation requisitionCreation)
 	{
 		var requisition = await _nordigenHttpClient
-			.PostAsJson<RequisitionCreation, Requisition>(Routes.Requisitions.Uri, requisitionCreation)
+			.Post<RequisitionCreation, Requisition>(Routes.Requisitions.Uri, requisitionCreation)
 			.ConfigureAwait(false);
 
 		return requisition!;

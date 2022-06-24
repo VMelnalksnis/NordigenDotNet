@@ -10,9 +10,13 @@ namespace VMelnalksnis.NordigenDotNet;
 
 internal static class Routes
 {
+	private static string PaginatedUri(string baseUri, int pageSize) => $"{baseUri}?limit={pageSize}&offset=0";
+
 	internal static class Agreements
 	{
 		internal const string Uri = "api/v2/agreements/enduser/";
+
+		internal static string PaginatedUri(int pageSize) => Routes.PaginatedUri(Uri, pageSize);
 
 		internal static string IdUri(Guid id) => $"{Uri}{id:N}/";
 
@@ -48,6 +52,8 @@ internal static class Routes
 	internal static class Requisitions
 	{
 		internal const string Uri = "api/v2/requisitions/";
+
+		internal static string PaginatedUri(int pageSize) => Routes.PaginatedUri(Uri, pageSize);
 
 		internal static string IdUri(Guid id) => $"{Uri}{id:N}/";
 	}

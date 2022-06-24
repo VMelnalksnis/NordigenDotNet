@@ -35,49 +35,42 @@ public sealed class NordigenHttpClient
 		}.ConfigureForNodaTime(dateTimeZoneProvider);
 	}
 
-	internal async Task<TResult?> GetAsJson<TResult>(string requestUri, CancellationToken cancellationToken)
+	internal async Task<TResult?> Get<TResult>(string requestUri, CancellationToken cancellationToken)
 	{
 		return await _httpClient.GetFromJsonAsync<TResult>(requestUri, _serializerOptions, cancellationToken).ConfigureAwait(false);
 	}
 
-	internal async IAsyncEnumerable<TResult> GetAsJsonPaginated<TResult>(
+	internal async IAsyncEnumerable<TResult> GetPaginated<TResult>(
 		string requestUri,
 		[EnumeratorCancellation] CancellationToken cancellationToken)
 		where TResult : class
 	{
 		var next = requestUri;
-		do
+		while (next is not null && !cancellationToken.IsCancellationRequested)
 		{
-			if (cancellationToken.IsCancellationRequested)
-			{
-				yield break;
-			}
-
-			var paginatedList = await GetAsJson<PaginatedList<TResult>>(next, cancellationToken).ConfigureAwait(false);
-
+			var paginatedList = await Get<PaginatedList<TResult>>(next, cancellationToken).ConfigureAwait(false);
 			if (paginatedList?.Results is null)
 			{
 				yield break;
 			}
 
-			foreach (var requisition in paginatedList.Results)
+			foreach (var result in paginatedList.Results)
 			{
-				yield return requisition;
+				yield return result;
 			}
 
 			next = paginatedList.Next?.PathAndQuery;
 		}
-		while (next is not null);
 	}
 
-	internal async Task<TResult?> PostAsJson<TRequest, TResult>(string requestUri, TRequest request)
+	internal async Task<TResult?> Post<TRequest, TResult>(string requestUri, TRequest request)
 	{
 		var response = await _httpClient.PostAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
 		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
 		return await response.Content.ReadFromJsonAsync<TResult>(_serializerOptions).ConfigureAwait(false);
 	}
 
-	internal async Task<TResult?> PutAsJson<TRequest, TResult>(string requestUri, TRequest request)
+	internal async Task<TResult?> Put<TRequest, TResult>(string requestUri, TRequest request)
 	{
 		var response = await _httpClient.PutAsJsonAsync(requestUri, request, _serializerOptions).ConfigureAwait(false);
 		await response.ThrowIfNotSuccessful().ConfigureAwait(false);

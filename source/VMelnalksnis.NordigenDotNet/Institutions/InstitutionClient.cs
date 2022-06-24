@@ -24,7 +24,7 @@ public sealed class InstitutionClient : IInstitutionClient
 	public async Task<List<Institution>> GetByCountry(string countryCode, CancellationToken cancellationToken = default)
 	{
 		var institutions = await _nordigenHttpClient
-			.GetAsJson<List<Institution>>(Routes.Institutions.CountryUri(countryCode), cancellationToken)
+			.Get<List<Institution>>(Routes.Institutions.CountryUri(countryCode), cancellationToken)
 			.ConfigureAwait(false);
 
 		return institutions!;
@@ -34,7 +34,7 @@ public sealed class InstitutionClient : IInstitutionClient
 	public async Task<Institution> Get(string id, CancellationToken cancellationToken = default)
 	{
 		var institution = await _nordigenHttpClient
-			.GetAsJson<Institution>(Routes.Institutions.IdUri(id), cancellationToken)
+			.Get<Institution>(Routes.Institutions.IdUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return institution!;

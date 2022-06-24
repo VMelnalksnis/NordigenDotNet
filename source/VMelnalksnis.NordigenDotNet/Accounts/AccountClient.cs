@@ -27,7 +27,7 @@ public sealed class AccountClient : IAccountClient
 	public async Task<Account> Get(Guid id, CancellationToken cancellationToken = default)
 	{
 		var account = await _nordigenHttpClient
-			.GetAsJson<Account>(Routes.Accounts.IdUri(id), cancellationToken)
+			.Get<Account>(Routes.Accounts.IdUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return account!;
@@ -37,7 +37,7 @@ public sealed class AccountClient : IAccountClient
 	public async Task<List<Balance>> GetBalances(Guid id, CancellationToken cancellationToken = default)
 	{
 		var balances = await _nordigenHttpClient
-			.GetAsJson<BalancesWrapper>(Routes.Accounts.BalancesUri(id), cancellationToken)
+			.Get<BalancesWrapper>(Routes.Accounts.BalancesUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return balances!.Balances;
@@ -47,7 +47,7 @@ public sealed class AccountClient : IAccountClient
 	public async Task<AccountDetails> GetDetails(Guid id, CancellationToken cancellationToken = default)
 	{
 		var details = await _nordigenHttpClient
-			.GetAsJson<AccountDetailsWrapper>(Routes.Accounts.DetailsUri(id), cancellationToken)
+			.Get<AccountDetailsWrapper>(Routes.Accounts.DetailsUri(id), cancellationToken)
 			.ConfigureAwait(false);
 
 		return details!.Account;
@@ -62,7 +62,7 @@ public sealed class AccountClient : IAccountClient
 		var uri = Routes.Accounts.TransactionsUri(id, interval);
 
 		var transactions = await _nordigenHttpClient
-			.GetAsJson<TransactionsWrapper>(uri, cancellationToken)
+			.Get<TransactionsWrapper>(uri, cancellationToken)
 			.ConfigureAwait(false);
 
 		return transactions!.Transactions;
