@@ -4,7 +4,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 using JetBrains.Annotations;
 
@@ -27,6 +29,15 @@ namespace VMelnalksnis.NordigenDotNet.DependencyInjection;
 [PublicAPI]
 public static class ServiceCollectionExtensions
 {
+	private static readonly ProductInfoHeaderValue _userAgent;
+
+	static ServiceCollectionExtensions()
+	{
+		var assemblyName = typeof(INordigenClient).Assembly.GetName();
+		var assemblyShortName = assemblyName.Name ?? assemblyName.FullName.Split(',').First();
+		_userAgent = new(assemblyShortName, assemblyName.Version?.ToString());
+	}
+
 	/// <summary>Adds all required services for <see cref="INordigenClient"/>.</summary>
 	/// <param name="serviceCollection">The service collection in which to register the services.</param>
 	/// <param name="configuration">The configuration to which to bind options models.</param>
@@ -75,15 +86,6 @@ public static class ServiceCollectionExtensions
 	private static void ConfigureNordigenClient(IServiceProvider provider, HttpClient client)
 	{
 		client.BaseAddress = provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue.BaseAddress;
-
-		var assembly = typeof(INordigenClient).Assembly.GetName();
-
-		var assemblyName = assembly.Name ??
-			throw new InvalidOperationException($"Assembly {assembly.FullName} name is not specified");
-
-		var assemblyVersion = assembly.Version ??
-			throw new InvalidOperationException($"Assembly {assembly.FullName} version is not specified");
-
-		client.DefaultRequestHeaders.UserAgent.Add(new(assemblyName, assemblyVersion.ToString()));
+		client.DefaultRequestHeaders.UserAgent.Add(_userAgent);
 	}
 }
