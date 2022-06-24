@@ -24,7 +24,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 	public AccountClientTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
 		_testOutputHelper = testOutputHelper;
-		_nordigenClient = serviceProviderFixture.NordigenClient;
+		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
 
 		_requisition = GetRequisition().GetAwaiter().GetResult();
 	}

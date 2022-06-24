@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 using NodaTime.Testing;
 
+using Xunit.Abstractions;
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Tokens;
 
 public sealed class TokenDelegatingHandlerTests : IClassFixture<ServiceProviderFixture>
@@ -14,10 +16,10 @@ public sealed class TokenDelegatingHandlerTests : IClassFixture<ServiceProviderF
 	private readonly FakeClock _fakeClock;
 	private readonly INordigenClient _nordigenClient;
 
-	public TokenDelegatingHandlerTests(ServiceProviderFixture serviceProviderFixture)
+	public TokenDelegatingHandlerTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
 		_fakeClock = serviceProviderFixture.Clock;
-		_nordigenClient = serviceProviderFixture.NordigenClient;
+		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
 	}
 
 	[Theory]

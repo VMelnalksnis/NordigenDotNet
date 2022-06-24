@@ -5,15 +5,17 @@
 using System;
 using System.Threading.Tasks;
 
+using Xunit.Abstractions;
+
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Institutions;
 
 public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixture>
 {
 	private readonly INordigenClient _nordigenClient;
 
-	public InstitutionClientTests(ServiceProviderFixture serviceProviderFixture)
+	public InstitutionClientTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
-		_nordigenClient = serviceProviderFixture.NordigenClient;
+		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
 	}
 
 	[Fact]

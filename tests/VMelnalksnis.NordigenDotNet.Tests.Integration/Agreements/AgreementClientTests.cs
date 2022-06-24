@@ -11,6 +11,8 @@ using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Agreements;
 
+using Xunit.Abstractions;
+
 using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Agreements;
@@ -19,9 +21,9 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 {
 	private readonly INordigenClient _nordigenClient;
 
-	public AgreementClientTests(ServiceProviderFixture serviceProviderFixture)
+	public AgreementClientTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
-		_nordigenClient = serviceProviderFixture.NordigenClient;
+		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
 	}
 
 	[Fact]

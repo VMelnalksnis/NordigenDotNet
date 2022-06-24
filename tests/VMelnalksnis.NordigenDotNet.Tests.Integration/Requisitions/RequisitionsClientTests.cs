@@ -2,14 +2,18 @@
 // Licensed under the Apache License 2.0.
 // See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Requisitions;
+
+using Xunit.Abstractions;
 
 using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
 
@@ -19,9 +23,31 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 {
 	private readonly INordigenClient _nordigenClient;
 
-	public RequisitionsClientTests(ServiceProviderFixture serviceProviderFixture)
+	public RequisitionsClientTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
-		_nordigenClient = serviceProviderFixture.NordigenClient;
+		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
+	}
+
+	[Fact]
+	public async Task Get_ShouldPaginateCorrectly()
+	{
+		var requisitions = await _nordigenClient.Requisitions.Get(1).ToListAsync();
+		requisitions.Should().HaveCountGreaterThan(1);
+	}
+
+	[Fact]
+	public async Task Get_ShouldRespectCancellationToken()
+	{
+		var source = new CancellationTokenSource();
+		var requisitions = new List<Requisition>();
+
+		await foreach (var requisition in _nordigenClient.Requisitions.Get(1, source.Token))
+		{
+			requisitions.Add(requisition);
+			source.Cancel();
+		}
+
+		requisitions.Should().ContainSingle();
 	}
 
 	[Fact]
