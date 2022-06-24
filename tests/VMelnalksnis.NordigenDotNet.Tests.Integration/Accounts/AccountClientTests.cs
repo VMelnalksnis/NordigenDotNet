@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using NodaTime;
 
-using VMelnalksnis.NordigenDotNet.Accounts;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
 using Xunit.Abstractions;
@@ -45,7 +44,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 			account.LastAccessed.Should().BeGreaterThan(currentInstant - Duration.FromMinutes(1));
 			account.Iban.Should().Be("GL3343697694912188");
 			account.InstitutionId.Should().Be(IntegrationInstitutionId);
-			account.Status.Should().Be(AccountStatus.Ready);
+			account.Status.Should().BeDefined();
 		}
 	}
 
@@ -92,7 +91,11 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 	{
 		var id = _requisition.Accounts.First();
 
-		var dateTo = SystemClock.Instance.GetCurrentInstant();
+		var currentInstant = SystemClock.Instance.GetCurrentInstant();
+		var currentZone = DateTimeZoneProviders.Tzdb.GetSystemDefault();
+		var currentDate = currentInstant.InZone(currentZone).Date;
+
+		var dateTo = currentInstant;
 		var dateFrom = dateTo - Duration.FromDays(7);
 		var transactions = await _nordigenClient.Accounts.GetTransactions(id, new Interval(dateFrom, dateTo));
 		var allTransactions = await _nordigenClient.Accounts.GetTransactions(id);
@@ -107,7 +110,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 			pendingTransaction.TransactionAmount.Currency.Should().Be("EUR");
 			pendingTransaction.TransactionAmount.Amount.Should().Be(10m);
 			pendingTransaction.UnstructuredInformation.Should().Be("Reserved PAYMENT Emperor's Burgers");
-			pendingTransaction.ValueDate.Should().Be(new LocalDate(2022, 06, 21));
+			pendingTransaction.ValueDate.Should().Be(currentDate - Period.FromDays(2));
 
 			var bookedTransaction = transactions.Booked.Single(transaction => transaction.TransactionId is "2022062201927902-1");
 			bookedTransaction.TransactionAmount.Currency.Should().Be("EUR");
