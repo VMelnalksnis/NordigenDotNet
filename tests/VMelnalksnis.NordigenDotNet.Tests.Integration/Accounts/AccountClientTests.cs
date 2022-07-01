@@ -112,13 +112,15 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 			pendingTransaction.UnstructuredInformation.Should().Be("Reserved PAYMENT Emperor's Burgers");
 			pendingTransaction.ValueDate.Should().Be(currentDate - Period.FromDays(2));
 
-			var bookedTransaction = transactions.Booked.Single(transaction => transaction.TransactionId is "2022062201927902-1");
+			var date = currentDate - Period.FromDays(1);
+			var transactionId = $"{date:yyyyMMdd}01927908-1";
+			var bookedTransaction = transactions.Booked.First(transaction => transaction.TransactionId == transactionId);
 			bookedTransaction.TransactionAmount.Currency.Should().Be("EUR");
 			bookedTransaction.TransactionAmount.Amount.Should().Be(-15);
 			bookedTransaction.UnstructuredInformation.Should().Be("PAYMENT Alderaan Coffe");
-			bookedTransaction.ValueDate.Should().Be(new LocalDate(2022, 06, 22));
-			bookedTransaction.TransactionId.Should().Be("2022062201927902-1");
-			bookedTransaction.BookingDate.Should().Be(new(2022, 06, 22));
+			bookedTransaction.ValueDate.Should().Be(date);
+			bookedTransaction.TransactionId.Should().Be(transactionId);
+			bookedTransaction.BookingDate.Should().Be(date);
 			bookedTransaction.DebtorName.Should().BeNull();
 			bookedTransaction.DebtorAccount.Should().BeNull();
 			bookedTransaction.CreditorName.Should().BeNull();
