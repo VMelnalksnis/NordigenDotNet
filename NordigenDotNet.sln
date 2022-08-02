@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\test.yml = .github\workflows\test.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
+		.github\workflows\nuget-vulnerabilities.yml = .github\workflows\nuget-vulnerabilities.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMelnalksnis.NordigenDotNet.Tests", "tests\VMelnalksnis.NordigenDotNet.Tests\VMelnalksnis.NordigenDotNet.Tests.csproj", "{B01186E2-7A80-4117-BC89-C345B0221ECE}"
