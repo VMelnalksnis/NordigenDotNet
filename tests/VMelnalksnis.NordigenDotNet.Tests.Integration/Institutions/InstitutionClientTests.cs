@@ -23,7 +23,7 @@ public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixtur
 	{
 		var institutions = await _nordigenClient.Institutions.GetByCountry("LV");
 
-		institutions.Count.Should().Be(17);
+		institutions.Count.Should().Be(16);
 		var expectedInstitution = institutions.Should().ContainSingle(i => i.Id == "CITADELE_PARXLV22").Subject;
 
 		var institution = await _nordigenClient.Institutions.Get(expectedInstitution.Id);
