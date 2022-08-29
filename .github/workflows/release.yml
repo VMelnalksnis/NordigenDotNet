@@ -5,6 +5,11 @@ on:
     branches: [ master ]
     tags: [ v*.*.* ]
 
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
 jobs:
   build-artifacts:
     strategy:
@@ -14,11 +19,6 @@ jobs:
           - VMelnalksnis.NordigenDotNet.DependencyInjection
     
     runs-on: ubuntu-latest
-    env:
-      DOTNET_NOLOGO: true
-      DOTNET_CLI_TELEMETRY_OPTOUT: true
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-
     steps:
       - uses: actions/checkout@v3.0.2
 

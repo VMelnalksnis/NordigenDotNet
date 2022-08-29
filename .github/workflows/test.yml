@@ -8,15 +8,15 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
 jobs:
   run-tests:
     name: Run tests
     runs-on: ubuntu-latest
-    env:
-      DOTNET_NOLOGO: true
-      DOTNET_CLI_TELEMETRY_OPTOUT: true
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-
     steps:
       - uses: actions/checkout@v3.0.2
 
@@ -29,7 +29,13 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore /nologo /clp:NoSummary
+        run: >
+          dotnet build
+          --configuration Release
+          --no-restore
+          /warnAsError
+          /nologo
+          /clp:NoSummary
 
       - name: Run Tests
         run: >
@@ -47,6 +53,8 @@ jobs:
         uses: VMelnalksnis/resharper-inspect-action@v0.2.3
         with:
           solution: NordigenDotNet.sln
+          resharper-version: 2022.1.2
+          treat-warnings-as-errors: true
 
       - name: Gather Code Coverage
         if: github.event.schedule == null
