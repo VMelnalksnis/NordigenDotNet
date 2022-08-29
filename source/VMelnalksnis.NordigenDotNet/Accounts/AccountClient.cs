@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,30 +17,29 @@ namespace VMelnalksnis.NordigenDotNet.Accounts;
 /// <inheritdoc />
 public sealed class AccountClient : IAccountClient
 {
-	private readonly NordigenHttpClient _nordigenHttpClient;
+	private readonly HttpClient _httpClient;
+	private readonly NordigenSerializationContext _context;
 
 	/// <summary>Initializes a new instance of the <see cref="AccountClient"/> class.</summary>
-	/// <param name="nordigenHttpClient">Http client configured for making requests to the Nordigen API.</param>
-	public AccountClient(NordigenHttpClient nordigenHttpClient)
+	/// <param name="httpClient">Http client configured for making requests to the Nordigen API.</param>
+	/// <param name="serializerOptions">Nordigen specific instance of <see cref="JsonSerializerOptions"/>.</param>
+	public AccountClient(HttpClient httpClient, NordigenJsonSerializerOptions serializerOptions)
 	{
-		_nordigenHttpClient = nordigenHttpClient;
+		_httpClient = httpClient;
+		_context = serializerOptions.Context;
 	}
 
 	/// <inheritdoc />
-	public async Task<Account> Get(Guid id, CancellationToken cancellationToken = default)
+	public Task<Account> Get(Guid id, CancellationToken cancellationToken = default)
 	{
-		var account = await _nordigenHttpClient
-			.Get<Account>(Routes.Accounts.IdUri(id), cancellationToken)
-			.ConfigureAwait(false);
-
-		return account!;
+		return _httpClient.GetFromJsonAsync(Routes.Accounts.IdUri(id), _context.Account, cancellationToken)!;
 	}
 
 	/// <inheritdoc />
 	public async Task<List<Balance>> GetBalances(Guid id, CancellationToken cancellationToken = default)
 	{
-		var balances = await _nordigenHttpClient
-			.Get<BalancesWrapper>(Routes.Accounts.BalancesUri(id), cancellationToken)
+		var balances = await _httpClient
+			.GetFromJsonAsync(Routes.Accounts.BalancesUri(id), _context.BalancesWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return balances!.Balances;
@@ -46,8 +48,8 @@ public sealed class AccountClient : IAccountClient
 	/// <inheritdoc />
 	public async Task<AccountDetails> GetDetails(Guid id, CancellationToken cancellationToken = default)
 	{
-		var details = await _nordigenHttpClient
-			.Get<AccountDetailsWrapper>(Routes.Accounts.DetailsUri(id), cancellationToken)
+		var details = await _httpClient
+			.GetFromJsonAsync(Routes.Accounts.DetailsUri(id), _context.AccountDetailsWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return details!.Account;
@@ -59,10 +61,8 @@ public sealed class AccountClient : IAccountClient
 		Interval? interval = null,
 		CancellationToken cancellationToken = default)
 	{
-		var uri = Routes.Accounts.TransactionsUri(id, interval);
-
-		var transactions = await _nordigenHttpClient
-			.Get<TransactionsWrapper>(uri, cancellationToken)
+		var transactions = await _httpClient
+			.GetFromJsonAsync(Routes.Accounts.TransactionsUri(id, interval), _context.TransactionsWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return transactions!.Transactions;

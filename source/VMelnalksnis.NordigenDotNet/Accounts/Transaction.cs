@@ -6,17 +6,18 @@ using System.Text.Json.Serialization;
 
 using NodaTime;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>Common information for all transactions.</summary>
-/// <param name="TransactionAmount">The amount transferred in this transaction.</param>
-/// <param name="UnstructuredInformation">Unstructured information about the transaction, usually added by the debtor.</param>
-public abstract record Transaction(
-	AmountInCurrency TransactionAmount,
-	[property: JsonPropertyName("remittanceInformationUnstructured")] string UnstructuredInformation)
+public abstract record Transaction
 {
-	/// <summary>The date when the transaction was valued at.</summary>
-	public LocalDate? ValueDate { get; init; }
+	/// <summary>Gets or sets the amount transferred in this transaction.</summary>
+	public AmountInCurrency TransactionAmount { get; set; } = null!;
+
+	/// <summary>Gets or sets unstructured information about the transaction, usually added by the debtor.</summary>
+	[JsonPropertyName("remittanceInformationUnstructured")]
+	public string UnstructuredInformation { get; set; } = null!;
+
+	/// <summary>Gets or sets the date when the transaction was valued at.</summary>
+	public LocalDate? ValueDate { get; set; }
 }

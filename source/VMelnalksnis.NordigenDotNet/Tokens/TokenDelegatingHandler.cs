@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace VMelnalksnis.NordigenDotNet.Tokens;
 
-/// <summary>Handles authorization tokens for <see cref="NordigenHttpClient"/>.</summary>
+/// <summary>Handles authorization tokens for <see cref="INordigenClient"/>.</summary>
 public sealed class TokenDelegatingHandler : DelegatingHandler
 {
 	private static readonly TokenSerializationContext _context = new(new(JsonSerializerDefaults.Web));

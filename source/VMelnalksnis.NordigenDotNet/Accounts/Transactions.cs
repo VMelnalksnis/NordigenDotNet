@@ -7,8 +7,16 @@ using System.Collections.Generic;
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>All transactions of an account.</summary>
-/// <param name="Booked">All transactions that have been booked.</param>
-/// <param name="Pending">All transaction that are still pending.</param>
-public record Transactions(List<BookedTransaction> Booked, List<PendingTransaction> Pending);
+public record Transactions
+{
+	/// <summary>Gets or sets all transactions that have been booked.</summary>
+	public List<BookedTransaction> Booked { get; set; } = null!;
 
-internal record TransactionsWrapper(Transactions Transactions);
+	/// <summary>Gets or sets all transaction that are still pending.</summary>
+	public List<PendingTransaction> Pending { get; set; } = null!;
+}
+
+internal class TransactionsWrapper
+{
+	public Transactions Transactions { get; set; } = null!;
+}

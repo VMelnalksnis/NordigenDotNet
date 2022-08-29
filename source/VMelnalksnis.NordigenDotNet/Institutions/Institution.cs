@@ -9,16 +9,24 @@ using System.Text.Json.Serialization;
 namespace VMelnalksnis.NordigenDotNet.Institutions;
 
 /// <summary>Account servicing payment service provider details.</summary>
-/// <param name="Id">The id of the service provider.</param>
-/// <param name="Name">The name of the service provider.</param>
-/// <param name="Bic">The BIC of the service provider.</param>
-/// <param name="TransactionTotalDays">The maximum number of days in the past the service provider will return transactions for.</param>
-/// <param name="Countries">All the countries supported by the service provider.</param>
-/// <param name="Logo">URI to the service provider's logo.</param>
-public record Institution(
-	string Id,
-	string Name,
-	string Bic,
-	[property: JsonPropertyName("transaction_total_days")] int TransactionTotalDays,
-	List<string> Countries,
-	Uri Logo);
+public record Institution
+{
+	/// <summary>Gets or sets the id of the service provider.</summary>
+	public string Id { get; set; } = null!;
+
+	/// <summary>Gets or sets the name of the service provider.</summary>
+	public string Name { get; set; } = null!;
+
+	/// <summary>Gets or sets the BIC of the service provider.</summary>
+	public string Bic { get; set; } = null!;
+
+	/// <summary>Gets or sets the maximum number of days in the past the service provider will return transactions for.</summary>
+	[JsonPropertyName("transaction_total_days")]
+	public int TransactionTotalDays { get; set; }
+
+	/// <summary>Gets or sets all the countries supported by the service provider.</summary>
+	public List<string> Countries { get; set; } = null!;
+
+	/// <summary>Gets or sets uRI to the service provider's logo.</summary>
+	public Uri Logo { get; set; } = null!;
+}

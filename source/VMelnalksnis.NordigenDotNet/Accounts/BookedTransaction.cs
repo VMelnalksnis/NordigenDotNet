@@ -6,50 +6,45 @@ using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Institutions;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>A transaction that has been booked - posted to an account on the account servicer's books.</summary>
-/// <param name="TransactionAmount">The amount transferred in this transaction.</param>
-/// <param name="UnstructuredInformation">Unstructured information about the transaction, usually added by the debtor.</param>
-/// <param name="TransactionId">A unique transaction id created by the <see cref="Institution"/>.</param>
-/// <param name="BookingDate">The date when an entry is posted to an account on the account servicer's books.</param>
-public record BookedTransaction(
-		AmountInCurrency TransactionAmount,
-		string UnstructuredInformation,
-		string TransactionId,
-		LocalDate BookingDate)
-	: Transaction(TransactionAmount, UnstructuredInformation)
+public record BookedTransaction : Transaction
 {
-	/// <summary>The name of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
-	public string? DebtorName { get; init; }
+	/// <summary>Gets or sets a unique transaction id created by the <see cref="Institution"/>.</summary>
+	public string TransactionId { get; set; } = null!;
 
-	/// <summary>The account of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
-	public TransactionAccount? DebtorAccount { get; init; }
+	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
+	public LocalDate BookingDate { get; set; }
 
-	/// <summary>The name of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
-	public string? CreditorName { get; init; }
+	/// <summary>Gets or sets the name of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
+	public string? DebtorName { get; set; }
 
-	/// <summary>The account of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
-	public TransactionAccount? CreditorAccount { get; init; }
+	/// <summary>Gets or sets the account of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
+	public TransactionAccount? DebtorAccount { get; set; }
 
-	/// <summary>The ISO 20022 bank transaction code.</summary>
+	/// <summary>Gets or sets the name of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
+	public string? CreditorName { get; set; }
+
+	/// <summary>Gets or sets the account of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
+	public TransactionAccount? CreditorAccount { get; set; }
+
+	/// <summary>Gets or sets the ISO 20022 bank transaction code.</summary>
 	/// <example>Some example values:
 	/// <code>
 	/// PMNT-ICDT-STDO
 	/// PMNT-IRCT-STDO
 	/// </code></example>
-	public string? BankTransactionCode { get; init; }
+	public string? BankTransactionCode { get; set; }
 
-	/// <summary>A transaction id, used both by the transaction and any fees paid to the <see cref="Institution"/> for the transaction.</summary>
-	public string? EntryReference { get; init; }
+	/// <summary>Gets or sets a transaction id, used both by the transaction and any fees paid to the <see cref="Institution"/> for the transaction.</summary>
+	public string? EntryReference { get; set; }
 
-	/// <summary>Additional structured information about the transaction from the institution.</summary>
+	/// <summary>Gets or sets additional structured information about the transaction from the institution.</summary>
 	/// <example>
 	/// <code>
 	/// PURCHASE
 	/// INWARD TRANSFER
 	/// </code></example>
-	public string? AdditionalInformation { get; init; }
+	public string? AdditionalInformation { get; set; }
 }

@@ -7,5 +7,14 @@ using System.Collections.Generic;
 
 namespace VMelnalksnis.NordigenDotNet;
 
-internal sealed record PaginatedList<TResult>(int? Count, Uri? Next, Uri? Previous, List<TResult>? Results)
-	where TResult : class;
+internal sealed class PaginatedList<TResult>
+	where TResult : class
+{
+	public int? Count { get; set; }
+
+	public Uri? Next { get; set; }
+
+	public Uri? Previous { get; set; }
+
+	public List<TResult>? Results { get; set; }
+}

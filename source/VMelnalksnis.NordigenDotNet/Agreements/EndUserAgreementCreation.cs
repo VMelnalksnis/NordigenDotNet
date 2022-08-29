@@ -7,8 +7,6 @@ using System.Text.Json.Serialization;
 
 using VMelnalksnis.NordigenDotNet.Institutions;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Agreements;
 
 /// <summary>Details needed to create a new end-user agreement.</summary>
@@ -38,19 +36,19 @@ public record EndUserAgreementCreation
 	{
 	}
 
-	/// <summary>An <see cref="Institution"/> id for this agreement.</summary>
+	/// <summary>Gets an <see cref="Institution"/> id for this agreement.</summary>
 	[JsonPropertyName("institution_id")]
 	public string InstitutionId { get; }
 
-	/// <summary>Maximum number of days of transaction data to retrieve.</summary>
+	/// <summary>Gets maximum number of days of transaction data to retrieve.</summary>
 	[JsonPropertyName("max_historical_days")]
 	public int MaxHistoricalDays { get; }
 
-	/// <summary>Number of days from acceptance that the access can be used.</summary>
+	/// <summary>Gets number of days from acceptance that the access can be used.</summary>
 	[JsonPropertyName("access_valid_for_days")]
 	public int AccessValidForDays { get; }
 
-	/// <summary>Level of information to access.</summary>
+	/// <summary>Gets level of information to access.</summary>
 	[JsonPropertyName("access_scope")]
 	public List<string> AccessScope { get; }
 }

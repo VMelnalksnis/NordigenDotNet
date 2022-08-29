@@ -5,6 +5,11 @@
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>An amount in a specific currency.</summary>
-/// <param name="Currency">A ISO 4217 currency code.</param>
-/// <param name="Amount">The amount.</param>
-public record AmountInCurrency(string Currency, decimal Amount);
+public record AmountInCurrency
+{
+	/// <summary>Gets or sets a ISO 4217 currency code.</summary>
+	public string Currency { get; set; } = null!;
+
+	/// <summary>Gets or sets the amount.</summary>
+	public decimal Amount { get; set; }
+}

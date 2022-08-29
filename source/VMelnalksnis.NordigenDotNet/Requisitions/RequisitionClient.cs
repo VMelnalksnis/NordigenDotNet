@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,44 +15,49 @@ namespace VMelnalksnis.NordigenDotNet.Requisitions;
 /// <inheritdoc />
 public sealed class RequisitionClient : IRequisitionClient
 {
-	private readonly NordigenHttpClient _nordigenHttpClient;
+	private readonly HttpClient _httpClient;
+	private readonly NordigenSerializationContext _context;
 
 	/// <summary>Initializes a new instance of the <see cref="RequisitionClient"/> class.</summary>
-	/// <param name="nordigenHttpClient">Http client configured for making requests to the Nordigen API.</param>
-	public RequisitionClient(NordigenHttpClient nordigenHttpClient)
+	/// <param name="httpClient">Http client configured for making requests to the Nordigen API.</param>
+	/// <param name="serializerOptions">Nordigen specific instance of <see cref="JsonSerializerOptions"/>.</param>
+	public RequisitionClient(HttpClient httpClient, NordigenJsonSerializerOptions serializerOptions)
 	{
-		_nordigenHttpClient = nordigenHttpClient;
+		_httpClient = httpClient;
+		_context = serializerOptions.Context;
 	}
 
 	/// <inheritdoc />
 	public IAsyncEnumerable<Requisition> Get(int pageSize = 100, CancellationToken cancellationToken = default)
 	{
-		return _nordigenHttpClient.GetPaginated<Requisition>(Routes.Requisitions.PaginatedUri(pageSize), cancellationToken);
+		return _httpClient.GetPaginated(
+			Routes.Requisitions.PaginatedUri(pageSize),
+			_context.PaginatedListRequisition,
+			cancellationToken);
 	}
 
 	/// <inheritdoc />
-	public async Task<Requisition> Get(Guid id, CancellationToken cancellationToken = default)
+	public Task<Requisition> Get(Guid id, CancellationToken cancellationToken = default)
 	{
-		var requisition = await _nordigenHttpClient
-			.Get<Requisition>(Routes.Requisitions.IdUri(id), cancellationToken)
-			.ConfigureAwait(false);
-
-		return requisition!;
+		return _httpClient.GetFromJsonAsync(
+			Routes.Requisitions.IdUri(id),
+			_context.Requisition,
+			cancellationToken)!;
 	}
 
 	/// <inheritdoc />
-	public async Task<Requisition> Post(RequisitionCreation requisitionCreation)
+	public Task<Requisition> Post(RequisitionCreation requisitionCreation)
 	{
-		var requisition = await _nordigenHttpClient
-			.Post<RequisitionCreation, Requisition>(Routes.Requisitions.Uri, requisitionCreation)
-			.ConfigureAwait(false);
-
-		return requisition!;
+		return _httpClient.Post(
+			Routes.Requisitions.Uri,
+			requisitionCreation,
+			_context.RequisitionCreation,
+			_context.Requisition)!;
 	}
 
 	/// <inheritdoc />
 	public async Task Delete(Guid id)
 	{
-		await _nordigenHttpClient.Delete(Routes.Requisitions.IdUri(id)).ConfigureAwait(false);
+		await _httpClient.Delete(Routes.Requisitions.IdUri(id)).ConfigureAwait(false);
 	}
 }

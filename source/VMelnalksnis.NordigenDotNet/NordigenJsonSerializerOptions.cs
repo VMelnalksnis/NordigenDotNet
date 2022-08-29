@@ -10,18 +10,20 @@ using NodaTime.Serialization.SystemTextJson;
 
 namespace VMelnalksnis.NordigenDotNet;
 
-/// <summary><see cref="JsonSerializerOptions"/> for <see cref="NordigenHttpClient"/>.</summary>
+/// <summary><see cref="JsonSerializerOptions"/> for <see cref="INordigenClient"/>.</summary>
 public sealed class NordigenJsonSerializerOptions
 {
 	/// <summary>Initializes a new instance of the <see cref="NordigenJsonSerializerOptions"/> class.</summary>
 	/// <param name="dateTimeZoneProvider">Time zone provider for date and time serialization.</param>
 	public NordigenJsonSerializerOptions(IDateTimeZoneProvider dateTimeZoneProvider)
 	{
-		Options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+		var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
 		{
 			Converters = { new JsonStringEnumConverter() },
 		}.ConfigureForNodaTime(dateTimeZoneProvider);
+
+		Context = new(options);
 	}
 
-	internal JsonSerializerOptions Options { get; }
+	internal NordigenSerializationContext Context { get; }
 }

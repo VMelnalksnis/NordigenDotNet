@@ -8,45 +8,56 @@ using System.Text.Json.Serialization;
 
 using NodaTime;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Requisitions;
 
 /// <summary>A request to access a user's account details from a single institution.</summary>
-/// <param name="Id">The id of the requisition.</param>
-/// <param name="Created">The point in time when the requisition was created.</param>
-/// <param name="Redirect">The URI to which the user will be redirected after authorizing access.</param>
-/// <param name="Status">The status of the requisition.</param>
-/// <param name="InstitutionId">The ID of the institution for which this requisition was made for.</param>
-/// <param name="Reference">Client specified reference for this requisition.</param>
-/// <param name="Accounts">Accounts retrieved within the scope of this requisition.</param>
-/// <param name="Link">URI to initiate the authorization with the institution.</param>
-/// <param name="AccountSelection">Whether to enable account selection view for the end user (if the institution supports it).</param>
-/// <param name="RedirectImmediate">Whether to enable redirect back to the client after account list is received.</param>
-public record Requisition(
-	Guid Id,
-	Instant Created,
-	Uri Redirect,
-	RequisitionStatus Status,
-	[property: JsonPropertyName("institution_id")] string InstitutionId,
-	string Reference,
-	List<Guid> Accounts,
-	Uri Link,
-	[property: JsonPropertyName("account_selection")] bool AccountSelection,
-	[property: JsonPropertyName("redirect_immediate")] bool RedirectImmediate)
+public record Requisition
 {
-	/// <summary>The raw value of <see cref="Agreement"/>.</summary>
-	[JsonPropertyName("agreement")]
-	public string? AgreementValue { get; init; }
+	/// <summary>Gets or sets the id of the requisition.</summary>
+	public Guid Id { get; set; }
 
-	/// <summary>The end-user-agreement of this requisition.</summary>
+	/// <summary>Gets or sets the point in time when the requisition was created.</summary>
+	public Instant Created { get; set; }
+
+	/// <summary>Gets or sets the URI to which the user will be redirected after authorizing access.</summary>
+	public Uri Redirect { get; set; } = null!;
+
+	/// <summary>Gets or sets the status of the requisition.</summary>
+	public RequisitionStatus Status { get; set; }
+
+	/// <summary>Gets or sets the ID of the institution for which this requisition was made for.</summary>
+	[JsonPropertyName("institution_id")]
+	public string InstitutionId { get; set; } = null!;
+
+	/// <summary>Gets or sets client specified reference for this requisition.</summary>
+	public string Reference { get; set; } = null!;
+
+	/// <summary>Gets or sets accounts retrieved within the scope of this requisition.</summary>
+	public List<Guid> Accounts { get; set; } = null!;
+
+	/// <summary>Gets or sets uRI to initiate the authorization with the institution.</summary>
+	public Uri Link { get; set; } = null!;
+
+	/// <summary>Gets or sets a value indicating whether whether to enable account selection view for the end user (if the institution supports it).</summary>
+	[JsonPropertyName("account_selection")]
+	public bool AccountSelection { get; set; }
+
+	/// <summary>Gets or sets a value indicating whether whether to enable redirect back to the client after account list is received.</summary>
+	[JsonPropertyName("redirect_immediate")]
+	public bool RedirectImmediate { get; set; }
+
+	/// <summary>Gets or sets the raw value of <see cref="Agreement"/>.</summary>
+	[JsonPropertyName("agreement")]
+	public string? AgreementValue { get; set; }
+
+	/// <summary>Gets the end-user-agreement of this requisition.</summary>
 	[JsonIgnore]
 	public Guid? Agreement => string.IsNullOrWhiteSpace(AgreementValue) ? null : Guid.Parse(AgreementValue);
 
-	/// <summary>A two-letter country code (ISO 639-1).</summary>
+	/// <summary>Gets or sets a two-letter country code (ISO 639-1).</summary>
 	[JsonPropertyName("user_language")]
-	public string? UserLanguage { get; init; }
+	public string? UserLanguage { get; set; }
 
-	/// <summary>Social security number for account ownership verification.</summary>
-	public string? Ssn { get; init; }
+	/// <summary>Gets or sets social security number for account ownership verification.</summary>
+	public string? Ssn { get; set; }
 }

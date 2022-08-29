@@ -75,12 +75,32 @@ public static class ServiceCollectionExtensions
 			.AddSingleton<NordigenTokenCache>()
 			.AddSingleton<NordigenJsonSerializerOptions>()
 			.AddTransient<INordigenClient, NordigenClient>()
-			.AddTransient<IAccountClient, AccountClient>()
-			.AddTransient<IAgreementClient, AgreementClient>()
-			.AddTransient<IInstitutionClient, InstitutionClient>()
-			.AddTransient<IRequisitionClient, RequisitionClient>()
+			.AddTransient<IAccountClient, AccountClient>(provider =>
+			{
+				var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient(NordigenOptions.SectionName);
+				var options = provider.GetRequiredService<NordigenJsonSerializerOptions>();
+				return new(httpClient, options);
+			})
+			.AddTransient<IAgreementClient, AgreementClient>(provider =>
+			{
+				var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient(NordigenOptions.SectionName);
+				var options = provider.GetRequiredService<NordigenJsonSerializerOptions>();
+				return new(httpClient, options);
+			})
+			.AddTransient<IInstitutionClient, InstitutionClient>(provider =>
+			{
+				var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient(NordigenOptions.SectionName);
+				var options = provider.GetRequiredService<NordigenJsonSerializerOptions>();
+				return new(httpClient, options);
+			})
+			.AddTransient<IRequisitionClient, RequisitionClient>(provider =>
+			{
+				var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient(NordigenOptions.SectionName);
+				var options = provider.GetRequiredService<NordigenJsonSerializerOptions>();
+				return new(httpClient, options);
+			})
 			.AddTransient(provider => provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue)
-			.AddHttpClient<NordigenHttpClient>(ConfigureNordigenClient)
+			.AddHttpClient(NordigenOptions.SectionName, ConfigureNordigenClient)
 			.AddHttpMessageHandler<TokenDelegatingHandler>();
 	}
 

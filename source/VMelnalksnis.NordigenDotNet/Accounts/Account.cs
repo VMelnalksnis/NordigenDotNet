@@ -12,16 +12,25 @@ using VMelnalksnis.NordigenDotNet.Institutions;
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>Information about the account record, such as the processing status and IBAN.</summary>
-/// <param name="Id">The ID of this Account, used to refer to this account in other API calls.</param>
-/// <param name="Created">The point in time when the account object was created.</param>
-/// <param name="LastAccessed">The point in time when the account object was last accessed.</param>
-/// <param name="Iban">The account IBAN.</param>
-/// <param name="InstitutionId">The id of the <see cref="Institution"/> associated with the account.</param>
-/// <param name="Status">The processing status of this account.</param>
-public record Account(
-	Guid Id,
-	Instant Created,
-	[property: JsonPropertyName("last_accessed")] Instant LastAccessed,
-	string Iban,
-	[property: JsonPropertyName("institution_id")] string InstitutionId,
-	AccountStatus Status);
+public record Account
+{
+	/// <summary>Gets or sets the id of this Account, used to refer to this account in other API calls.</summary>
+	public Guid Id { get; set; }
+
+	/// <summary>Gets or sets the point in time when the account object was created.</summary>
+	public Instant Created { get; set; }
+
+	/// <summary>Gets or sets the point in time when the account object was last accessed.</summary>
+	[JsonPropertyName("last_accessed")]
+	public Instant LastAccessed { get; set; }
+
+	/// <summary>Gets or sets the account IBAN.</summary>
+	public string Iban { get; set; } = null!;
+
+	/// <summary>Gets or sets the id of the <see cref="Institution"/> associated with the account.</summary>
+	[JsonPropertyName("institution_id")]
+	public string InstitutionId { get; set; } = null!;
+
+	/// <summary>Gets or sets the processing status of this account.</summary>
+	public AccountStatus Status { get; set; }
+}

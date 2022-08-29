@@ -6,18 +6,25 @@ using System.Collections.Generic;
 
 using NodaTime;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>Account balance.</summary>
-/// <param name="BalanceAmount">The balance amount.</param>
-/// <param name="BalanceType">The balance type.</param>
-/// <param name="CreditLimitIncluded">Whether the credit limit is included in <paramref name="BalanceAmount"/>.</param>
-public record Balance(AmountInCurrency BalanceAmount, string BalanceType, bool CreditLimitIncluded)
+public record Balance
 {
-	/// <summary>The date on which the balance was calculated.</summary>
-	public LocalDate? ReferenceDate { get; init; }
+	/// <summary>Gets or sets the balance amount.</summary>
+	public AmountInCurrency BalanceAmount { get; set; } = null!;
+
+	/// <summary>Gets or sets the balance type.</summary>
+	public string BalanceType { get; set; } = null!;
+
+	/// <summary>Gets or sets a value indicating whether whether the credit limit is included in <see cref="BalanceAmount"/>.</summary>
+	public bool CreditLimitIncluded { get; set; }
+
+	/// <summary>Gets or sets the date on which the balance was calculated.</summary>
+	public LocalDate? ReferenceDate { get; set; }
 }
 
-internal record BalancesWrapper(List<Balance> Balances);
+internal class BalancesWrapper
+{
+	public List<Balance> Balances { get; set; } = null!;
+}

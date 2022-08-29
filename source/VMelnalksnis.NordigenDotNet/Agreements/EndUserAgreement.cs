@@ -10,25 +10,33 @@ using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Institutions;
 
-#pragma warning disable SA1623
-
 namespace VMelnalksnis.NordigenDotNet.Agreements;
 
 /// <summary>Details the end-user has agreement to share from a specific institution.</summary>
-/// <param name="Id">The id of the end-user agreement.</param>
-/// <param name="Created">The point in time when the agreement was created.</param>
-/// <param name="MaxHistoricalDays">Maximum number of days of transaction data to retrieve.</param>
-/// <param name="AccessValidForDays">Number of days from acceptance that the access can be used.</param>
-/// <param name="AccessScope">Level of information to access.</param>
-/// <param name="InstitutionId">An <see cref="Institution"/> ID for the agreement.</param>
-public record EndUserAgreement(
-	Guid Id,
-	Instant Created,
-	[property: JsonPropertyName("max_historical_days")] int MaxHistoricalDays,
-	[property: JsonPropertyName("access_valid_for_days")] int AccessValidForDays,
-	[property: JsonPropertyName("access_scope")] List<string> AccessScope,
-	[property: JsonPropertyName("institution_id")] string InstitutionId)
+public record EndUserAgreement
 {
-	/// <summary>The point int time when the end user accepted the agreement.</summary>
-	public Instant? Accepted { get; init; }
+	/// <summary>Gets or sets the id of the end-user agreement.</summary>
+	public Guid Id { get; set; }
+
+	/// <summary>Gets or sets the point in time when the agreement was created.</summary>
+	public Instant Created { get; set; }
+
+	/// <summary>Gets or sets maximum number of days of transaction data to retrieve.</summary>
+	[JsonPropertyName("max_historical_days")]
+	public int MaxHistoricalDays { get; set; }
+
+	/// <summary>Gets or sets number of days from acceptance that the access can be used.</summary>
+	[JsonPropertyName("access_valid_for_days")]
+	public int AccessValidForDays { get; set; }
+
+	/// <summary>Gets or sets level of information to access.</summary>
+	[JsonPropertyName("access_scope")]
+	public List<string> AccessScope { get; set; } = null!;
+
+	/// <summary>Gets or sets an <see cref="Institution"/> ID for the agreement.</summary>
+	[JsonPropertyName("institution_id")]
+	public string InstitutionId { get; set; } = null!;
+
+	/// <summary>Gets or sets the point int time when the end user accepted the agreement.</summary>
+	public Instant? Accepted { get; set; }
 }

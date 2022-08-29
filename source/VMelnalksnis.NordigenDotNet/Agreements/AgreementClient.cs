@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,54 +15,56 @@ namespace VMelnalksnis.NordigenDotNet.Agreements;
 /// <inheritdoc />
 public sealed class AgreementClient : IAgreementClient
 {
-	private readonly NordigenHttpClient _nordigenHttpClient;
+	private readonly HttpClient _httpClient;
+	private readonly NordigenSerializationContext _context;
 
 	/// <summary>Initializes a new instance of the <see cref="AgreementClient"/> class.</summary>
-	/// <param name="nordigenHttpClient">Http client configured for making requests to the Nordigen API.</param>
-	public AgreementClient(NordigenHttpClient nordigenHttpClient)
+	/// <param name="httpClient">Http client configured for making requests to the Nordigen API.</param>
+	/// <param name="serializerOptions">Nordigen specific instance of <see cref="JsonSerializerOptions"/>.</param>
+	public AgreementClient(HttpClient httpClient, NordigenJsonSerializerOptions serializerOptions)
 	{
-		_nordigenHttpClient = nordigenHttpClient;
+		_httpClient = httpClient;
+		_context = serializerOptions.Context;
 	}
 
 	/// <inheritdoc />
 	public IAsyncEnumerable<EndUserAgreement> Get(int pageSize = 100, CancellationToken cancellationToken = default)
 	{
-		return _nordigenHttpClient.GetPaginated<EndUserAgreement>(Routes.Agreements.PaginatedUri(100), cancellationToken);
+		return _httpClient.GetPaginated(
+			Routes.Agreements.PaginatedUri(pageSize),
+			_context.PaginatedListEndUserAgreement,
+			cancellationToken);
 	}
 
 	/// <inheritdoc />
-	public async Task<EndUserAgreement> Get(Guid id, CancellationToken cancellationToken = default)
+	public Task<EndUserAgreement> Get(Guid id, CancellationToken cancellationToken = default)
 	{
-		var agreement = await _nordigenHttpClient
-			.Get<EndUserAgreement>(Routes.Agreements.IdUri(id), cancellationToken)
-			.ConfigureAwait(false);
-
-		return agreement!;
+		return _httpClient.GetFromJsonAsync(Routes.Agreements.IdUri(id), _context.EndUserAgreement, cancellationToken)!;
 	}
 
 	/// <inheritdoc />
-	public async Task<EndUserAgreement> Post(EndUserAgreementCreation agreementCreation)
+	public Task<EndUserAgreement> Post(EndUserAgreementCreation agreementCreation)
 	{
-		var agreement = await _nordigenHttpClient
-			.Post<EndUserAgreementCreation, EndUserAgreement>(Routes.Agreements.Uri, agreementCreation)
-			.ConfigureAwait(false);
-
-		return agreement!;
+		return _httpClient.Post(
+			Routes.Agreements.Uri,
+			agreementCreation,
+			_context.EndUserAgreementCreation,
+			_context.EndUserAgreement)!;
 	}
 
 	/// <inheritdoc />
-	public async Task Delete(Guid id)
+	public Task Delete(Guid id)
 	{
-		await _nordigenHttpClient.Delete(Routes.Agreements.IdUri(id)).ConfigureAwait(false);
+		return _httpClient.Delete(Routes.Agreements.IdUri(id));
 	}
 
 	/// <inheritdoc />
-	public async Task<EndUserAgreement> Put(Guid id, EndUserAgreementAcceptance acceptance)
+	public Task<EndUserAgreement> Put(Guid id, EndUserAgreementAcceptance acceptance)
 	{
-		var agreement = await _nordigenHttpClient
-			.Put<EndUserAgreementAcceptance, EndUserAgreement>(Routes.Agreements.AcceptUri(id), acceptance)
-			.ConfigureAwait(false);
-
-		return agreement!;
+		return _httpClient.Put(
+			Routes.Agreements.AcceptUri(id),
+			acceptance,
+			_context.EndUserAgreementAcceptance,
+			_context.EndUserAgreement)!;
 	}
 }
