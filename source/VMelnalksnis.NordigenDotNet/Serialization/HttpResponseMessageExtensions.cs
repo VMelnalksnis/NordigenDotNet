@@ -5,7 +5,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace VMelnalksnis.NordigenDotNet;
+namespace VMelnalksnis.NordigenDotNet.Serialization;
 
 internal static class HttpResponseMessageExtensions
 {

@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VMelnalksnis.NordigenDotNet;
+namespace VMelnalksnis.NordigenDotNet.Serialization;
 
 internal sealed class PaginatedList<TResult>
 	where TResult : class

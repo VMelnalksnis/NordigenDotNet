@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 using NodaTime;
 
+using VMelnalksnis.NordigenDotNet.Serialization;
+
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <inheritdoc />

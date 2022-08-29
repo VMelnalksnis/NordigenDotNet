@@ -10,7 +10,7 @@ using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.Institutions;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
-namespace VMelnalksnis.NordigenDotNet;
+namespace VMelnalksnis.NordigenDotNet.Serialization;
 
 /// <inheritdoc />
 [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, IgnoreReadOnlyProperties = true)]
@@ -18,13 +18,10 @@ namespace VMelnalksnis.NordigenDotNet;
 [JsonSerializable(typeof(AccountDetailsWrapper))]
 [JsonSerializable(typeof(BalancesWrapper))]
 [JsonSerializable(typeof(TransactionsWrapper))]
-[JsonSerializable(typeof(EndUserAgreement))]
 [JsonSerializable(typeof(PaginatedList<EndUserAgreement>))]
 [JsonSerializable(typeof(EndUserAgreementAcceptance))]
 [JsonSerializable(typeof(EndUserAgreementCreation))]
-[JsonSerializable(typeof(Institution))]
 [JsonSerializable(typeof(List<Institution>))]
-[JsonSerializable(typeof(Requisition))]
 [JsonSerializable(typeof(PaginatedList<Requisition>))]
 [JsonSerializable(typeof(RequisitionCreation))]
 internal partial class NordigenSerializationContext : JsonSerializerContext

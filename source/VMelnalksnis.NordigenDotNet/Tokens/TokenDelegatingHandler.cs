@@ -9,6 +9,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using VMelnalksnis.NordigenDotNet.Serialization;
+
 namespace VMelnalksnis.NordigenDotNet.Tokens;
 
 /// <summary>Handles authorization tokens for <see cref="INordigenClient"/>.</summary>

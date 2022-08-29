@@ -21,6 +21,7 @@ using VMelnalksnis.NordigenDotNet.Accounts;
 using VMelnalksnis.NordigenDotNet.Agreements;
 using VMelnalksnis.NordigenDotNet.Institutions;
 using VMelnalksnis.NordigenDotNet.Requisitions;
+using VMelnalksnis.NordigenDotNet.Serialization;
 using VMelnalksnis.NordigenDotNet.Tokens;
 
 namespace VMelnalksnis.NordigenDotNet.DependencyInjection;
