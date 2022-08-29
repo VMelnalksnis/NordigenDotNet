@@ -40,7 +40,12 @@ public sealed class ServiceProviderFixture
 			.Build();
 
 		var serviceCollection = new ServiceCollection();
-		serviceCollection.AddNordigenDotNet(configuration, Clock, DateTimeZoneProviders.Tzdb);
+
+		serviceCollection
+			.AddSingleton<IClock>(Clock)
+			.AddSingleton(DateTimeZoneProviders.Tzdb)
+			.AddNordigenDotNet(configuration);
+
 		serviceCollection.AddLogging(builder =>
 		{
 			var logger = new LoggerConfiguration()

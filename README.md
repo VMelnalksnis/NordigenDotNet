@@ -17,31 +17,28 @@ For use outside of ASP.NET Core, see the
 [configuration](source/VMelnalksnis.NordigenDotNet.DependencyInjection/ServiceCollectionExtensions.cs).
 
 1. Add configuration (for optional values see [options](source/VMelnalksnis.NordigenDotNet/NordigenOptions.cs))
+   ```yaml
+   "Nordigen": {
+       "SecretId": "",
+       "SecretKey": ""
+   }
+   ```
 
-```yaml
-"Nordigen": {
-    "SecretId": "",
-    "SecretKey": ""
-}
-```
-
-2. Register required services
-
-```csharp
-// Only registers services from NordigenDotNet
-services.AddNordigenDotNet(Configuration);
-// Also registers the IDateTimeZoneProvider, which is required
-serviceCollection.AddNordigenDotNet(Configuration, SystemClock.Instance, DateTimeZoneProviders.Tzdb);
-```
+2. Register required services (see [tests](tests/VMelnalksnis.NordigenDotNet.DependencyInjection.Tests/ServiceCollectionExtensionsTests.cs))
+   ```csharp
+   serviceCollection
+       .AddSingleton<IClock>(SystemClock.Instance)
+       .AddSingleton(DateTimeZoneProviders.Tzdb)
+       .AddNordigenDotNet(configuration);
+   ```
 
 3. (Optional) Configure retries
    with [Polly](https://github.com/App-vNext/Polly) ([NuGet package](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly))
-
-```csharp
-services
-	.AddNordigenDotNet(Configuration, SystemClock.Instance, DateTimeZoneProviders.Tzdb)
-	.AddPolicyHandler(...);
-```
+   ```csharp
+   serviceCollection
+       .AddNordigenDotNet(configuration)
+       .AddPolicyHandler(...);
+   ```
 
 4. Use `INordigenClient` to access all endpoints, or one of the specific clients defined in `INordigenClient`
 

@@ -12,10 +12,7 @@ using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-
-using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Accounts;
 using VMelnalksnis.NordigenDotNet.Agreements;
@@ -37,23 +34,6 @@ public static class ServiceCollectionExtensions
 		var assemblyName = typeof(INordigenClient).Assembly.GetName();
 		var assemblyShortName = assemblyName.Name ?? assemblyName.FullName.Split(',').First();
 		_userAgent = new(assemblyShortName, assemblyName.Version?.ToString());
-	}
-
-	/// <summary>Adds all required services for <see cref="INordigenClient"/>.</summary>
-	/// <param name="serviceCollection">The service collection in which to register the services.</param>
-	/// <param name="configuration">The configuration to which to bind options models.</param>
-	/// <param name="clock">Clock for accessing the current time.</param>
-	/// <param name="dateTimeZoneProvider">Time zone provider for date and time serialization.</param>
-	/// <returns>The <see cref="IHttpClientBuilder"/> for the <see cref="HttpClient"/> used by <see cref="INordigenClient"/>.</returns>
-	public static IHttpClientBuilder AddNordigenDotNet(
-		this IServiceCollection serviceCollection,
-		IConfiguration configuration,
-		IClock clock,
-		IDateTimeZoneProvider dateTimeZoneProvider)
-	{
-		serviceCollection.TryAddSingleton(clock);
-		serviceCollection.TryAddSingleton(dateTimeZoneProvider);
-		return serviceCollection.AddNordigenDotNet(configuration);
 	}
 
 	/// <summary>Adds all required services for <see cref="INordigenClient"/>, excluding external dependencies.</summary>
