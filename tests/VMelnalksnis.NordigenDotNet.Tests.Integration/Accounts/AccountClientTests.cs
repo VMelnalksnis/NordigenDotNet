@@ -133,8 +133,11 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 
 	private async Task<Requisition> GetRequisition()
 	{
-		var requisition = await _nordigenClient.Requisitions.Get().SingleOrDefaultAsync(r => r.InstitutionId is IntegrationInstitutionId);
-		if (requisition is not null && requisition.Status is not RequisitionStatus.Ex)
+		var requisition = await _nordigenClient.Requisitions.Get().SingleOrDefaultAsync(r =>
+			r.InstitutionId is IntegrationInstitutionId &&
+			r.Status is RequisitionStatus.Ln);
+
+		if (requisition is not null)
 		{
 			return requisition;
 		}
