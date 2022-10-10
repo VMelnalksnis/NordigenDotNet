@@ -50,7 +50,7 @@ jobs:
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
 
       - name: ReSharper annotations
-        uses: VMelnalksnis/resharper-inspect-action@v0.2.3
+        uses: VMelnalksnis/resharper-inspect-action@v0.2.4
         with:
           solution: NordigenDotNet.sln
           resharper-version: 2022.1.2
