@@ -18,7 +18,7 @@ public sealed class ServiceCollectionExtensionsTests
 	public void AddNordigenDotNet_ShouldRegisterRequiredServices()
 	{
 		var configuration = new ConfigurationBuilder()
-			.AddInMemoryCollection(new List<KeyValuePair<string, string>>
+			.AddInMemoryCollection(new List<KeyValuePair<string, string?>>
 			{
 				new($"{NordigenOptions.SectionName}:{nameof(NordigenOptions.SecretId)}", $"{Guid.NewGuid():D}"),
 				new($"{NordigenOptions.SectionName}:{nameof(NordigenOptions.SecretKey)}", $"{Guid.NewGuid():N}"),
