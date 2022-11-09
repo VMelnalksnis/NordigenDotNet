@@ -17,6 +17,10 @@ internal static class HttpResponseMessageExtensions
 		}
 
 		var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+#if NET6_0_OR_GREATER
 		throw new HttpRequestException(content, null, response.StatusCode);
+#else
+		throw new HttpRequestException(content);
+#endif
 	}
 }

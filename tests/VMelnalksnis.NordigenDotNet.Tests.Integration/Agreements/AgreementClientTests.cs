@@ -3,7 +3,6 @@
 // See LICENSE file in the project root for full license information.
 
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -12,6 +11,10 @@ using NodaTime;
 using VMelnalksnis.NordigenDotNet.Agreements;
 
 using Xunit.Abstractions;
+
+#if NET6_0_OR_GREATER
+using System.Net;
+#endif
 
 using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
 
@@ -57,8 +60,12 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 				.Awaiting(() => _nordigenClient.Agreements.Put(createdAgreement.Id, acceptance))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
+#if NET6_0_OR_GREATER
 			.Which.StatusCode.Should()
 			.Be(HttpStatusCode.Forbidden, "test company cannot create agreements");
+#else
+			.Which.Should().NotBeNull("test company cannot create agreements");
+#endif
 
 		await _nordigenClient.Agreements.Delete(createdAgreement.Id);
 
@@ -66,7 +73,11 @@ public sealed class AgreementClientTests : IClassFixture<ServiceProviderFixture>
 				.Awaiting(() => _nordigenClient.Agreements.Get(createdAgreement.Id))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
+#if NET6_0_OR_GREATER
 			.Which.StatusCode.Should()
 			.Be(HttpStatusCode.NotFound);
+#else
+			.Which.Should().NotBeNull("test company cannot create agreements");
+#endif
 	}
 }

@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\..\source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
 		<ProjectReference Include="..\..\source\VMelnalksnis.NordigenDotNet.DependencyInjection\VMelnalksnis.NordigenDotNet.DependencyInjection.csproj"/>

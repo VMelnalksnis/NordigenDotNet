@@ -40,7 +40,11 @@ public static class ServiceCollectionExtensions
 	/// <param name="serviceCollection">The service collection in which to register the services.</param>
 	/// <param name="configuration">The configuration to which to bind options models.</param>
 	/// <returns>The <see cref="IHttpClientBuilder"/> for the <see cref="HttpClient"/> used by <see cref="INordigenClient"/>.</returns>
+#if NET6_0_OR_GREATER
 	[UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026", Justification = $"{nameof(NordigenOptions)} contains only system types.")]
+#else
+	[SuppressMessage("Trimming", "IL2026", Justification = $"{nameof(NordigenOptions)} contains only system types.")]
+#endif
 	public static IHttpClientBuilder AddNordigenDotNet(
 		this IServiceCollection serviceCollection,
 		IConfiguration configuration)

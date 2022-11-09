@@ -87,8 +87,11 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 				.Awaiting(() => _nordigenClient.Requisitions.Get(requisition.Id))
 				.Should()
 				.ThrowExactlyAsync<HttpRequestException>())
-			.Which.StatusCode
-			.Should()
+#if NET6_0_OR_GREATER
+			.Which.StatusCode.Should()
 			.Be(HttpStatusCode.NotFound);
+#else
+			.Which.Should().NotBeNull("test company cannot create agreements");
+#endif
 	}
 }

@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-
 		<Product>VMelnalksnis.NordigenDotNet.DependencyInjection</Product>
 		<ProductId>VMelnalksnis.NordigenDotNet.DependencyInjection</ProductId>
 		<Description>Dependency injection configuration for VMelnalksnis.NordigenDotNet</Description>
