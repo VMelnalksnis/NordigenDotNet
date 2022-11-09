@@ -22,6 +22,7 @@ public record Institution
 
 	/// <summary>Gets or sets the maximum number of days in the past the service provider will return transactions for.</summary>
 	[JsonPropertyName("transaction_total_days")]
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
 	public int TransactionTotalDays { get; set; }
 
 	/// <summary>Gets or sets all the countries supported by the service provider.</summary>
