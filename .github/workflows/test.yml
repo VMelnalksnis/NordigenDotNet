@@ -51,7 +51,6 @@ jobs:
   resharper:
     name: Resharper
     runs-on: ubuntu-latest
-    if: false #ReSharper currently does not support .NET 7
     steps:
       - uses: actions/checkout@v3.1.0
       - uses: actions/setup-dotnet@v3.0.3
@@ -62,5 +61,6 @@ jobs:
         uses: VMelnalksnis/resharper-inspect-action@v0.2.5
         with:
           solution: NordigenDotNet.sln
-          resharper-version: 2022.1.2
+          resharper-version: 2022.2.4
+          dotnet-version: 7.0.x
           treat-warnings-as-errors: true
