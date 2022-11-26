@@ -12,7 +12,7 @@ using VMelnalksnis.NordigenDotNet.Requisitions;
 
 namespace VMelnalksnis.NordigenDotNet.Serialization;
 
-/// <inheritdoc />
+/// <inheritdoc cref="JsonSerializerContext" />
 [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, IgnoreReadOnlyProperties = true)]
 [JsonSerializable(typeof(Account))]
 [JsonSerializable(typeof(AccountDetailsWrapper))]

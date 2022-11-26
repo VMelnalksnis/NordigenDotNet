@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +13,10 @@ using NodaTime;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
 using Xunit.Abstractions;
+
+#if NET6_0_OR_GREATER
+using System.Net;
+#endif
 
 using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixture;
 

@@ -2,6 +2,7 @@
 // Licensed under the Apache License 2.0.
 // See LICENSE file in the project root for full license information.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,31 +16,35 @@ using static VMelnalksnis.NordigenDotNet.Tests.Integration.ServiceProviderFixtur
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Accounts;
 
-public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
+public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, IAsyncLifetime
 {
 	private readonly ITestOutputHelper _testOutputHelper;
 	private readonly INordigenClient _nordigenClient;
-	private readonly Requisition _requisition;
+	private Requisition _requisition = null!;
+	private Guid _accountId;
 
 	public AccountClientTests(ITestOutputHelper testOutputHelper, ServiceProviderFixture serviceProviderFixture)
 	{
 		_testOutputHelper = testOutputHelper;
 		_nordigenClient = serviceProviderFixture.GetNordigenClient(testOutputHelper);
+	}
 
-		_requisition = GetRequisition().GetAwaiter().GetResult();
+	public async Task InitializeAsync()
+	{
+		_requisition = await GetRequisition();
+		_accountId = _requisition.Accounts.OrderBy(guid => guid).First();
 	}
 
 	[Fact]
 	public async Task Get_ShouldReturnExpected()
 	{
 		_requisition.Accounts.Should().HaveCount(2);
-		var id = _requisition.Accounts.First();
 
-		var account = await _nordigenClient.Accounts.Get(id);
+		var account = await _nordigenClient.Accounts.Get(_accountId);
 		var currentInstant = SystemClock.Instance.GetCurrentInstant();
 		using (new AssertionScope())
 		{
-			account.Id.Should().Be(id);
+			account.Id.Should().Be(_accountId);
 			account.Created.Should().BeLessThan(account.LastAccessed).And.BeLessThan(currentInstant);
 			account.LastAccessed.Should().BeGreaterThan(currentInstant - Duration.FromMinutes(1));
 			account.Iban.Should().Be("GL3343697694912188");
@@ -51,9 +56,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 	[Fact]
 	public async Task GetDetails_ShouldReturnExpected()
 	{
-		var id = _requisition.Accounts.First();
-
-		var accountDetails = await _nordigenClient.Accounts.GetDetails(id);
+		var accountDetails = await _nordigenClient.Accounts.GetDetails(_accountId);
 
 		using (new AssertionScope())
 		{
@@ -70,9 +73,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 	[Fact]
 	public async Task GetBalances_ShouldReturnExpected()
 	{
-		var id = _requisition.Accounts.First();
-
-		var balances = await _nordigenClient.Accounts.GetBalances(id);
+		var balances = await _nordigenClient.Accounts.GetBalances(_accountId);
 
 		balances.Should().HaveCount(2);
 
@@ -89,16 +90,14 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 	[Fact]
 	public async Task GetTransactions_ShouldReturnExpected()
 	{
-		var id = _requisition.Accounts.First();
-
 		var currentInstant = SystemClock.Instance.GetCurrentInstant();
 		var currentZone = DateTimeZoneProviders.Tzdb.GetSystemDefault();
 		var currentDate = currentInstant.InZone(currentZone).Date;
 
 		var dateTo = currentInstant;
 		var dateFrom = dateTo - Duration.FromDays(7);
-		var transactions = await _nordigenClient.Accounts.GetTransactions(id, new Interval(dateFrom, dateTo));
-		var allTransactions = await _nordigenClient.Accounts.GetTransactions(id);
+		var transactions = await _nordigenClient.Accounts.GetTransactions(_accountId, new Interval(dateFrom, dateTo));
+		var allTransactions = await _nordigenClient.Accounts.GetTransactions(_accountId);
 
 		using (new AssertionScope())
 		{
@@ -131,11 +130,12 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>
 		}
 	}
 
+	public Task DisposeAsync() => Task.CompletedTask;
+
 	private async Task<Requisition> GetRequisition()
 	{
 		var requisition = await _nordigenClient.Requisitions.Get().SingleOrDefaultAsync(r =>
-			r.InstitutionId is IntegrationInstitutionId &&
-			r.Status is RequisitionStatus.Ln);
+			r is { InstitutionId: IntegrationInstitutionId, Status: RequisitionStatus.Ln });
 
 		if (requisition is not null)
 		{

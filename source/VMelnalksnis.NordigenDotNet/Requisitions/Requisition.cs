@@ -52,7 +52,7 @@ public record Requisition
 
 	/// <summary>Gets the end-user-agreement of this requisition.</summary>
 	[JsonIgnore]
-	public Guid? Agreement => string.IsNullOrWhiteSpace(AgreementValue) ? null : Guid.Parse(AgreementValue);
+	public Guid? Agreement => string.IsNullOrWhiteSpace(AgreementValue) ? null : Guid.Parse(AgreementValue!);
 
 	/// <summary>Gets or sets a two-letter country code (ISO 639-1).</summary>
 	[JsonPropertyName("user_language")]
