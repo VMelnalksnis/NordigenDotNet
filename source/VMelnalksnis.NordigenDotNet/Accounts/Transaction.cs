@@ -18,6 +18,10 @@ public abstract record Transaction
 	[JsonPropertyName("remittanceInformationUnstructured")]
 	public string UnstructuredInformation { get; set; } = null!;
 
+	/// <summary>Gets or sets structured information about the transaction.</summary>
+	[JsonPropertyName("remittanceInformationStructured")]
+	public string? StructuredInformation { get; set; }
+
 	/// <summary>Gets or sets the date when the transaction was valued at.</summary>
 	public LocalDate? ValueDate { get; set; }
 }
