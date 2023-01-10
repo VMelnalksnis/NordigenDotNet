@@ -45,8 +45,9 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 		using (new AssertionScope())
 		{
 			account.Id.Should().Be(_accountId);
-			account.Created.Should().BeLessThan(account.LastAccessed).And.BeLessThan(currentInstant);
-			account.LastAccessed.Should().BeGreaterThan(currentInstant - Duration.FromMinutes(1));
+			account.Created.Should().BeLessThan(account.LastAccessed.GetValueOrDefault()).And.BeLessThan(currentInstant);
+			account.LastAccessed.Should().NotBeNull();
+			account.LastAccessed.GetValueOrDefault().Should().BeGreaterThan(currentInstant - Duration.FromMinutes(1));
 			account.Iban.Should().Be("GL3343697694912188");
 			account.InstitutionId.Should().Be(IntegrationInstitutionId);
 			account.Status.Should().BeDefined();
