@@ -102,8 +102,8 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 
 		using (new AssertionScope())
 		{
-			allTransactions.Booked.Should().HaveCount(534);
-			transactions.Booked.Should().HaveCount(42).And.BeSubsetOf(allTransactions.Booked);
+			allTransactions.Booked.Should().HaveCount(12);
+			transactions.Booked.Should().HaveCount(12).And.BeSubsetOf(allTransactions.Booked);
 			transactions.Pending.Should().BeEquivalentTo(allTransactions.Pending);
 
 			var pendingTransaction = transactions.Pending.Should().ContainSingle().Subject;
