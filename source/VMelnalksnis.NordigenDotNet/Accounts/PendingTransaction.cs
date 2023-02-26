@@ -10,5 +10,5 @@ namespace VMelnalksnis.NordigenDotNet.Accounts;
 public record PendingTransaction : Transaction
 {
 	/// <summary>Gets or sets a unique transaction id created by the <see cref="Institution"/>.</summary>
-	public string? TransactionId { get; set; } = null!;
+	public string? TransactionId { get; set; }
 }
