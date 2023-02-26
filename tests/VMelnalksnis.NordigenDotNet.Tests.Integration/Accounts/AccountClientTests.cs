@@ -111,6 +111,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			pendingTransaction.TransactionAmount.Amount.Should().Be(10m);
 			pendingTransaction.UnstructuredInformation.Should().Be("Reserved PAYMENT Emperor's Burgers");
 			pendingTransaction.ValueDate.Should().Be(currentDate - Period.FromDays(2));
+			pendingTransaction.TransactionId.Should().BeNull();
 
 			var date = currentDate - Period.FromDays(1);
 			var transactionId = $"{date:yyyyMMdd}01927908-1";

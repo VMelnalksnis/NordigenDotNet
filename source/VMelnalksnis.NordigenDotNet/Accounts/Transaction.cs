@@ -6,16 +6,11 @@ using System.Text.Json.Serialization;
 
 using NodaTime;
 
-using VMelnalksnis.NordigenDotNet.Institutions;
-
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
 /// <summary>Common information for all transactions.</summary>
 public abstract record Transaction
 {
-	/// <summary>Gets or sets a unique transaction id created by the <see cref="Institution"/>.</summary>
-	public string TransactionId { get; set; } = null!;
-
 	/// <summary>Gets or sets the amount transferred in this transaction.</summary>
 	public AmountInCurrency TransactionAmount { get; set; } = null!;
 
