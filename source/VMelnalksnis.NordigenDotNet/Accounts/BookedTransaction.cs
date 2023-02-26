@@ -11,9 +11,6 @@ namespace VMelnalksnis.NordigenDotNet.Accounts;
 /// <summary>A transaction that has been booked - posted to an account on the account servicer's books.</summary>
 public record BookedTransaction : Transaction
 {
-	/// <summary>Gets or sets a unique transaction id created by the <see cref="Institution"/>.</summary>
-	public string TransactionId { get; set; } = null!;
-
 	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
 	public LocalDate BookingDate { get; set; }
 
