@@ -102,8 +102,8 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 
 		using (new AssertionScope())
 		{
-			allTransactions.Booked.Should().HaveCountGreaterOrEqualTo(12, "transaction count keeps changing, but should have multiple");
-			transactions.Booked.Should().HaveCountGreaterOrEqualTo(12).And.BeSubsetOf(allTransactions.Booked);
+			allTransactions.Booked.Should().HaveCountGreaterOrEqualTo(6, "transaction count keeps changing, but should have multiple");
+			transactions.Booked.Should().HaveCountGreaterOrEqualTo(6).And.BeSubsetOf(allTransactions.Booked);
 			transactions.Pending.Should().BeEquivalentTo(allTransactions.Pending);
 
 			var pendingTransaction = transactions.Pending.Should().ContainSingle().Subject;
