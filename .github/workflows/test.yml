@@ -24,7 +24,7 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
       - uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: |
@@ -52,7 +52,7 @@ jobs:
     name: Resharper
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
       - uses: actions/setup-dotnet@v3.0.3
       - run: dotnet restore
       - run: dotnet build --configuration Release --no-restore /warnAsError /nologo /clp:NoSummary
