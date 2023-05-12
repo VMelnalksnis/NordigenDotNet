@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using NodaTime;
 
+using VMelnalksnis.NordigenDotNet.Accounts;
 using VMelnalksnis.NordigenDotNet.Requisitions;
 
 using Xunit.Abstractions;
@@ -59,16 +60,16 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 	{
 		var accountDetails = await _nordigenClient.Accounts.GetDetails(_accountId);
 
-		using (new AssertionScope())
+		accountDetails.Should().BeEquivalentTo(new AccountDetails
 		{
-			accountDetails.ResourceId.Should().Be("01F3NS4YV94RA29YCH8R0F6BMF");
-			accountDetails.Iban.Should().Be("GL3343697694912188");
-			accountDetails.Currency.Should().Be("EUR");
-			accountDetails.OwnerName.Should().Be("John Doe");
-			accountDetails.Name.Should().Be("Main Account");
-			accountDetails.Product.Should().Be("Checkings");
-			accountDetails.CashAccountType.Should().Be("CACC");
-		}
+			ResourceId = "01F3NS4YV94RA29YCH8R0F6BMF",
+			Iban = "GL9619297215858568",
+			Currency = "EUR",
+			OwnerName = "John Doe",
+			Name = "Main Account",
+			Product = "Checkings",
+			CashAccountType = "CACC",
+		});
 	}
 
 	[Fact]
@@ -114,21 +115,18 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			pendingTransaction.TransactionId.Should().BeNull();
 
 			var date = currentDate - Period.FromDays(1);
-			var transactionId = $"{date:yyyyMMdd}01927908-1";
+			var transactionId = $"{date:yyyyMMdd}01978108-1";
 			var bookedTransaction = transactions.Booked.First(transaction => transaction.TransactionId == transactionId);
-			bookedTransaction.TransactionAmount.Currency.Should().Be("EUR");
-			bookedTransaction.TransactionAmount.Amount.Should().Be(-15);
-			bookedTransaction.UnstructuredInformation.Should().Be("PAYMENT Alderaan Coffe");
-			bookedTransaction.ValueDate.Should().Be(date);
-			bookedTransaction.TransactionId.Should().Be(transactionId);
-			bookedTransaction.BookingDate.Should().Be(date);
-			bookedTransaction.DebtorName.Should().BeNull();
-			bookedTransaction.DebtorAccount.Should().BeNull();
-			bookedTransaction.CreditorName.Should().BeNull();
-			bookedTransaction.CreditorAccount.Should().BeNull();
-			bookedTransaction.BankTransactionCode.Should().Be("PMNT");
-			bookedTransaction.EntryReference.Should().BeNull();
-			bookedTransaction.AdditionalInformation.Should().BeNull();
+
+			bookedTransaction.Should().BeEquivalentTo(new BookedTransaction
+			{
+				TransactionAmount = new() { Currency = "EUR", Amount = -15m },
+				UnstructuredInformation = "PAYMENT Alderaan Coffe",
+				ValueDate = date,
+				TransactionId = transactionId,
+				BookingDate = date,
+				BankTransactionCode = "PMNT",
+			});
 		}
 	}
 
