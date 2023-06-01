@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,14 +33,14 @@ public sealed class AccountClient : IAccountClient
 	/// <inheritdoc />
 	public Task<Account> Get(Guid id, CancellationToken cancellationToken = default)
 	{
-		return _httpClient.GetFromJsonAsync(Routes.Accounts.IdUri(id), _context.Account, cancellationToken)!;
+		return _httpClient.Get(Routes.Accounts.IdUri(id), _context.Account, cancellationToken)!;
 	}
 
 	/// <inheritdoc />
 	public async Task<List<Balance>> GetBalances(Guid id, CancellationToken cancellationToken = default)
 	{
 		var balances = await _httpClient
-			.GetFromJsonAsync(Routes.Accounts.BalancesUri(id), _context.BalancesWrapper, cancellationToken)
+			.Get(Routes.Accounts.BalancesUri(id), _context.BalancesWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return balances!.Balances;
@@ -51,7 +50,7 @@ public sealed class AccountClient : IAccountClient
 	public async Task<AccountDetails> GetDetails(Guid id, CancellationToken cancellationToken = default)
 	{
 		var details = await _httpClient
-			.GetFromJsonAsync(Routes.Accounts.DetailsUri(id), _context.AccountDetailsWrapper, cancellationToken)
+			.Get(Routes.Accounts.DetailsUri(id), _context.AccountDetailsWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return details!.Account;
@@ -64,7 +63,7 @@ public sealed class AccountClient : IAccountClient
 		CancellationToken cancellationToken = default)
 	{
 		var transactions = await _httpClient
-			.GetFromJsonAsync(Routes.Accounts.TransactionsUri(id, interval), _context.TransactionsWrapper, cancellationToken)
+			.Get(Routes.Accounts.TransactionsUri(id, interval), _context.TransactionsWrapper, cancellationToken)
 			.ConfigureAwait(false);
 
 		return transactions!.Transactions;

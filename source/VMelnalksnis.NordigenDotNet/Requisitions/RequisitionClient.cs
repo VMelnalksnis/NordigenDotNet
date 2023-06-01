@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,7 +40,7 @@ public sealed class RequisitionClient : IRequisitionClient
 	/// <inheritdoc />
 	public Task<Requisition> Get(Guid id, CancellationToken cancellationToken = default)
 	{
-		return _httpClient.GetFromJsonAsync(
+		return _httpClient.Get(
 			Routes.Requisitions.IdUri(id),
 			_context.Requisition,
 			cancellationToken)!;

@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ public sealed class InstitutionClient : IInstitutionClient
 	/// <inheritdoc />
 	public Task<List<Institution>> GetByCountry(string countryCode, CancellationToken cancellationToken = default)
 	{
-		return _httpClient.GetFromJsonAsync(
+		return _httpClient.Get(
 			Routes.Institutions.CountryUri(countryCode),
 			_context.ListInstitution,
 			cancellationToken)!;
@@ -40,7 +39,7 @@ public sealed class InstitutionClient : IInstitutionClient
 	/// <inheritdoc />
 	public Task<Institution> Get(string id, CancellationToken cancellationToken = default)
 	{
-		return _httpClient.GetFromJsonAsync(
+		return _httpClient.Get(
 			Routes.Institutions.IdUri(id),
 			_context.Institution,
 			cancellationToken)!;

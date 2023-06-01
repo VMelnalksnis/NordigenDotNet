@@ -10,6 +10,8 @@ using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 namespace VMelnalksnis.NordigenDotNet.Serialization;
 
 internal static class HttpClientExtensions
@@ -24,7 +26,7 @@ internal static class HttpClientExtensions
 		var next = requestUri;
 		while (next is not null && !cancellationToken.IsCancellationRequested)
 		{
-			var paginatedList = await httpClient.GetFromJsonAsync(next, typeInfo, cancellationToken).ConfigureAwait(false);
+			var paginatedList = await httpClient.Get(next, typeInfo, cancellationToken).ConfigureAwait(false);
 			if (paginatedList?.Results is null)
 			{
 				yield break;
@@ -39,33 +41,44 @@ internal static class HttpClientExtensions
 		}
 	}
 
+	internal static async Task<TResult?> Get<TResult>(
+		this HttpClient httpClient,
+		[UriString("GET")] string requestUri,
+		JsonTypeInfo<TResult> typeInfo,
+		CancellationToken cancellationToken)
+	{
+		using var response = await httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
+		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
+		return await response.Content.ReadFromJsonAsync(typeInfo, cancellationToken).ConfigureAwait(false);
+	}
+
 	internal static async Task<TResult?> Post<TRequest, TResult>(
 		this HttpClient httpClient,
-		string requestUri,
+		[UriString("POST")] string requestUri,
 		TRequest request,
 		JsonTypeInfo<TRequest> requestTypeInfo,
 		JsonTypeInfo<TResult> resultTypeInfo)
 	{
-		var response = await httpClient.PostAsJsonAsync(requestUri, request, requestTypeInfo).ConfigureAwait(false);
+		using var response = await httpClient.PostAsJsonAsync(requestUri, request, requestTypeInfo).ConfigureAwait(false);
 		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
 		return await response.Content.ReadFromJsonAsync(resultTypeInfo).ConfigureAwait(false);
 	}
 
 	internal static async Task<TResult?> Put<TRequest, TResult>(
 		this HttpClient httpClient,
-		string requestUri,
+		[UriString("PUT")] string requestUri,
 		TRequest request,
 		JsonTypeInfo<TRequest> requestTypeInfo,
 		JsonTypeInfo<TResult> resultTypeInfo)
 	{
-		var response = await httpClient.PutAsJsonAsync(requestUri, request, requestTypeInfo).ConfigureAwait(false);
+		using var response = await httpClient.PutAsJsonAsync(requestUri, request, requestTypeInfo).ConfigureAwait(false);
 		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
 		return await response.Content.ReadFromJsonAsync(resultTypeInfo).ConfigureAwait(false);
 	}
 
-	internal static async Task Delete(this HttpClient httpClient, string requestUri)
+	internal static async Task Delete(this HttpClient httpClient, [UriString("DELETE")] string requestUri)
 	{
-		var response = await httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
+		using var response = await httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
 		await response.ThrowIfNotSuccessful().ConfigureAwait(false);
 	}
 }
