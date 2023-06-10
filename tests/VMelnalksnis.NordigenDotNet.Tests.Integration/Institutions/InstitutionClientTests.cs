@@ -3,9 +3,14 @@
 // See LICENSE file in the project root for full license information.
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Xunit.Abstractions;
+
+#if NET6_0_OR_GREATER
+using System.Net;
+#endif
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Integration.Institutions;
 
@@ -23,7 +28,10 @@ public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixtur
 	{
 		var institutions = await _nordigenClient.Institutions.GetByCountry("LV");
 
-		var expectedInstitution = institutions.Should().ContainSingle(i => i.Id == "CITADELE_PARXLV22").Subject;
+		var expectedInstitution = institutions
+			.Should()
+			.ContainSingle(institution => institution.Id == "CITADELE_PARXLV22")
+			.Subject;
 
 		var institution = await _nordigenClient.Institutions.Get(expectedInstitution.Id);
 		institution.Should().BeEquivalentTo(expectedInstitution);
@@ -37,5 +45,25 @@ public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixtur
 			institution.Countries.Should().ContainSingle().Which.Should().Be("LV");
 			institution.Logo.Should().Be(new Uri("https://cdn.nordigen.com/ais/CITADELE_PARXLV22.png"));
 		}
+	}
+
+	[Fact]
+	public async Task GetByCountry_ShouldThrowOnInvalidCountry()
+	{
+		const string countryCode = "FOO";
+
+		var exceptionAssertions = await FluentActions
+			.Awaiting(() => _nordigenClient.Institutions.GetByCountry(countryCode))
+			.Should()
+			.ThrowExactlyAsync<HttpRequestException>()
+			.WithMessage($$"""
+{"summary":"Invalid country choice.","detail":"{{countryCode}} is not a valid choice.","status_code":400}
+""");
+
+#if NET6_0_OR_GREATER
+		exceptionAssertions.Which.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+#else
+		exceptionAssertions.Which.Message.Should().NotBeNullOrWhiteSpace();
+#endif
 	}
 }
