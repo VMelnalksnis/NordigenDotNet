@@ -115,7 +115,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			pendingTransaction.TransactionId.Should().BeNull();
 
 			var date = currentDate - Period.FromDays(1);
-			var transactionId = $"{date:yyyyMMdd}01952208-1";
+			var transactionId = $"{date:yyyyMMdd}01697408-1";
 			var bookedTransaction = transactions.Booked.Should().ContainSingle(transaction => transaction.TransactionId == transactionId).Subject;
 
 			bookedTransaction.Should().BeEquivalentTo(new BookedTransaction
