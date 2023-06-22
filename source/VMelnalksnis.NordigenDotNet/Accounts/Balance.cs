@@ -24,6 +24,7 @@ public record Balance
 	public LocalDate? ReferenceDate { get; set; }
 }
 
+#pragma warning disable SA1402
 internal class BalancesWrapper
 {
 	public List<Balance> Balances { get; set; } = null!;

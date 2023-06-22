@@ -32,6 +32,7 @@ public record AccountDetails
 	public string? CashAccountType { get; set; }
 }
 
+#pragma warning disable SA1402
 internal class AccountDetailsWrapper
 {
 	public AccountDetails Account { get; set; } = null!;

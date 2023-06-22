@@ -16,6 +16,7 @@ public record Transactions
 	public List<PendingTransaction> Pending { get; set; } = null!;
 }
 
+#pragma warning disable SA1402
 internal class TransactionsWrapper
 {
 	public Transactions Transactions { get; set; } = null!;

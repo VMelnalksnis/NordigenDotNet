@@ -7,6 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+#if NET6_0_OR_GREATER
+using System.Security.Cryptography.X509Certificates;
+#endif
 
 using JetBrains.Annotations;
 
