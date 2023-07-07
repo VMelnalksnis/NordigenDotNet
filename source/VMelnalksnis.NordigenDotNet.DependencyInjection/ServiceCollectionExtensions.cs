@@ -89,6 +89,18 @@ public static class ServiceCollectionExtensions
 			})
 			.AddTransient(provider => provider.GetRequiredService<IOptionsMonitor<NordigenOptions>>().CurrentValue)
 			.AddHttpClient(NordigenOptions.SectionName, ConfigureNordigenClient)
+			.ConfigurePrimaryHttpMessageHandler(() =>
+#if NET6_0_OR_GREATER
+				new SocketsHttpHandler
+				{
+					SslOptions = { CertificateRevocationCheckMode = X509RevocationMode.Online },
+				})
+#else
+				new HttpClientHandler
+				{
+					CheckCertificateRevocationList = true,
+				})
+#endif
 			.AddHttpMessageHandler<TokenDelegatingHandler>();
 	}
 
