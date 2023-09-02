@@ -57,7 +57,7 @@ public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixtur
 			.Should()
 			.ThrowExactlyAsync<HttpRequestException>()
 			.WithMessage($$"""
-{"summary":"Invalid country choice.","detail":"{{countryCode}} is not a valid choice.","status_code":400}
+{"country":{"summary":"Invalid country choice.","detail":"{{countryCode}} is not a valid choice."},"status_code":400}
 """);
 
 #if NET6_0_OR_GREATER

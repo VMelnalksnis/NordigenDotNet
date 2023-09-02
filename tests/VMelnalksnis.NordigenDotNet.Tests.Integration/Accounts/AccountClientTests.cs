@@ -33,7 +33,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 	public async Task InitializeAsync()
 	{
 		_requisition = await GetRequisition();
-		_accountId = _requisition.Accounts.OrderBy(guid => guid).Last();
+		_accountId = _requisition.Accounts.OrderBy(guid => guid).First();
 	}
 
 	[Fact]
@@ -49,7 +49,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			account.Created.Should().BeLessThan(account.LastAccessed.GetValueOrDefault()).And.BeLessThan(currentInstant);
 			account.LastAccessed.Should().NotBeNull();
 			account.LastAccessed.GetValueOrDefault().Should().BeGreaterThan(currentInstant - Duration.FromMinutes(1));
-			account.Iban.Should().Be("GL2562690000062693");
+			account.Iban.Should().Be("GL2225000000025007");
 			account.InstitutionId.Should().Be(IntegrationInstitutionId);
 			account.Status.Should().BeDefined();
 		}
