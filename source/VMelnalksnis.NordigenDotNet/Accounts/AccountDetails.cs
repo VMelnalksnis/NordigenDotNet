@@ -25,11 +25,19 @@ public record AccountDetails
 	/// <summary>Gets or sets the name of the account, as assigned by the financial institution.</summary>
 	public string? Name { get; set; }
 
+	/// <summary>Gets or sets specifications that might be provided by the ASPSP.
+	/// This may include characteristics of the account or card.</summary>
+	public string? Details { get; set; }
+
 	/// <summary>Gets or sets product Name of the Bank for this account, proprietary definition.</summary>
 	public string? Product { get; set; }
 
 	/// <summary>Gets or sets externalCashAccountType1Code from ISO 20022.</summary>
 	public string? CashAccountType { get; set; }
+
+	/// <summary>Gets or sets Masked Primary Account Number if available for account type.</summary>
+	public string? MaskedPan { get; set; }
+
 }
 
 #pragma warning disable SA1402
