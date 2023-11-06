@@ -37,7 +37,6 @@ public record AccountDetails
 
 	/// <summary>Gets or sets Masked Primary Account Number if available for account type.</summary>
 	public string? MaskedPan { get; set; }
-
 }
 
 #pragma warning disable SA1402
