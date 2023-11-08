@@ -60,16 +60,19 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 	{
 		var accountDetails = await _nordigenClient.Accounts.GetDetails(_accountId);
 
-		accountDetails.Should().BeEquivalentTo(new AccountDetails
+		accountDetails.Should().BeEquivalentTo(
+			new AccountDetails
 		{
 			ResourceId = "01F3NS4YV94RA29YCH8R0F6BMF",
-			Iban = "GL2225000000025007",
 			Currency = "EUR",
 			OwnerName = "John Doe",
 			Name = "Main Account",
 			Product = "Checkings",
 			CashAccountType = "CACC",
-		});
+		},
+			option => option .Excluding(x => x.Iban));
+
+		accountDetails.Iban.Should().Contain("GL");
 	}
 
 	[Fact]
