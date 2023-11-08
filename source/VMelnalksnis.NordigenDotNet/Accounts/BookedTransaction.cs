@@ -14,17 +14,11 @@ public record BookedTransaction : Transaction
 	/// <summary>Gets or sets a unique transaction id created by the <see cref="Institution"/>.</summary>
 	public string TransactionId { get; set; } = null!;
 
-	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
-	public LocalDate BookingDate { get; set; }
-
 	/// <summary>Gets or sets the name of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
 	public string? DebtorName { get; set; }
 
 	/// <summary>Gets or sets the account of the counterparty that sends <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
 	public TransactionAccount? DebtorAccount { get; set; }
-
-	/// <summary>Gets or sets the name of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
-	public string? CreditorName { get; set; }
 
 	/// <summary>Gets or sets the account of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
 	public TransactionAccount? CreditorAccount { get; set; }
@@ -36,9 +30,6 @@ public record BookedTransaction : Transaction
 	/// PMNT-IRCT-STDO
 	/// </code></example>
 	public string? BankTransactionCode { get; set; }
-
-	/// <summary>Gets or sets a transaction id, used both by the transaction and any fees paid to the <see cref="Institution"/> for the transaction.</summary>
-	public string? EntryReference { get; set; }
 
 	/// <summary>Gets or sets additional structured information about the transaction from the institution.</summary>
 	/// <example>
