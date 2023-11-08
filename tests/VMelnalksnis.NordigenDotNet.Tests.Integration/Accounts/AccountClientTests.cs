@@ -70,7 +70,7 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			Product = "Checkings",
 			CashAccountType = "CACC",
 		},
-			option => option .Excluding(x => x.Iban));
+			option => option.Excluding(x => x.Iban));
 
 		accountDetails.Iban.Should().Contain("GL");
 	}
