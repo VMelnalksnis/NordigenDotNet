@@ -35,13 +35,13 @@ public abstract record Transaction
 	public LocalDate? ValueDate { get; set; }
 
 	/// <summary>Gets or sets the date and time when the transaction was valued at.</summary>
-	public LocalDateTime? ValueDateTime { get; set; }
+	public Instant? ValueDateTime { get; set; }
 
 	/// <summary>Gets or sets the date and time when an entry is posted to an account on the account servicer's books.</summary>
 	public LocalDate? BookingDate { get; set; }
 
 	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
-	public LocalDateTime? BookingDateTime { get; set; }
+	public Instant? BookingDateTime { get; set; }
 
 	/// <summary>Gets or sets additional information which be used by the financial institution to
 	/// transport additional transaction related information.</summary>
@@ -49,4 +49,7 @@ public abstract record Transaction
 
 	/// <summary>Gets or sets merchant category code as defined by card issuer.</summary>
 	public string? MerchantCategoryCode { get; set; }
+
+	/// <summary>Gets or sets bank transaction code as used by the financial institution, defined by ISO20022.</summary>
+	public string? BankTransactionCode { get; set; }
 }
