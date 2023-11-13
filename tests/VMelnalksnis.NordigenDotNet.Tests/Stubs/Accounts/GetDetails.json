@@ -1,0 +1,13 @@
+{
+	"account": {
+		"resourceId": "01F3NS4YV94RA29YCH8R0F6BMF",
+		"iban": "GL5117350000017350",
+		"currency": "EUR",
+		"ownerName": "John Doe",
+		"name": "Credit Account",
+		"product": "Card",
+		"cashAccountType": "OTHR",
+		"maskedPan": "XXXX-XXXXXX-12345",
+		"details": "A Sample Card Type"
+	}
+}
