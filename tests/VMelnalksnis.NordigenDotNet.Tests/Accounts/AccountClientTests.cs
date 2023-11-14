@@ -7,29 +7,17 @@ using System.Threading.Tasks;
 using NodaTime;
 
 using VMelnalksnis.NordigenDotNet.Accounts;
-using VMelnalksnis.NordigenDotNet.Tests.MockHttpResponse;
+using VMelnalksnis.NordigenDotNet.Tests.MockHttp;
+using VMelnalksnis.NordigenDotNet.Tests.Stubs.Accounts;
 
 namespace VMelnalksnis.NordigenDotNet.Tests.Accounts;
 
 public sealed class AccountClientTests
 {
-	public HttpClient MockHttpHandler(string json)
-	{
-		var client = new HttpClient(new HttpMessageHandlerMock(json));
-		client.BaseAddress = new("http://localhost");
-		return client;
-	}
-
-	public string GetTestData(string testPath)
-	{
-		var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"../../../Stubs/{testPath}");
-		return File.ReadAllText(filePath);
-	}
-
 	[Fact]
 	public async Task GetDetails_ShouldReturnExpected()
 	{
-		var data = GetTestData("Accounts/GetDetails.json");
+		var data = TestData.GetDetails.Result;
 		var expected = new AccountDetails
 		{
 			CashAccountType = "OTHR",
@@ -47,18 +35,16 @@ public sealed class AccountClientTests
 			MockHttpHandler(data),
 			new(DateTimeZoneProviders.Tzdb));
 
-		var details = await accountClient.GetDetails(
-			Guid.Parse("af9d4aa3-5520-437b-b3c8-006ae7c908e8"));
+		var details = await accountClient.GetDetails(Guid.NewGuid());
 		details.Should().Be(expected);
 	}
 
 	[Fact]
 	public async Task GetTransactions_ShouldReturnExpected()
 	{
-		var data = GetTestData("Accounts/GetTransactions.json");
-		var bookingDate = new DateTime(2023, 11, 8, 10, 05, 00);
-		var valueDate = new DateTime(2023, 11, 10, 12, 12, 12);
-
+		var data = TestData.GetTransactions.Result;
+		var bookingDate = Instant.FromUtc(2023, 11, 8, 10, 05);
+		var valueDate = Instant.FromUtc(2023, 11, 10, 12, 12, 12);
 		var expected = new Transactions
 		{
 			Booked = new()
@@ -67,8 +53,8 @@ public sealed class AccountClientTests
 				{
 					AdditionalInformation = "Coffee",
 					BankTransactionCode = "PMNT",
-					BookingDate = LocalDate.FromDateTime(bookingDate),
-					BookingDateTime = Instant.FromDateTimeUtc(bookingDate.ToUniversalTime()),
+					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+					BookingDateTime = bookingDate,
 					CreditorName = "Alderaan Coffee",
 					CurrencyExchange = new CurrencyExchange()
 					{
@@ -85,8 +71,8 @@ public sealed class AccountClientTests
 					},
 					TransactionId = "2023111101697308-1",
 					UnstructuredInformation = "Alderaan Coffee - Alderaan",
-					ValueDate = LocalDate.FromDateTime(valueDate),
-					ValueDateTime = Instant.FromDateTimeUtc(valueDate.ToUniversalTime()),
+					ValueDate = valueDate.InZone(DateTimeZone.Utc).Date,
+					ValueDateTime = valueDate,
 				},
 			},
 			Pending = new()
@@ -95,8 +81,8 @@ public sealed class AccountClientTests
 				{
 					AdditionalInformation = "Coffee",
 					BankTransactionCode = "PMNT",
-					BookingDate = LocalDate.FromDateTime(bookingDate),
-					BookingDateTime = Instant.FromDateTimeUtc(bookingDate.ToUniversalTime()),
+					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+					BookingDateTime = bookingDate,
 					CreditorName = "Alderaan Coffee",
 					CurrencyExchange = new CurrencyExchange()
 					{
@@ -123,5 +109,12 @@ public sealed class AccountClientTests
 		var details = await accountClient.GetTransactions(
 			Guid.Parse("af9d4aa3-5520-437b-b3c8-006ae7c908e8"));
 		details.Should().BeEquivalentTo(expected);
+	}
+
+	private HttpClient MockHttpHandler(string json)
+	{
+		var client = new HttpClient(new MockHttpMessageHandler(json));
+		client.BaseAddress = new("http://localhost");
+		return client;
 	}
 }

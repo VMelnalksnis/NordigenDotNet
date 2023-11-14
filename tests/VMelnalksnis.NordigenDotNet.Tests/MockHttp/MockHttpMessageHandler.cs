@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VMelnalksnis.NordigenDotNet.Tests.MockHttpResponse;
+namespace VMelnalksnis.NordigenDotNet.Tests.MockHttp;
 
-public class HttpMessageHandlerMock : HttpMessageHandler
+public class MockHttpMessageHandler : HttpMessageHandler
 {
-	private string _json;
+	private readonly string _json;
 
-	public HttpMessageHandlerMock(string json)
+	public MockHttpMessageHandler(string json)
 	{
 		_json = json;
 	}

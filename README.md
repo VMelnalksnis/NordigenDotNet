@@ -42,11 +42,6 @@ For use outside of ASP.NET Core, see the
 
 4. Use `INordigenClient` to access all endpoints, or one of the specific clients defined in `INordigenClient`
 
-# Testing
-
-When testing, integration tests are recommended where possible. 
-Due to inconsistent data returned by each bank, when adding data with additional fields which is not included in the sandbox accounts, please add new tests with mocked data for these fields to cover them.
-
 # Known issues
 
 1. Does not support the

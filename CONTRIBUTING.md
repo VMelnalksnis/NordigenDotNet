@@ -20,3 +20,8 @@
 
 2. If you're unable to find an issue regarding this feature,
    [open a new one](https://github.com/VMelnalksnis/NordigenDotNet/issues/new?assignees=VMelnalksnis&labels=enhancement&template=feature_request.md).
+
+### If opening a PR to resolve an issue
+
+- When testing, integration tests are recommended where possible.
+- Due to inconsistent data returned by each bank, when adding data with additional fields which is not included in the sandbox accounts, please add new tests with mocked data for these fields to cover them, please see an example of this [here](./tests/VMelnalksnis.NordigenDotNet.Tests/Accounts/AccountClientTests.cs).

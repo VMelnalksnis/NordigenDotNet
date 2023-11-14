@@ -9,4 +9,8 @@
 		<ProjectReference Include="..\..\source\VMelnalksnis.NordigenDotNet\VMelnalksnis.NordigenDotNet.csproj"/>
 	</ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="Stubs\**\*.json" />
+	</ItemGroup>
+
 </Project>
