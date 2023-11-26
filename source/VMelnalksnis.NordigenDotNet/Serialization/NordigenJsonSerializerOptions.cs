@@ -3,7 +3,6 @@
 // See LICENSE file in the project root for full license information.
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;

@@ -10,8 +10,7 @@ internal static class TestData
 	private static readonly Type _namespaceType = typeof(TestData);
 	private static readonly Assembly _assembly = _namespaceType.Assembly;
 
-	internal static TestCase GetDetails => new(
-		GetResourceStreamContent("GetDetails.json"));
+	internal static TestCase GetDetails => new(GetResourceStreamContent("GetDetails.json"));
 
 	internal static TestCase GetTransactions => new(GetResourceStreamContent("GetTransactions.json"));
 
@@ -20,7 +19,7 @@ internal static class TestData
 		var stream = _assembly.GetManifestResourceStream(_namespaceType, name);
 		if (stream is not null)
 		{
-			StreamReader reader = new StreamReader(stream);
+			var reader = new StreamReader(stream);
 			return reader.ReadToEnd();
 		}
 
