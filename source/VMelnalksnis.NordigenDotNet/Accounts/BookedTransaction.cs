@@ -2,8 +2,6 @@
 // Licensed under the Apache License 2.0.
 // See LICENSE file in the project root for full license information.
 
-using NodaTime;
-
 using VMelnalksnis.NordigenDotNet.Institutions;
 
 namespace VMelnalksnis.NordigenDotNet.Accounts;
@@ -22,20 +20,4 @@ public record BookedTransaction : Transaction
 
 	/// <summary>Gets or sets the account of the counterparty that receives <see cref="Transaction.TransactionAmount"/> during the transaction.</summary>
 	public TransactionAccount? CreditorAccount { get; set; }
-
-	/// <summary>Gets or sets the ISO 20022 bank transaction code.</summary>
-	/// <example>Some example values:
-	/// <code>
-	/// PMNT-ICDT-STDO
-	/// PMNT-IRCT-STDO
-	/// </code></example>
-	public string? BankTransactionCode { get; set; }
-
-	/// <summary>Gets or sets additional structured information about the transaction from the institution.</summary>
-	/// <example>
-	/// <code>
-	/// PURCHASE
-	/// INWARD TRANSFER
-	/// </code></example>
-	public string? AdditionalInformation { get; set; }
 }
