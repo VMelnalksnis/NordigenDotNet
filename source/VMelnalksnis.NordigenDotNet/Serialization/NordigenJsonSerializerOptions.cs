@@ -18,9 +18,7 @@ public sealed class NordigenJsonSerializerOptions
 	public NordigenJsonSerializerOptions(IDateTimeZoneProvider dateTimeZoneProvider)
 	{
 		var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
-		{
-			Converters = { new JsonStringEnumConverter() },
-		}.ConfigureForNodaTime(dateTimeZoneProvider);
+			.ConfigureForNodaTime(dateTimeZoneProvider);
 
 		Context = new(options);
 	}

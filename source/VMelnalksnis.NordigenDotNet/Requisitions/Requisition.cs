@@ -23,6 +23,11 @@ public record Requisition
 	public Uri Redirect { get; set; } = null!;
 
 	/// <summary>Gets or sets the status of the requisition.</summary>
+#if NET6_0 || NET7_0
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+#else
+	[JsonConverter(typeof(JsonStringEnumConverter<RequisitionStatus>))]
+#endif
 	public RequisitionStatus Status { get; set; }
 
 	/// <summary>Gets or sets the ID of the institution for which this requisition was made for.</summary>

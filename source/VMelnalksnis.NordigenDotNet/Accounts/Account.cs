@@ -32,5 +32,10 @@ public record Account
 	public string InstitutionId { get; set; } = null!;
 
 	/// <summary>Gets or sets the processing status of this account.</summary>
+#if NET6_0 || NET7_0
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+#else
+	[JsonConverter(typeof(JsonStringEnumConverter<AccountStatus>))]
+#endif
 	public AccountStatus Status { get; set; }
 }

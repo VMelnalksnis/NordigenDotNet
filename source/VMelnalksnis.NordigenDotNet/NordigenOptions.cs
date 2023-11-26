@@ -5,9 +5,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+#if NET6_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace VMelnalksnis.NordigenDotNet;
 
 /// <summary>Options for configuring <see cref="INordigenClient"/>.</summary>
+#if NET6_0_OR_GREATER
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
 public sealed record NordigenOptions
 {
 	/// <summary>The name of the configuration section.</summary>

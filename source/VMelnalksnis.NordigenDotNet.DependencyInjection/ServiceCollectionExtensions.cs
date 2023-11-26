@@ -44,7 +44,14 @@ public static class ServiceCollectionExtensions
 	/// <param name="configuration">The configuration to which to bind options models.</param>
 	/// <returns>The <see cref="IHttpClientBuilder"/> for the <see cref="HttpClient"/> used by <see cref="INordigenClient"/>.</returns>
 #if NET6_0_OR_GREATER
-	[UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026", Justification = $"{nameof(NordigenOptions)} contains only system types.")]
+	[UnconditionalSuppressMessage(
+		"Trimming",
+		"IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code",
+		Justification = $"{nameof(NordigenOptions)} contains only system types.")]
+	[UnconditionalSuppressMessage(
+		"AOT",
+		"IL3050:Calling members annotated with 'RequiresDynamicCodeAttribute' may break functionality when AOT compiling.",
+		Justification = $"{nameof(NordigenOptions)} has {nameof(DynamicallyAccessedMembersAttribute)}")]
 #else
 	[SuppressMessage("Trimming", "IL2026", Justification = $"{nameof(NordigenOptions)} contains only system types.")]
 #endif
