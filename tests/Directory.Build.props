@@ -8,6 +8,7 @@
 		<EnableTrimAnalyzer>false</EnableTrimAnalyzer>
 		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 		<NoWarn>NETSDK1138</NoWarn>
+		<NoWarn>SA1633</NoWarn>
 
 		<CoverletOutputFormat>opencover</CoverletOutputFormat>
 		<CoverletOutput>$(MSBuildThisFileDirectory)TestResults/$(AssemblyName)/$(TargetFramework)/</CoverletOutput>

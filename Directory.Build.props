@@ -6,6 +6,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DebugType>portable</DebugType>
 		<IsTrimmable>true</IsTrimmable>
+		<NoWarn>SA1633</NoWarn>
 
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
