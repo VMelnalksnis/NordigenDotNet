@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -56,7 +54,7 @@ public sealed class AccountClientTests
 					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
 					BookingDateTime = bookingDate,
 					CreditorName = "Alderaan Coffee",
-					CurrencyExchange = new CurrencyExchange()
+					CurrencyExchange = new()
 					{
 						ExchangeRate = decimal.Parse("0.00"),
 						SourceCurrency = "GBP",
@@ -64,7 +62,7 @@ public sealed class AccountClientTests
 					EntryReference = "2023111101697308-1",
 					MerchantCategoryCode = "123",
 					StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
-					TransactionAmount = new AmountInCurrency
+					TransactionAmount = new()
 					{
 						Currency = "GBP",
 						Amount = decimal.Parse("-10.00"),
@@ -84,7 +82,7 @@ public sealed class AccountClientTests
 					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
 					BookingDateTime = bookingDate,
 					CreditorName = "Alderaan Coffee",
-					CurrencyExchange = new CurrencyExchange()
+					CurrencyExchange = new()
 					{
 						ExchangeRate = decimal.Parse("0.00"),
 						SourceCurrency = "GBP",
@@ -92,7 +90,7 @@ public sealed class AccountClientTests
 					EntryReference = "2023111101697308-1",
 					MerchantCategoryCode = "123",
 					StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
-					TransactionAmount = new AmountInCurrency
+					TransactionAmount = new()
 					{
 						Currency = "GBP",
 						Amount = decimal.Parse("-10.00"),

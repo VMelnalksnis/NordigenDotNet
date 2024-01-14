@@ -3,11 +3,7 @@
 	"settings": {
 		"documentationRules": {
 			"companyName": "Valters Melnalksnis",
-			"copyrightText": "Copyright 2022 {companyName}\r\nLicensed under the {licenseName}.\r\nSee {licenseFile} file in the project root for full license information.",
-			"variables": {
-				"licenseName": "Apache License 2.0",
-				"licenseFile": "LICENSE"
-			},
+			"copyrightText": "",
 			"excludeFromPunctuationCheck": [],
 			"xmlHeader": false,
 			"documentationCulture": "en-US",

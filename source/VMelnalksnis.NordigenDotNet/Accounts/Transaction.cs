@@ -1,10 +1,8 @@
-﻿// Copyright 2022 Valters Melnalksnis
-// Licensed under the Apache License 2.0.
-// See LICENSE file in the project root for full license information.
-
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 using NodaTime;
+
+using VMelnalksnis.NordigenDotNet.Institutions;
 
 namespace VMelnalksnis.NordigenDotNet.Accounts;
 
@@ -43,13 +41,24 @@ public abstract record Transaction
 	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
 	public Instant? BookingDateTime { get; set; }
 
-	/// <summary>Gets or sets additional information which be used by the financial institution to
-	/// transport additional transaction related information.</summary>
+	/// <summary>
+	/// Gets or sets additional information which be used by the financial institution
+	/// to transport additional transaction related information.
+	/// </summary>
+	/// <example><code>
+	/// PURCHASE
+	/// INWARD TRANSFER
+	/// </code></example>
 	public string? AdditionalInformation { get; set; }
 
 	/// <summary>Gets or sets merchant category code as defined by card issuer.</summary>
 	public string? MerchantCategoryCode { get; set; }
 
 	/// <summary>Gets or sets bank transaction code as used by the financial institution, defined by ISO20022.</summary>
+	/// <example>Some example values:
+	/// <code>
+	/// PMNT-ICDT-STDO
+	/// PMNT-IRCT-STDO
+	/// </code></example>
 	public string? BankTransactionCode { get; set; }
 }

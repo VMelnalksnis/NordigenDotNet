@@ -7,7 +7,7 @@
 		<IsTrimmable>false</IsTrimmable>
 		<EnableTrimAnalyzer>false</EnableTrimAnalyzer>
 		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-		<NoWarn>NETSDK1138</NoWarn>
+		<NoWarn>$(NoWarn); NETSDK1138</NoWarn>
 
 		<CoverletOutputFormat>opencover</CoverletOutputFormat>
 		<CoverletOutput>$(MSBuildThisFileDirectory)TestResults/$(AssemblyName)/$(TargetFramework)/</CoverletOutput>
