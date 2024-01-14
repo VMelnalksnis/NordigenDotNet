@@ -108,7 +108,8 @@ public sealed class AccountClientTests : IClassFixture<ServiceProviderFixture>, 
 			transactions.Booked.Should().HaveCountGreaterOrEqualTo(6).And.BeSubsetOf(allTransactions.Booked);
 			transactions.Pending.Should().BeEquivalentTo(allTransactions.Pending);
 
-			var pendingTransaction = transactions.Pending.Should().ContainSingle().Subject;
+			transactions.Pending.Should().HaveCount(3);
+			var pendingTransaction = transactions.Pending.First();
 			pendingTransaction.TransactionAmount.Currency.Should().Be("EUR");
 			pendingTransaction.TransactionAmount.Amount.Should().Be(10m);
 			pendingTransaction.UnstructuredInformation.Should().Be("Reserved PAYMENT Emperor's Burgers");
