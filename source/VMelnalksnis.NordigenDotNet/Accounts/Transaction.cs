@@ -33,13 +33,13 @@ public abstract record Transaction
 	public LocalDate? ValueDate { get; set; }
 
 	/// <summary>Gets or sets the date and time when the transaction was valued at.</summary>
-	public Instant? ValueDateTime { get; set; }
+	public OffsetDateTime? ValueDateTime { get; set; }
 
 	/// <summary>Gets or sets the date and time when an entry is posted to an account on the account servicer's books.</summary>
 	public LocalDate? BookingDate { get; set; }
 
 	/// <summary>Gets or sets the date when an entry is posted to an account on the account servicer's books.</summary>
-	public Instant? BookingDateTime { get; set; }
+	public OffsetDateTime? BookingDateTime { get; set; }
 
 	/// <summary>
 	/// Gets or sets additional information which be used by the financial institution

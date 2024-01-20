@@ -3,11 +3,55 @@
 		"booked": [
 			{
 				"transactionId": "2023111101697308-1",
-				"entryReference": "2023111101697308-1",
+				"entryReference": "2023111101697308",
 				"bookingDate": "2023-11-08",
 				"bookingDateTime": "2023-11-08T10:05:00Z",
 				"valueDate": "2023-11-10",
 				"valueDateTime": "2023-11-10T12:12:12Z",
+				"transactionAmount": {
+					"amount": "-10.00",
+					"currency": "GBP"
+				},
+				"currencyExchange": {
+					"sourceCurrency": "GBP",
+					"exchangeRate": "0.0"
+				},
+				"creditorName": "Alderaan Coffee",
+				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
+				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",
+				"additionalInformation": "Coffee",
+				"bankTransactionCode": "PMNT",
+				"merchantCategoryCode": "123"
+			},
+			{
+				"transactionId": "2023111101697308-2",
+				"entryReference": "2023111101697308",
+				"bookingDate": "2023-11-08",
+				"bookingDateTime": "2023-11-08T10:05:00+00:00",
+				"valueDate": "2023-11-10",
+				"valueDateTime": "2023-11-10T12:12:12+00:00",
+				"transactionAmount": {
+					"amount": "-10.00",
+					"currency": "GBP"
+				},
+				"currencyExchange": {
+					"sourceCurrency": "GBP",
+					"exchangeRate": "0.0"
+				},
+				"creditorName": "Alderaan Coffee",
+				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
+				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",
+				"additionalInformation": "Coffee",
+				"bankTransactionCode": "PMNT",
+				"merchantCategoryCode": "123"
+			},
+			{
+				"transactionId": "2023111101697308-3",
+				"entryReference": "2023111101697308",
+				"bookingDate": "2023-11-08",
+				"bookingDateTime": "2023-11-08T10:05:00+01:00",
+				"valueDate": "2023-11-10",
+				"valueDateTime": "2023-11-10T12:12:12+01:00",
 				"transactionAmount": {
 					"amount": "-10.00",
 					"currency": "GBP"
@@ -27,7 +71,7 @@
 		"pending": [
 			{
 				"transactionId": "2023111101697308-1",
-				"entryReference": "2023111101697308-1",
+				"entryReference": "2023111101697308",
 				"bookingDate": "2023-11-08",
 				"bookingDateTime": "2023-11-08T10:05:00Z",
 				"transactionAmount": {

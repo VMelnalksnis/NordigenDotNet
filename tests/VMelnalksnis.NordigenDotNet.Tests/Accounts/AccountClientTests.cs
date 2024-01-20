@@ -43,61 +43,120 @@ public sealed class AccountClientTests
 		var data = TestData.GetTransactions.Result;
 		var bookingDate = Instant.FromUtc(2023, 11, 8, 10, 05);
 		var valueDate = Instant.FromUtc(2023, 11, 10, 12, 12, 12);
+
+		var bankTransactionPending = new PendingTransaction()
+		{
+			AdditionalInformation = "Coffee",
+			BankTransactionCode = "PMNT",
+			CreditorName = "Alderaan Coffee",
+			CurrencyExchange = new()
+			{
+				ExchangeRate = decimal.Parse("0.00"),
+				SourceCurrency = "GBP",
+			},
+			EntryReference = "2023111101697308",
+			MerchantCategoryCode = "123",
+			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
+			TransactionAmount = new()
+			{
+				Currency = "GBP",
+				Amount = decimal.Parse("-10.00"),
+			},
+			TransactionId = "2023111101697308-1",
+			UnstructuredInformation = "Alderaan Coffee - Alderaan",
+			BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+			BookingDateTime = bookingDate.WithOffset(Offset.Zero),
+		};
+
+		var bankTransactionWithZuluTime = new BookedTransaction()
+		{
+			AdditionalInformation = "Coffee",
+			BankTransactionCode = "PMNT",
+			CreditorName = "Alderaan Coffee",
+			CurrencyExchange = new()
+			{
+				ExchangeRate = decimal.Parse("0.00"),
+				SourceCurrency = "GBP",
+			},
+			EntryReference = "2023111101697308",
+			MerchantCategoryCode = "123",
+			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
+			TransactionAmount = new()
+			{
+				Currency = "GBP",
+				Amount = decimal.Parse("-10.00"),
+			},
+			UnstructuredInformation = "Alderaan Coffee - Alderaan",
+			TransactionId = "2023111101697308-1",
+			BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+			BookingDateTime = bookingDate.WithOffset(Offset.Zero),
+			ValueDate = valueDate.InZone(DateTimeZone.Utc).Date,
+			ValueDateTime = valueDate.WithOffset(Offset.Zero),
+		};
+
+		var bankTransactionWithZeroOffset = new BookedTransaction()
+		{
+			AdditionalInformation = "Coffee",
+			BankTransactionCode = "PMNT",
+			CreditorName = "Alderaan Coffee",
+			CurrencyExchange = new()
+			{
+				ExchangeRate = decimal.Parse("0.00"),
+				SourceCurrency = "GBP",
+			},
+			EntryReference = "2023111101697308",
+			MerchantCategoryCode = "123",
+			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
+			TransactionAmount = new()
+			{
+				Currency = "GBP",
+				Amount = decimal.Parse("-10.00"),
+			},
+			UnstructuredInformation = "Alderaan Coffee - Alderaan",
+			BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+			BookingDateTime = bookingDate.WithOffset(Offset.Zero),
+			ValueDate = valueDate.InZone(DateTimeZone.Utc).Date,
+			ValueDateTime = valueDate.WithOffset(Offset.Zero),
+			TransactionId = "2023111101697308-2",
+		};
+
+		var bankTransactionWith1HourOffset = new BookedTransaction()
+		{
+			AdditionalInformation = "Coffee",
+			BankTransactionCode = "PMNT",
+			CreditorName = "Alderaan Coffee",
+			CurrencyExchange = new()
+			{
+				ExchangeRate = decimal.Parse("0.00"),
+				SourceCurrency = "GBP",
+			},
+			EntryReference = "2023111101697308",
+			MerchantCategoryCode = "123",
+			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
+			TransactionAmount = new()
+			{
+				Currency = "GBP",
+				Amount = decimal.Parse("-10.00"),
+			},
+			UnstructuredInformation = "Alderaan Coffee - Alderaan",
+			TransactionId = "2023111101697308-3",
+			BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
+			BookingDateTime = bookingDate.WithOffset(Offset.FromHours(1)).PlusHours(-1),
+			ValueDate = valueDate.InZone(DateTimeZone.Utc).Date,
+			ValueDateTime = valueDate.WithOffset(Offset.FromHours(1)).PlusHours(-1),
+		};
+
 		var expected = new Transactions
 		{
 			Booked = new()
 			{
-				new()
-				{
-					AdditionalInformation = "Coffee",
-					BankTransactionCode = "PMNT",
-					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
-					BookingDateTime = bookingDate,
-					CreditorName = "Alderaan Coffee",
-					CurrencyExchange = new()
-					{
-						ExchangeRate = decimal.Parse("0.00"),
-						SourceCurrency = "GBP",
-					},
-					EntryReference = "2023111101697308-1",
-					MerchantCategoryCode = "123",
-					StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
-					TransactionAmount = new()
-					{
-						Currency = "GBP",
-						Amount = decimal.Parse("-10.00"),
-					},
-					TransactionId = "2023111101697308-1",
-					UnstructuredInformation = "Alderaan Coffee - Alderaan",
-					ValueDate = valueDate.InZone(DateTimeZone.Utc).Date,
-					ValueDateTime = valueDate,
-				},
+				bankTransactionWithZuluTime,
+				bankTransactionWithZeroOffset,
+				bankTransactionWith1HourOffset,
 			},
 			Pending = new()
 			{
-				new()
-				{
-					AdditionalInformation = "Coffee",
-					BankTransactionCode = "PMNT",
-					BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
-					BookingDateTime = bookingDate,
-					CreditorName = "Alderaan Coffee",
-					CurrencyExchange = new()
-					{
-						ExchangeRate = decimal.Parse("0.00"),
-						SourceCurrency = "GBP",
-					},
-					EntryReference = "2023111101697308-1",
-					MerchantCategoryCode = "123",
-					StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
-					TransactionAmount = new()
-					{
-						Currency = "GBP",
-						Amount = decimal.Parse("-10.00"),
-					},
-					TransactionId = "2023111101697308-1",
-					UnstructuredInformation = "Alderaan Coffee - Alderaan",
-				},
+				bankTransactionPending,
 			},
 		};
 
