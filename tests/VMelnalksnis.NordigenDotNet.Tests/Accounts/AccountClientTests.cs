@@ -60,7 +60,7 @@ public sealed class AccountClientTests
 			TransactionAmount = new()
 			{
 				Currency = "GBP",
-				Amount = decimal.Parse("-10.00"),
+				Amount = -10.00m,
 			},
 			TransactionId = "2023111101697308-1",
 			UnstructuredInformation = "Alderaan Coffee - Alderaan",
@@ -84,7 +84,7 @@ public sealed class AccountClientTests
 			TransactionAmount = new()
 			{
 				Currency = "GBP",
-				Amount = decimal.Parse("-10.00"),
+				Amount = -10.00m,
 			},
 			UnstructuredInformation = "Alderaan Coffee - Alderaan",
 			TransactionId = "2023111101697308-1",
@@ -110,7 +110,7 @@ public sealed class AccountClientTests
 			TransactionAmount = new()
 			{
 				Currency = "GBP",
-				Amount = decimal.Parse("-10.00"),
+				Amount = -10.00m,
 			},
 			UnstructuredInformation = "Alderaan Coffee - Alderaan",
 			BookingDate = bookingDate.InZone(DateTimeZone.Utc).Date,
@@ -136,7 +136,7 @@ public sealed class AccountClientTests
 			TransactionAmount = new()
 			{
 				Currency = "GBP",
-				Amount = decimal.Parse("-10.00"),
+				Amount = -10.00m,
 			},
 			UnstructuredInformation = "Alderaan Coffee - Alderaan",
 			TransactionId = "2023111101697308-3",
