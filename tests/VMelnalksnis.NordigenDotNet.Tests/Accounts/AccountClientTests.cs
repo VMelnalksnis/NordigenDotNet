@@ -51,7 +51,7 @@ public sealed class AccountClientTests
 			CreditorName = "Alderaan Coffee",
 			CurrencyExchange = new()
 			{
-				ExchangeRate = decimal.Parse("0.00"),
+				ExchangeRate = 0.00m,
 				SourceCurrency = "GBP",
 			},
 			EntryReference = "2023111101697308",
@@ -75,7 +75,7 @@ public sealed class AccountClientTests
 			CreditorName = "Alderaan Coffee",
 			CurrencyExchange = new()
 			{
-				ExchangeRate = decimal.Parse("0.00"),
+				ExchangeRate = 0.00m,
 				SourceCurrency = "GBP",
 			},
 			EntryReference = "2023111101697308",
@@ -101,7 +101,7 @@ public sealed class AccountClientTests
 			CreditorName = "Alderaan Coffee",
 			CurrencyExchange = new()
 			{
-				ExchangeRate = decimal.Parse("0.00"),
+				ExchangeRate = 0.00m,
 				SourceCurrency = "GBP",
 			},
 			EntryReference = "2023111101697308",
@@ -127,7 +127,7 @@ public sealed class AccountClientTests
 			CreditorName = "Alderaan Coffee",
 			CurrencyExchange = new()
 			{
-				ExchangeRate = decimal.Parse("0.00"),
+				ExchangeRate = 0.00m,
 				SourceCurrency = "GBP",
 			},
 			EntryReference = "2023111101697308",
