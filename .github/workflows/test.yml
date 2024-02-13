@@ -40,6 +40,7 @@ jobs:
         env:
           Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
+          Logging__LogLevel__Default: "Warning"
 
       - name: Gather Code Coverage
         if: github.event.schedule == null
