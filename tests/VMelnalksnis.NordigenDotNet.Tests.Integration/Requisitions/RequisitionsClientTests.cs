@@ -68,7 +68,7 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 			requisition.InstitutionId.Should().BeEquivalentTo(creation.InstitutionId);
 			requisition.Reference.Should().NotBeNullOrWhiteSpace("Nordigen sets it to a random GUID if not specified");
 			requisition.Accounts.Should().BeEmpty("accounts are not returned before user authorizes it");
-			requisition.Link.AbsoluteUri.Should().Contain("nordigen");
+			requisition.Link.AbsoluteUri.Should().StartWith("https://bankaccountdata.gocardless.com/psd2/start/");
 			requisition.AccountSelection.Should().BeFalse();
 			requisition.RedirectImmediate.Should().BeFalse();
 			requisition.Agreement.Should().BeNull();
