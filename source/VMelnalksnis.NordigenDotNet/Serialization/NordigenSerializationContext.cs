@@ -20,6 +20,4 @@ namespace VMelnalksnis.NordigenDotNet.Serialization;
 [JsonSerializable(typeof(List<Institution>))]
 [JsonSerializable(typeof(PaginatedList<Requisition>))]
 [JsonSerializable(typeof(RequisitionCreation))]
-internal partial class NordigenSerializationContext : JsonSerializerContext
-{
-}
+internal partial class NordigenSerializationContext : JsonSerializerContext;

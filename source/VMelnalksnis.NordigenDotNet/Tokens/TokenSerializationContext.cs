@@ -7,6 +7,4 @@ namespace VMelnalksnis.NordigenDotNet.Tokens;
 [JsonSerializable(typeof(Token))]
 [JsonSerializable(typeof(TokenCreation))]
 [JsonSerializable(typeof(TokenRefresh))]
-internal partial class TokenSerializationContext : JsonSerializerContext
-{
-}
+internal partial class TokenSerializationContext : JsonSerializerContext;
