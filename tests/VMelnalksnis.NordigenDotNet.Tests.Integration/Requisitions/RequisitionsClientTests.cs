@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -30,8 +31,12 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 	[Fact]
 	public async Task Get_ShouldPaginateCorrectly()
 	{
-		var requisitions = await _nordigenClient.Requisitions.Get(1).ToListAsync();
-		requisitions.Should().HaveCountGreaterThan(0);
+		var requisitions = await _nordigenClient.Requisitions.Get().ToListAsync();
+		var pageSize = Math.Clamp(requisitions.Count / 5, 1, int.MaxValue);
+
+		var pagedRequisitions = await _nordigenClient.Requisitions.Get(pageSize).ToListAsync();
+
+		pagedRequisitions.Should().HaveCountGreaterThan(0).And.BeEquivalentTo(requisitions);
 	}
 
 	[Fact]
