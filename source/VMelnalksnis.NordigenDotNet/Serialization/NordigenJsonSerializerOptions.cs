@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
+#if NET6_0
 using System.Text.Json.Serialization;
+#endif
 
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
@@ -15,7 +17,9 @@ public sealed class NordigenJsonSerializerOptions
 	{
 		var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
 		{
-			Converters = { new JsonStringEnumConverter() },
+#if NET6_0
+			Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+#endif
 		}.ConfigureForNodaTime(dateTimeZoneProvider);
 
 		Context = new(options);

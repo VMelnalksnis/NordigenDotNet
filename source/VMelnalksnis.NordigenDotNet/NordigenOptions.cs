@@ -1,26 +1,32 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+#if NET6_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace VMelnalksnis.NordigenDotNet;
 
 /// <summary>Options for configuring <see cref="INordigenClient"/>.</summary>
+#if NET6_0_OR_GREATER
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
 public sealed record NordigenOptions
 {
 	/// <summary>The name of the configuration section.</summary>
 	public const string SectionName = "Nordigen";
 
-	/// <summary>Gets the base address of the Nordigen API.</summary>
+	/// <summary>Gets or sets the base address of the Nordigen API.</summary>
 	[Required]
-	public Uri BaseAddress { get; init; } = new("https://bankaccountdata.gocardless.com/");
+	public Uri BaseAddress { get; set; } = new("https://bankaccountdata.gocardless.com/");
 
-	/// <summary>Gets the secret ID used to create new access tokens.</summary>
+	/// <summary>Gets or sets the secret ID used to create new access tokens.</summary>
 	[Required]
-	public string SecretId { get; init; } = null!;
+	public string SecretId { get; set; } = null!;
 
-	/// <summary>Gets the secret key used to create new access tokens.</summary>
+	/// <summary>Gets or sets the secret key used to create new access tokens.</summary>
 	[Required]
-	public string SecretKey { get; init; } = null!;
+	public string SecretKey { get; set; } = null!;
 
-	/// <summary>Gets the factor by which to divide the expiration time for access and refresh tokens.</summary>
-	public double ExpirationFactor { get; init; } = 2d;
+	/// <summary>Gets or sets the factor by which to divide the expiration time for access and refresh tokens.</summary>
+	public double ExpirationFactor { get; set; } = 2d;
 }
