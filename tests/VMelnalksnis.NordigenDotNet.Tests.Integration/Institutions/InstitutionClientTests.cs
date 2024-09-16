@@ -39,7 +39,7 @@ public sealed class InstitutionClientTests : IClassFixture<ServiceProviderFixtur
 			institution.Bic.Should().Be("PARXLV22");
 			institution.TransactionTotalDays.Should().Be(730);
 			institution.Countries.Should().ContainSingle().Which.Should().Be("LV");
-			institution.Logo.Should().Be(new Uri("https://cdn-logos.gocardless.com/ais/CITADELE_PARXLV22.png"));
+			institution.Logo.Should().Be(new Uri("https://storage.googleapis.com/gc-prd-institution_icons-production/LV/PNG/citadele.png"));
 		}
 	}
 

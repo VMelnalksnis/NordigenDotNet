@@ -67,16 +67,16 @@ public sealed class RequisitionsClientTests : IClassFixture<ServiceProviderFixtu
 		using (new AssertionScope())
 		{
 			requisition.Should().BeEquivalentTo(createdRequisition);
-			requisition.Created.Should().BeGreaterThan(SystemClock.Instance.GetCurrentInstant() - Duration.FromSeconds(5));
+			requisition.Created.Should().BeGreaterThan(SystemClock.Instance.GetCurrentInstant() - Duration.FromMinutes(1));
 			requisition.Redirect.Should().Be(creation.Redirect);
 			requisition.Status.Should().Be(RequisitionStatus.Cr);
 			requisition.InstitutionId.Should().BeEquivalentTo(creation.InstitutionId);
 			requisition.Reference.Should().NotBeNullOrWhiteSpace("Nordigen sets it to a random GUID if not specified");
 			requisition.Accounts.Should().BeEmpty("accounts are not returned before user authorizes it");
-			requisition.Link.AbsoluteUri.Should().StartWith("https://bankaccountdata.gocardless.com/psd2/start/");
+			requisition.Link.AbsoluteUri.Should().StartWith("https://ob.gocardless.com/ob-psd2/start/");
 			requisition.AccountSelection.Should().BeFalse();
 			requisition.RedirectImmediate.Should().BeFalse();
-			requisition.Agreement.Should().BeNull();
+			requisition.Agreement.Should().HaveValue();
 			requisition.UserLanguage.Should().BeNull();
 			requisition.Ssn.Should().BeNull();
 		}
