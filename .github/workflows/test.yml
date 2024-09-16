@@ -37,7 +37,7 @@ jobs:
       - run: dotnet build --configuration Release --no-restore /warnAsError /nologo /clp:NoSummary
 
       - name: Run Tests
-        run: dotnet test -p:CollectCoverage=true --configuration Release --no-build
+        run: dotnet test -p:CollectCoverage=true --configuration Release --no-build --logger:"junit;LogFilePath=TestResults/test-result.junit.xml"
         env:
           Nordigen__SecretId: ${{ secrets.NORDIGEN_SECRET_ID }}
           Nordigen__SecretKey: ${{ secrets.NORDIGEN_SECRET_KEY }}
@@ -49,6 +49,13 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
+
+      - name: Gather Test Results
+        uses: codecov/test-results-action@v1.0.0
+        if: always()
+        with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            fail_ci_if_error: true
 
   resharper:
     name: Resharper
