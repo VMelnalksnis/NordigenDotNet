@@ -22,6 +22,9 @@
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces"/>
 		<PackageReference Include="System.ComponentModel.Annotations"/>
 		<PackageReference Include="System.Net.Http.Json"/>
+
+		<!-- Vulnerable transitive dependencies -->
+		<PackageReference Include="System.Text.Json"/>
 	</ItemGroup>
 
 	<ItemGroup>
