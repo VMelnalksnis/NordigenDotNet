@@ -24,8 +24,8 @@ jobs:
     name: Run tests
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: actions/setup-dotnet@v4.0.1
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-dotnet@v4.3.1
         with:
           dotnet-version: |
             3.1.x
@@ -45,13 +45,13 @@ jobs:
 
       - name: Gather Code Coverage
         if: github.event.schedule == null
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.4.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
       - name: Gather Test Results
-        uses: codecov/test-results-action@v1.0.0
+        uses: codecov/test-results-action@v1.1.0
         if: always()
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
@@ -61,8 +61,8 @@ jobs:
     name: Resharper
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: actions/setup-dotnet@v4.0.1
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-dotnet@v4.3.1
       - run: dotnet restore
       - run: dotnet build --configuration Release --no-restore /warnAsError /nologo /clp:NoSummary
 
