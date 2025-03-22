@@ -16,7 +16,7 @@ public abstract record Transaction
 	public AmountInCurrency TransactionAmount { get; set; } = null!;
 
 	/// <summary>Gets or sets the exchange rate used for this transaction.</summary>
-	public CurrencyExchange CurrencyExchange { get; set; } = null!;
+	public CurrencyExchange[] CurrencyExchange { get; set; } = null!;
 
 	/// <summary>Gets or sets unstructured information about the transaction, usually added by the debtor.</summary>
 	[JsonPropertyName("remittanceInformationUnstructured")]

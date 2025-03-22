@@ -11,7 +11,7 @@ internal sealed class TransactionsUriTestData : IEnumerable<object?[]>
 {
 	public IEnumerator<object?[]> GetEnumerator()
 	{
-		yield return new object?[] { Guid.NewGuid(), null, new NameValueCollection() };
+		yield return [Guid.NewGuid(), null, new NameValueCollection()];
 
 		var dateFrom = Instant.FromUtc(2022, 05, 01, 12, 00);
 		var dateTo = Instant.FromUtc(2022, 05, 12, 13, 00);
@@ -21,7 +21,7 @@ internal sealed class TransactionsUriTestData : IEnumerable<object?[]>
 			{ "date_to", "2022-05-12" },
 		};
 
-		yield return new object?[] { Guid.NewGuid(), new Interval(dateFrom, dateTo), collection };
+		yield return [Guid.NewGuid(), new Interval(dateFrom, dateTo), collection];
 	}
 
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

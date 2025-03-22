@@ -44,16 +44,19 @@ public sealed class AccountClientTests
 		var bookingDate = Instant.FromUtc(2023, 11, 8, 10, 05);
 		var valueDate = Instant.FromUtc(2023, 11, 10, 12, 12, 12);
 
-		var bankTransactionPending = new PendingTransaction()
+		var bankTransactionPending = new PendingTransaction
 		{
 			AdditionalInformation = "Coffee",
 			BankTransactionCode = "PMNT",
 			CreditorName = "Alderaan Coffee",
-			CurrencyExchange = new()
-			{
-				ExchangeRate = 0.00m,
-				SourceCurrency = "GBP",
-			},
+			CurrencyExchange =
+			[
+				new()
+				{
+					ExchangeRate = 0.00m,
+					SourceCurrency = "GBP",
+				},
+			],
 			EntryReference = "2023111101697308",
 			MerchantCategoryCode = "123",
 			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
@@ -68,16 +71,19 @@ public sealed class AccountClientTests
 			BookingDateTime = bookingDate.WithOffset(Offset.Zero),
 		};
 
-		var bankTransactionWithZuluTime = new BookedTransaction()
+		var bankTransactionWithZuluTime = new BookedTransaction
 		{
 			AdditionalInformation = "Coffee",
 			BankTransactionCode = "PMNT",
 			CreditorName = "Alderaan Coffee",
-			CurrencyExchange = new()
-			{
-				ExchangeRate = 0.00m,
-				SourceCurrency = "GBP",
-			},
+			CurrencyExchange =
+			[
+				new()
+				{
+					ExchangeRate = 0.00m,
+					SourceCurrency = "GBP",
+				},
+			],
 			EntryReference = "2023111101697308",
 			MerchantCategoryCode = "123",
 			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
@@ -94,16 +100,19 @@ public sealed class AccountClientTests
 			ValueDateTime = valueDate.WithOffset(Offset.Zero),
 		};
 
-		var bankTransactionWithZeroOffset = new BookedTransaction()
+		var bankTransactionWithZeroOffset = new BookedTransaction
 		{
 			AdditionalInformation = "Coffee",
 			BankTransactionCode = "PMNT",
 			CreditorName = "Alderaan Coffee",
-			CurrencyExchange = new()
-			{
-				ExchangeRate = 0.00m,
-				SourceCurrency = "GBP",
-			},
+			CurrencyExchange =
+			[
+				new()
+				{
+					ExchangeRate = 0.00m,
+					SourceCurrency = "GBP",
+				},
+			],
 			EntryReference = "2023111101697308",
 			MerchantCategoryCode = "123",
 			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
@@ -120,23 +129,29 @@ public sealed class AccountClientTests
 			TransactionId = "2023111101697308-2",
 		};
 
-		var bankTransactionWith1HourOffset = new BookedTransaction()
+		var bankTransactionWith1HourOffset = new BookedTransaction
 		{
 			AdditionalInformation = "Coffee",
 			BankTransactionCode = "PMNT",
 			CreditorName = "Alderaan Coffee",
-			CurrencyExchange = new()
-			{
-				ExchangeRate = 0.00m,
-				SourceCurrency = "GBP",
-			},
+			CurrencyExchange =
+			[
+				new()
+				{
+					ExchangeRate = 0.9245901639m,
+					SourceCurrency = "USD",
+					UnitCurrency = "USD",
+					TargetCurrency = "EUR",
+					QuotationDate = new LocalDate(2025, 03, 12),
+				},
+			],
 			EntryReference = "2023111101697308",
 			MerchantCategoryCode = "123",
 			StructuredInformation = "Structured Alderaan - Coffee - Alderaan",
 			TransactionAmount = new()
 			{
-				Currency = "GBP",
-				Amount = -10.00m,
+				Currency = "EUR",
+				Amount = -5.64m,
 			},
 			UnstructuredInformation = "Alderaan Coffee - Alderaan",
 			TransactionId = "2023111101697308-3",
@@ -148,16 +163,16 @@ public sealed class AccountClientTests
 
 		var expected = new Transactions
 		{
-			Booked = new()
-			{
+			Booked =
+			[
 				bankTransactionWithZuluTime,
 				bankTransactionWithZeroOffset,
-				bankTransactionWith1HourOffset,
-			},
-			Pending = new()
-			{
-				bankTransactionPending,
-			},
+				bankTransactionWith1HourOffset
+			],
+			Pending =
+			[
+				bankTransactionPending
+			],
 		};
 
 		var accountClient = new AccountClient(

@@ -12,10 +12,12 @@
 					"amount": "-10.00",
 					"currency": "GBP"
 				},
-				"currencyExchange": {
-					"sourceCurrency": "GBP",
-					"exchangeRate": "0.0"
-				},
+				"currencyExchange": [
+					{
+						"sourceCurrency": "GBP",
+						"exchangeRate": "0.0"
+					}
+				],
 				"creditorName": "Alderaan Coffee",
 				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
 				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",
@@ -34,10 +36,12 @@
 					"amount": "-10.00",
 					"currency": "GBP"
 				},
-				"currencyExchange": {
-					"sourceCurrency": "GBP",
-					"exchangeRate": "0.0"
-				},
+				"currencyExchange": [
+					{
+						"sourceCurrency": "GBP",
+						"exchangeRate": "0.0"
+					}
+				],
 				"creditorName": "Alderaan Coffee",
 				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
 				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",
@@ -53,13 +57,18 @@
 				"valueDate": "2023-11-10",
 				"valueDateTime": "2023-11-10T12:12:12+01:00",
 				"transactionAmount": {
-					"amount": "-10.00",
-					"currency": "GBP"
+					"amount": "-5.64",
+					"currency": "EUR"
 				},
-				"currencyExchange": {
-					"sourceCurrency": "GBP",
-					"exchangeRate": "0.0"
-				},
+				"currencyExchange": [
+					{
+						"sourceCurrency": "USD",
+						"exchangeRate": "0.9245901639",
+						"unitCurrency": "USD",
+						"targetCurrency": "EUR",
+						"quotationDate": "2025-03-12"
+					}
+				],
 				"creditorName": "Alderaan Coffee",
 				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
 				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",
@@ -78,10 +87,12 @@
 					"amount": "-10.00",
 					"currency": "GBP"
 				},
-				"currencyExchange": {
-					"sourceCurrency": "GBP",
-					"exchangeRate": "0.0"
-				},
+				"currencyExchange": [
+					{
+						"sourceCurrency": "GBP",
+						"exchangeRate": "0.0"
+					}
+				],
 				"creditorName": "Alderaan Coffee",
 				"remittanceInformationUnstructured": "Alderaan Coffee - Alderaan",
 				"remittanceInformationStructured": "Structured Alderaan - Coffee - Alderaan",

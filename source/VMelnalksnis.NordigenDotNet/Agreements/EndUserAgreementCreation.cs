@@ -28,7 +28,7 @@ public record EndUserAgreementCreation
 	/// <summary>Initializes a new instance of the <see cref="EndUserAgreementCreation"/> class with the default values.</summary>
 	/// <param name="institutionId">An <see cref="Institution"/> id for this agreement.</param>
 	public EndUserAgreementCreation(string institutionId)
-		: this(institutionId, 90, 90, new() { "balances", "details", "transactions" })
+		: this(institutionId, 90, 90, ["balances", "details", "transactions"])
 	{
 	}
 
